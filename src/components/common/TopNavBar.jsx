@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/logo.svg';
+import logo from '../../assets/bg_removed_logo.png';
 
 const TopNavBar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -8,7 +8,7 @@ const TopNavBar = () => {
     return (
         <nav className="fixed top-0 w-full z-[100] flex justify-between items-center px-6 md:px-10 py-4 max-w-full bg-slate-950/60 backdrop-blur-xl shadow-[0_20px_40px_rgba(0,0,0,0.3)] border-b border-white/5">
             <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
-                <img src={logo} alt="Skilio AI Logo" className="h-12 md:h-16 w-auto object-contain" />
+                <img src={logo} alt="Invikt Logo" className="h-12 md:h-16 w-auto object-contain" />
             </Link>
             
             {/* Desktop Navigation */}
@@ -44,7 +44,7 @@ const TopNavBar = () => {
                     <Link to="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-300 font-semibold hover:text-white">Pricing</Link>
                     <div className="w-full h-px bg-white/10 my-2"></div>
                     <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-300 font-semibold">Sign In</Link>
-                    <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="w-11/12 text-center bg-gradient-to-br from-violet-300 to-violet-600 text-on-primary px-6 py-3 rounded-full font-bold">Get Started Automatically</Link>
+                    <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="w-11/12 text-center bg-gradient-to-br from-violet-300 to-violet-600 text-on-primary px-6 py-3 rounded-full font-bold">Get Started Free</Link>
                 </div>
             )}
         </nav>

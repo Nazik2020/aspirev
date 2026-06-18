@@ -19,7 +19,7 @@ const TechStackProficiency = () => {
                             <span className="material-symbols-outlined text-xs text-on-surface-variant">smart_toy</span>
                         </div>
                     </div>
-                    <span className="text-xs font-bold text-on-surface-variant tracking-widest uppercase font-label">Benchmarked by Skilio AI</span>
+                    <span className="text-xs font-bold text-on-surface-variant tracking-widest uppercase font-label">Benchmarked by Invikt</span>
                 </div>
             </div>
             

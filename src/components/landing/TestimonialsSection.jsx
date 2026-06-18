@@ -10,7 +10,7 @@ const TestimonialsSection = () => {
                 {/* Card 1 */}
                 <div className="glass-panel p-8 rounded-lg border border-outline-variant/10 flex flex-col justify-between">
                     <p className="italic text-on-surface mb-8 leading-relaxed">
-                        "Skilio AI completely restructured how I view my professional value. The gap analysis was surgical and frighteningly accurate."
+                        "Invikt completely restructured how I view my professional value. The gap analysis was surgical and frighteningly accurate."
                     </p>
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-full overflow-hidden">
@@ -42,7 +42,7 @@ const TestimonialsSection = () => {
                 {/* Card 3 */}
                 <div className="glass-panel p-8 rounded-lg border border-outline-variant/10 flex flex-col justify-between">
                     <p className="italic text-on-surface mb-8 leading-relaxed">
-                        "I finally stopped guessing what recruiters wanted. Skilio gave me the technical translation I needed to stand out."
+                        "I finally stopped guessing what recruiters wanted. Invikt gave me the technical translation I needed to stand out."
                     </p>
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-full overflow-hidden">

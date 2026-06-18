@@ -10,7 +10,7 @@ const RoadmapHeader = () => {
                 Machine Learning <span className="bg-gradient-to-r from-primary to-secondary-fixed-dim bg-clip-text text-transparent">Engineer</span>
             </h1>
             <p className="text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto">
-                A structured path from foundational logic to deploying world-class neural networks. Crafted by Skilio AI for the next generation of architects.
+                A structured path from foundational logic to deploying world-class neural networks. Crafted by Invikt for the next generation of architects.
             </p>
         </header>
     );

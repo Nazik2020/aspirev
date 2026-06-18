@@ -6,7 +6,7 @@ const Footer = ({ className = '' }) => {
         <footer className={`py-12 border-t border-slate-800/20 bg-slate-950 ${className}`}>
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center px-8 font-inter text-xs uppercase tracking-[0.05em]">
                 <div className="text-slate-600 mb-8 md:mb-0">
-                    © 2024 Skilio AI. The Luminescent Architect.
+                    © 2024 Invikt. The Luminescent Architect.
                 </div>
                 <div className="flex gap-12 text-slate-600">
                     <Link to="#" className="hover:text-violet-400 transition-colors">Privacy</Link>

@@ -12,6 +12,8 @@ import ResumeAnalyzerPage from './pages/ResumeAnalyzerPage';
 import SkillGapPage from './pages/SkillGapPage';
 import CareerPathPage from './pages/CareerPathPage';
 import LearningHubPage from './pages/LearningHubPage';
+import RoadmapDetail from './components/career/RoadmapDetail';
+import JobTrackerPage from './pages/JobTrackerPage';
 
 const App = () => {
   return (
@@ -26,9 +28,11 @@ const App = () => {
           <Route path="resume" element={<ResumeAnalyzerPage />} />
           <Route path="skill-gap" element={<SkillGapPage />} />
           <Route path="career-path" element={<CareerPathPage />} />
+          <Route path="career-path/:id" element={<RoadmapDetail />} />
           <Route path="learning-hub" element={<LearningHubPage />} />
           
           {/* Catch-all redirect to Dashboard if the path is unknown but within authenticated layout bounds (mock implementation) */}
+          <Route path="job-tracker" element={<JobTrackerPage />} />
           <Route path="settings" element={<Navigate to="/dashboard" replace />} />
           <Route path="support" element={<Navigate to="/dashboard" replace />} />
         </Route>
