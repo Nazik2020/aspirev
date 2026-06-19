@@ -481,7 +481,7 @@ const JobTrackerPage = () => {
                     />
 
                     {/* Form Container */}
-                    <div className="relative z-10 w-full max-w-[calc(100vw-2.5rem)] sm:max-w-xl rounded-3xl bg-[#131417] border border-white/10 p-5 sm:p-8 md:p-10 shadow-[0_30px_70px_rgba(0,0,0,0.85)] max-h-[90vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                    <div className="relative z-10 w-full max-w-[calc(100vw-2.5rem)] sm:max-w-xl rounded-3xl bg-[#131417] border border-white/10 p-5 sm:p-8 md:p-10 shadow-[0_30px_70px_rgba(0,0,0,0.85)] max-h-[90vh] overflow-y-auto no-scrollbar">
                         
                         {/* Top-Right Close Button */}
                         <button

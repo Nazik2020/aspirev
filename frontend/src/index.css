@@ -120,7 +120,27 @@
       background: linear-gradient(135deg, #cdbdff 0%, #5d21df 100%);
   }
   
+  .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+  }
   .no-scrollbar::-webkit-scrollbar {
       display: none;
   }
+}
+
+/* Sleek custom scrollbars globally */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
 }
