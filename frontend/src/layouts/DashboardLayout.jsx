@@ -11,10 +11,12 @@ const DashboardContent = () => {
     const { isCollapsed, toggle } = useSidebar();
 
     return (
-        <div className="min-h-screen w-full overflow-x-hidden flex flex-col md:flex-row bg-background">
+        <div className="h-screen w-full overflow-hidden flex flex-col md:flex-row bg-background">
             {/* Ambient background glows */}
-            <div className="glow-orb fixed top-[-200px] left-[-200px] w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(93,33,223,0.15)_0%,transparent_70%)] opacity-30 z-0 pointer-events-none" />
-            <div className="glow-orb fixed bottom-[-200px] right-[-200px] w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(0,218,243,0.08)_0%,transparent_70%)] opacity-30 z-0 pointer-events-none" />
+            <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+                <div className="glow-orb absolute top-[-200px] left-[-200px] w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(93,33,223,0.15)_0%,transparent_70%)] opacity-30" />
+                <div className="glow-orb absolute bottom-[-200px] right-[-200px] w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(0,218,243,0.08)_0%,transparent_70%)] opacity-30" />
+            </div>
 
             <SideNavBar />
 
@@ -40,9 +42,8 @@ const DashboardContent = () => {
                 </button>
             </div>
 
-            {/* Main content area — margin transitions with sidebar */}
             <div
-                className={`flex-1 min-w-0 flex flex-col min-h-screen overflow-y-auto overflow-x-hidden relative z-10 transition-all duration-300 ease-in-out md:ml-0 ${isCollapsed ? 'md:ml-20' : 'md:ml-72'}`}
+                className={`flex-1 min-w-0 flex flex-col min-h-0 overflow-y-auto overflow-x-hidden relative z-10 transition-all duration-300 ease-in-out md:ml-0 ${isCollapsed ? 'md:ml-20' : 'md:ml-72'}`}
             >
                 <main className="flex-1 w-full max-w-screen-2xl mx-auto px-4 md:px-8 pt-6 md:pt-10 pb-20">
                     <Outlet />
