@@ -175,6 +175,7 @@ const SignInPage = () => {
             </label>
             <input
               type="email"
+              defaultValue="admin@gmail.com"
               placeholder="name@company.com"
               className="w-full bg-slate-50 dark:bg-[#1c1d22]/50 border border-slate-200 dark:border-white/5 rounded-xl px-4 py-3 text-[14px] text-slate-900 dark:text-white placeholder:text-slate-400 dark:text-white/20 focus:outline-none focus:border-primary/45 transition-all"
             />
@@ -195,6 +196,7 @@ const SignInPage = () => {
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
+                defaultValue="admin123"
                 placeholder="••••••••"
                 className="w-full bg-slate-50 dark:bg-[#1c1d22]/50 border border-slate-200 dark:border-white/5 rounded-xl px-4 py-3 text-[14px] text-slate-900 dark:text-white placeholder:text-slate-400 dark:text-white/20 focus:outline-none focus:border-primary/45 transition-all font-mono"
               />

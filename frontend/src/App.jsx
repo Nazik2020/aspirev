@@ -19,6 +19,14 @@ import SignUpPage from "./pages/SignUpPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import SettingsPage from "./pages/SettingsPage";
 
+// Admin
+import AdminLayout from "./layouts/AdminLayout";
+import AdminDashboardPage from "./pages/admin/overview/AdminDashboardPage";
+import AdminUsersPage from "./pages/admin/users/AdminUsersPage";
+import AdminRoadmapsPage from "./pages/admin/roadmaps/AdminRoadmapsPage";
+import AdminSecurityPage from "./pages/admin/security/AdminSecurityPage";
+import AdminSettingsPage from "./pages/admin/settings/AdminSettingsPage";
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -31,6 +39,7 @@ const App = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/forgot-password" element={<ResetPasswordPage />} />
 
+        {/* Regular User Dashboard Routes */}
         <Route path="/" element={<DashboardLayout />}>
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="resume" element={<ResumeAnalyzerPage />} />
@@ -38,14 +47,22 @@ const App = () => {
           <Route path="career-path" element={<CareerPathPage />} />
           <Route path="career-path/:id" element={<RoadmapDetail />} />
           <Route path="learning-hub" element={<LearningHubPage />} />
-
-          {/* Catch-all redirect to Dashboard if the path is unknown but within authenticated layout bounds (mock implementation) */}
           <Route path="job-tracker" element={<JobTrackerPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route
             path="support"
             element={<Navigate to="/dashboard" replace />}
           />
+        </Route>
+
+        {/* Admin Dashboard Routes */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="dashboard" element={<AdminDashboardPage />} />
+          <Route path="users" element={<AdminUsersPage />} />
+          <Route path="roadmaps" element={<AdminRoadmapsPage />} />
+          <Route path="security" element={<AdminSecurityPage />} />
+          <Route path="settings" element={<AdminSettingsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
