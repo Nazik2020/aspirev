@@ -43,31 +43,51 @@ const SkillRow = ({ skill, onToggle }) => {
         </div>
       </div>
       {skill.resources?.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 pl-8 sm:pl-0 shrink-0">
+        <div className="flex flex-wrap gap-2 pl-8 sm:pl-0 shrink-0">
           {skill.resources.map((res, idx) => {
-            const isYouTube = res.includes("youtube.com") || res.includes("youtu.be");
-            const isGitHub = res.includes("github.com");
-            const isCourse = res.includes("deeplearning.ai") || res.includes("coursera") || res.includes("kaggle.com/learn") || res.includes("scrimba") || res.includes("fast.ai") || res.includes("huggingface.co/learn");
-            const isDocs = res.includes("/docs") || res.includes("developer.mozilla") || res.includes("platform.openai") || res.includes("arxiv.org");
+            let url, name, type;
+            if (typeof res === "string") {
+              url = res;
+              const isYouTube = res.includes("youtube.com") || res.includes("youtu.be");
+              const isGitHub = res.includes("github.com");
+              const isCourse = res.includes("deeplearning.ai") || res.includes("coursera") || res.includes("kaggle.com/learn") || res.includes("scrimba") || res.includes("fast.ai") || res.includes("huggingface.co/learn");
+              const isDocs = res.includes("/docs") || res.includes("developer.mozilla") || res.includes("platform.openai") || res.includes("arxiv.org");
+              type = isYouTube ? "YouTube" : isGitHub ? "GitHub" : isCourse ? "Course" : isDocs ? "Docs" : "Article";
+              name = type;
+            } else {
+              url = res.url;
+              name = res.name;
+              type = res.type;
+            }
+
+            const isYouTube = type === "YouTube" || url.includes("youtube.com") || url.includes("youtu.be");
+            const isGitHub = type === "GitHub" || type === "OpenSource" || url.includes("github.com");
+            const isCourse = type === "Course" || type === "Courses" || type === "Tutorial + Challenges" || type === "Challenges" || url.includes("coursera");
+            const isDocs = type === "Docs" || type === "Book" || type === "eBook" || type === "Paper";
+            
             const icon = isYouTube ? "smart_display" : isGitHub ? "code" : isCourse ? "school" : isDocs ? "menu_book" : "article";
-            const label = isYouTube ? "YouTube" : isGitHub ? "GitHub" : isCourse ? "Course" : isDocs ? "Docs" : "Article";
             
             // Uniform grey color for all tags to keep UI clean and consistent
-            const colorClass = "text-slate-500 dark:text-white/50 bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 hover:bg-slate-200 dark:hover:bg-white/10";
+            const colorClass = "text-slate-600 dark:text-white/60 bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 hover:bg-slate-200 dark:hover:bg-white/10";
             
             return (
               <a
                 key={idx}
-                href={res}
+                href={url}
                 target="_blank"
                 rel="noreferrer"
-                title={res}
-                className={`flex items-center gap-1 px-2 py-1 rounded-md text-[0.68rem] font-bold tracking-wide transition-all border ${colorClass}`}
+                title={name}
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-[0.7rem] font-medium tracking-wide transition-all border ${colorClass}`}
               >
-                <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>
                   {icon}
                 </span>
-                {label}
+                <span className="truncate max-w-[250px]">{name}</span>
+                {type && name !== type && (
+                  <span className="ml-1 text-[0.65rem] font-bold text-violet-500/80 dark:text-violet-400/80 uppercase">
+                    {type}
+                  </span>
+                )}
               </a>
             );
           })}
