@@ -4,8 +4,8 @@ import { roadmaps } from "../../data/roadmaps";
 
 const SkillRow = ({ skill, onToggle }) => {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-slate-200 dark:border-white/5 last:border-0 gap-3">
-      <div className="flex items-start gap-3">
+    <div className="flex flex-col sm:flex-row sm:items-start justify-between py-3 border-b border-slate-200 dark:border-white/5 last:border-0 gap-3">
+      <div className="flex items-start gap-3 flex-1 min-w-0">
         <button
           onClick={() => onToggle(skill.id)}
           className={`mt-0.5 w-5 h-5 rounded-md border flex items-center justify-center shrink-0 transition-all ${
@@ -29,35 +29,54 @@ const SkillRow = ({ skill, onToggle }) => {
             </span>
           )}
         </button>
-        <div>
+        <div className="min-w-0">
           <p
-            className={`text-[0.9rem] font-medium leading-tight ${skill.done ? "text-slate-500 dark:text-white/40 line-through" : "text-slate-900 dark:text-white/90"}`}
+            className={`text-[0.88rem] font-semibold leading-tight ${skill.done ? "text-slate-500 dark:text-white/40 line-through" : "text-slate-900 dark:text-white/90"}`}
           >
             {skill.name}
           </p>
+          {skill.description && (
+            <p className="text-[0.72rem] text-slate-500 dark:text-white/35 mt-1 leading-relaxed">
+              {skill.description}
+            </p>
+          )}
         </div>
       </div>
       {skill.resources?.length > 0 && (
-        <div className="flex gap-2 pl-8 sm:pl-0">
-          {skill.resources.map((res, idx) => (
-            <a
-              key={idx}
-              href={res}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:bg-white/10 text-[0.75rem] font-medium text-slate-600 dark:text-white/60 hover:text-slate-900 dark:text-white transition-all border border-slate-200 dark:border-white/5"
-            >
-              <span className="material-symbols-outlined text-[12px]">
-                link
-              </span>
-              Resource
-            </a>
-          ))}
+        <div className="flex flex-wrap gap-1.5 pl-8 sm:pl-0 shrink-0">
+          {skill.resources.map((res, idx) => {
+            const isYouTube = res.includes("youtube.com") || res.includes("youtu.be");
+            const isGitHub = res.includes("github.com");
+            const isCourse = res.includes("deeplearning.ai") || res.includes("coursera") || res.includes("kaggle.com/learn") || res.includes("scrimba") || res.includes("fast.ai") || res.includes("huggingface.co/learn");
+            const isDocs = res.includes("/docs") || res.includes("developer.mozilla") || res.includes("platform.openai") || res.includes("arxiv.org");
+            const icon = isYouTube ? "smart_display" : isGitHub ? "code" : isCourse ? "school" : isDocs ? "menu_book" : "article";
+            const label = isYouTube ? "YouTube" : isGitHub ? "GitHub" : isCourse ? "Course" : isDocs ? "Docs" : "Article";
+            
+            // Uniform grey color for all tags to keep UI clean and consistent
+            const colorClass = "text-slate-500 dark:text-white/50 bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 hover:bg-slate-200 dark:hover:bg-white/10";
+            
+            return (
+              <a
+                key={idx}
+                href={res}
+                target="_blank"
+                rel="noreferrer"
+                title={res}
+                className={`flex items-center gap-1 px-2 py-1 rounded-md text-[0.68rem] font-bold tracking-wide transition-all border ${colorClass}`}
+              >
+                <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                  {icon}
+                </span>
+                {label}
+              </a>
+            );
+          })}
         </div>
       )}
     </div>
   );
 };
+
 
 const StageCard = ({ stage, stageIndex, roadmapColor, onSkillToggle }) => {
   const completedCount = stage.skills.filter((s) => s.done).length;
@@ -65,8 +84,7 @@ const StageCard = ({ stage, stageIndex, roadmapColor, onSkillToggle }) => {
   const progress =
     totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
-  // Mock time based on stage index
-  const mockTime = ["2 Weeks", "3 Weeks", "4 Weeks", "2 Weeks"][stageIndex % 4];
+  const mockTime = stage.duration || ["10 hrs", "15 hrs", "20 hrs", "12 hrs", "15 hrs", "25 hrs", "20 hrs", "12 hrs", "18 hrs", "5 hrs"][stageIndex] || "10 hrs";
 
   return (
     <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#1e1f23]/60 p-6 flex flex-col gap-5 hover:border-slate-300 dark:border-white/20 transition-colors">
@@ -119,7 +137,7 @@ const StageCard = ({ stage, stageIndex, roadmapColor, onSkillToggle }) => {
 
       <div className="h-1.5 w-full bg-slate-100 dark:bg-white/5 rounded-full overflow-hidden">
         <div
-          className={`h-full bg-gradient-to-r ${roadmapColor} rounded-full transition-all duration-500`}
+          className={`h-full bg-violet-600 dark:bg-violet-500 rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(139,92,246,0.6)]`}
           style={{ width: `${progress}%` }}
         />
       </div>

@@ -1,0 +1,213 @@
+{
+  "id": "ai-engineer",
+  "title": "AI Engineer",
+  "description": "Step by step guide to becoming an AI Engineer in 2025",
+  "stages": [
+    {
+      "id": 1,
+      "title": "Introduction to AI",
+      "level": "Beginner",
+      "skills": [
+        { "id": "ai-s1", "name": "What is an AI Engineer?", "done": false, "resources": ["https://roadmap.sh/ai-engineer", "https://www.deeplearning.ai/blog/what-is-an-ai-engineer/"] },
+        { "id": "ai-s2", "name": "AI Engineer vs ML Engineer", "done": false, "resources": ["https://www.coursera.org/articles/ai-engineer-vs-ml-engineer"] },
+        { "id": "ai-s3", "name": "Impact on Product Development", "done": false, "resources": ["https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/the-economic-potential-of-generative-ai"] },
+        { "id": "ai-s4", "name": "Roles and Responsibilities", "done": false, "resources": ["https://roadmap.sh/ai-engineer"] },
+        { "id": "ai-s5", "name": "AI vs AGI", "done": false, "resources": ["https://www.ibm.com/blog/ai-vs-agi/"] },
+        { "id": "ai-s6", "name": "LLMs", "done": false, "resources": ["https://www.cloudflare.com/learning/ai/what-is-large-language-model/", "https://www.youtube.com/watch?v=zjkBMFhNj_g"] },
+        { "id": "ai-s7", "name": "Inference", "done": false, "resources": ["https://huggingface.co/docs/transformers/main_classes/pipelines"] },
+        { "id": "ai-s8", "name": "Training", "done": false, "resources": ["https://www.youtube.com/watch?v=kCc8FmEb1nY"] },
+        { "id": "ai-s9", "name": "Embeddings", "done": false, "resources": ["https://platform.openai.com/docs/guides/embeddings", "https://www.pinecone.io/learn/vector-embeddings/"] },
+        { "id": "ai-s10", "name": "Vector Databases", "done": false, "resources": ["https://www.pinecone.io/learn/vector-database/"] },
+        { "id": "ai-s11", "name": "RAG", "done": false, "resources": ["https://aws.amazon.com/what-is/retrieval-augmented-generation/"] },
+        { "id": "ai-s12", "name": "Prompt Engineering", "done": false, "resources": ["https://www.promptingguide.ai/", "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/"] },
+        { "id": "ai-s13", "name": "AI Agents", "done": false, "resources": ["https://lilianweng.github.io/posts/2023-06-23-agent/"] },
+        { "id": "ai-s14", "name": "Common AI Terminology", "done": false, "resources": ["https://developers.google.com/machine-learning/glossary"] }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Pre-trained Models & APIs",
+      "level": "Beginner",
+      "skills": [
+        { "id": "ai-s15", "name": "Benefits of Pre-trained Models", "done": false, "resources": ["https://huggingface.co/blog/large-language-models"] },
+        { "id": "ai-s16", "name": "Limitations and Considerations", "done": false, "resources": ["https://platform.openai.com/docs/guides/safety-best-practices"] },
+        { "id": "ai-s17", "name": "OpenAI Models", "done": false, "resources": ["https://platform.openai.com/docs/models"] },
+        { "id": "ai-s18", "name": "Open Source AI Models", "done": false, "resources": ["https://huggingface.co/models"] },
+        { "id": "ai-s19", "name": "Capabilities / Context Length", "done": false, "resources": ["https://platform.openai.com/docs/models#gpt-4o"] },
+        { "id": "ai-s20", "name": "Cut-off Dates / Knowledge", "done": false, "resources": ["https://platform.openai.com/docs/models"] },
+        { "id": "ai-s21", "name": "Anthropic's Claude", "done": false, "resources": ["https://docs.anthropic.com/en/docs/about-claude/models/overview"] },
+        { "id": "ai-s22", "name": "Google's Gemini", "done": false, "resources": ["https://ai.google.dev/gemini-api/docs"] },
+        { "id": "ai-s23", "name": "Azure AI", "done": false, "resources": ["https://learn.microsoft.com/en-us/azure/ai-services/"] },
+        { "id": "ai-s24", "name": "AWS Sagemaker", "done": false, "resources": ["https://docs.aws.amazon.com/sagemaker/latest/dg/whatis.html"] },
+        { "id": "ai-s25", "name": "Hugging Face Models", "done": false, "resources": ["https://huggingface.co/models", "https://huggingface.co/learn/nlp-course"] },
+        { "id": "ai-s26", "name": "Mistral AI", "done": false, "resources": ["https://docs.mistral.ai/"] },
+        { "id": "ai-s27", "name": "Cohere", "done": false, "resources": ["https://docs.cohere.com/"] },
+        { "id": "ai-s28", "name": "Replicate", "done": false, "resources": ["https://replicate.com/docs"] }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "OpenAI Platform",
+      "level": "Intermediate",
+      "skills": [
+        { "id": "ai-s29", "name": "Chat Completions API", "done": false, "resources": ["https://platform.openai.com/docs/api-reference/chat", "https://cookbook.openai.com/"] },
+        { "id": "ai-s30", "name": "Writing Prompts", "done": false, "resources": ["https://platform.openai.com/docs/guides/prompt-engineering"] },
+        { "id": "ai-s31", "name": "Maximum Tokens", "done": false, "resources": ["https://platform.openai.com/docs/guides/text-generation"] },
+        { "id": "ai-s32", "name": "Token Counting", "done": false, "resources": ["https://github.com/openai/tiktoken"] },
+        { "id": "ai-s33", "name": "Pricing Considerations", "done": false, "resources": ["https://openai.com/api/pricing"] },
+        { "id": "ai-s34", "name": "OpenAI Playground", "done": false, "resources": ["https://platform.openai.com/playground"] },
+        { "id": "ai-s35", "name": "Fine-tuning", "done": false, "resources": ["https://platform.openai.com/docs/guides/fine-tuning", "https://www.deeplearning.ai/short-courses/finetuning-large-language-models/"] },
+        { "id": "ai-s36", "name": "Prompt Engineering Roadmap", "done": false, "resources": ["https://roadmap.sh/prompt-engineering"] }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "AI Safety & Ethics",
+      "level": "Intermediate",
+      "skills": [
+        { "id": "ai-s37", "name": "Prompt Injection Attacks", "done": false, "resources": ["https://learnprompting.org/docs/prompt_hacking/injection"] },
+        { "id": "ai-s38", "name": "Security and Privacy Concerns", "done": false, "resources": ["https://owasp.org/www-project-top-10-for-large-language-model-applications/"] },
+        { "id": "ai-s39", "name": "Bias and Fairness", "done": false, "resources": ["https://developers.google.com/machine-learning/fairness-overview"] },
+        { "id": "ai-s40", "name": "OpenAI Moderation API", "done": false, "resources": ["https://platform.openai.com/docs/guides/moderation"] },
+        { "id": "ai-s41", "name": "Adding end-user IDs in prompts", "done": false, "resources": ["https://platform.openai.com/docs/guides/safety-best-practices"] },
+        { "id": "ai-s42", "name": "Conducting adversarial testing", "done": false, "resources": ["https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/red-teaming"] },
+        { "id": "ai-s43", "name": "Robust prompt engineering", "done": false, "resources": ["https://www.promptingguide.ai/techniques/prompt_injection"] },
+        { "id": "ai-s44", "name": "Know your Customers / Usecases", "done": false, "resources": ["https://platform.openai.com/docs/guides/safety-best-practices"] },
+        { "id": "ai-s45", "name": "Constraining outputs and inputs", "done": false, "resources": ["https://platform.openai.com/docs/guides/structured-outputs"] }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Open Source AI",
+      "level": "Intermediate",
+      "skills": [
+        { "id": "ai-s46", "name": "Open vs Closed Source Models", "done": false, "resources": ["https://www.ibm.com/think/topics/open-source-llms"] },
+        { "id": "ai-s47", "name": "Popular Open Source Models", "done": false, "resources": ["https://huggingface.co/models?sort=downloads"] },
+        { "id": "ai-s48", "name": "Hugging Face Hub", "done": false, "resources": ["https://huggingface.co/docs/hub/index"] },
+        { "id": "ai-s49", "name": "Hugging Face Tasks", "done": false, "resources": ["https://huggingface.co/tasks"] },
+        { "id": "ai-s50", "name": "Finding Open Source Models", "done": false, "resources": ["https://huggingface.co/models", "https://paperswithcode.com/"] },
+        { "id": "ai-s51", "name": "Inference SDK", "done": false, "resources": ["https://huggingface.co/docs/huggingface_hub/guides/inference"] },
+        { "id": "ai-s52", "name": "Transformers.js", "done": false, "resources": ["https://huggingface.co/docs/transformers.js/index"] },
+        { "id": "ai-s53", "name": "Ollama Models", "done": false, "resources": ["https://ollama.ai/library"] },
+        { "id": "ai-s54", "name": "Ollama SDK", "done": false, "resources": ["https://github.com/ollama/ollama-js"] }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Embeddings & Vector Databases",
+      "level": "Intermediate",
+      "skills": [
+        { "id": "ai-s55", "name": "What are Embeddings", "done": false, "resources": ["https://www.pinecone.io/learn/vector-embeddings/"] },
+        { "id": "ai-s56", "name": "OpenAI Embedding Models", "done": false, "resources": ["https://platform.openai.com/docs/guides/embeddings"] },
+        { "id": "ai-s57", "name": "Pricing Considerations", "done": false, "resources": ["https://openai.com/api/pricing"] },
+        { "id": "ai-s58", "name": "Sentence Transformers", "done": false, "resources": ["https://www.sbert.net/"] },
+        { "id": "ai-s59", "name": "Models on Hugging Face", "done": false, "resources": ["https://huggingface.co/models?pipeline_tag=sentence-similarity"] },
+        { "id": "ai-s60", "name": "Open-Source Embeddings", "done": false, "resources": ["https://huggingface.co/blog/mteb"] },
+        { "id": "ai-s61", "name": "Semantic Search", "done": false, "resources": ["https://www.sbert.net/examples/applications/semantic-search/README.html"] },
+        { "id": "ai-s62", "name": "Data Classification", "done": false, "resources": ["https://scikit-learn.org/stable/"] },
+        { "id": "ai-s63", "name": "Recommendation Systems", "done": false, "resources": ["https://developers.google.com/machine-learning/recommendation"] },
+        { "id": "ai-s64", "name": "Anomaly Detection", "done": false, "resources": ["https://www.pinecone.io/learn/anomaly-detection/"] },
+        { "id": "ai-s65", "name": "Purpose and Functionality (Vector DBs)", "done": false, "resources": ["https://www.pinecone.io/learn/vector-database/"] },
+        { "id": "ai-s66", "name": "Chroma", "done": false, "resources": ["https://docs.trychroma.com/"] },
+        { "id": "ai-s67", "name": "Pinecone", "done": false, "resources": ["https://docs.pinecone.io/"] },
+        { "id": "ai-s68", "name": "Weaviate", "done": false, "resources": ["https://weaviate.io/developers/weaviate"] },
+        { "id": "ai-s69", "name": "FAISS", "done": false, "resources": ["https://faiss.ai/"] },
+        { "id": "ai-s70", "name": "LanceDB", "done": false, "resources": ["https://lancedb.github.io/lancedb/"] },
+        { "id": "ai-s71", "name": "Qdrant", "done": false, "resources": ["https://qdrant.tech/documentation/"] },
+        { "id": "ai-s72", "name": "Supabase (pgvector)", "done": false, "resources": ["https://supabase.com/docs/guides/ai"] },
+        { "id": "ai-s73", "name": "MongoDB Atlas", "done": false, "resources": ["https://www.mongodb.com/docs/atlas/atlas-vector-search/"] },
+        { "id": "ai-s74", "name": "Indexing Embeddings", "done": false, "resources": ["https://www.pinecone.io/learn/vector-indexes/"] },
+        { "id": "ai-s75", "name": "Performing Similarity Search", "done": false, "resources": ["https://www.pinecone.io/learn/what-is-similarity-search/"] }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "RAG & Implementation",
+      "level": "Advanced",
+      "skills": [
+        { "id": "ai-s76", "name": "RAG Usecases", "done": false, "resources": ["https://aws.amazon.com/what-is/retrieval-augmented-generation/"] },
+        { "id": "ai-s77", "name": "RAG vs Fine-tuning", "done": false, "resources": ["https://www.pinecone.io/learn/rag-vs-fine-tuning/"] },
+        { "id": "ai-s78", "name": "Chunking", "done": false, "resources": ["https://www.pinecone.io/learn/chunking-strategies/"] },
+        { "id": "ai-s79", "name": "Embedding in RAG pipeline", "done": false, "resources": ["https://python.langchain.com/docs/how_to/embed_text/"] },
+        { "id": "ai-s80", "name": "Vector Database in RAG pipeline", "done": false, "resources": ["https://python.langchain.com/docs/integrations/vectorstores/"] },
+        { "id": "ai-s81", "name": "Retrieval Process", "done": false, "resources": ["https://python.langchain.com/docs/use_cases/question_answering/"] },
+        { "id": "ai-s82", "name": "Generation", "done": false, "resources": ["https://www.deeplearning.ai/short-courses/building-and-evaluating-advanced-rag/"] },
+        { "id": "ai-s83", "name": "Using SDKs Directly", "done": false, "resources": ["https://platform.openai.com/docs/libraries"] },
+        { "id": "ai-s84", "name": "Langchain", "done": false, "resources": ["https://python.langchain.com/docs/introduction/"] },
+        { "id": "ai-s85", "name": "Llama Index", "done": false, "resources": ["https://docs.llamaindex.ai/en/stable/"] },
+        { "id": "ai-s86", "name": "OpenAI Assistant API", "done": false, "resources": ["https://platform.openai.com/docs/assistants/overview"] }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "AI Agents",
+      "level": "Advanced",
+      "skills": [
+        { "id": "ai-s87", "name": "Agents Usecases", "done": false, "resources": ["https://lilianweng.github.io/posts/2023-06-23-agent/"] },
+        { "id": "ai-s88", "name": "ReAct Prompting", "done": false, "resources": ["https://www.promptingguide.ai/techniques/react"] },
+        { "id": "ai-s89", "name": "Manual Implementation", "done": false, "resources": ["https://python.langchain.com/docs/how_to/agent_executor/"] },
+        { "id": "ai-s90", "name": "OpenAI Functions / Tools", "done": false, "resources": ["https://platform.openai.com/docs/guides/function-calling"] },
+        { "id": "ai-s91", "name": "OpenAI Assistant API (Agents)", "done": false, "resources": ["https://platform.openai.com/docs/assistants/overview"] },
+        { "id": "ai-s92", "name": "Prompt Engineering for Agents", "done": false, "resources": ["https://roadmap.sh/prompt-engineering"] }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Multimodal AI",
+      "level": "Advanced",
+      "skills": [
+        { "id": "ai-s93", "name": "Multimodal AI Usecases", "done": false, "resources": ["https://www.ibm.com/think/topics/multimodal-ai"] },
+        { "id": "ai-s94", "name": "Image Understanding", "done": false, "resources": ["https://platform.openai.com/docs/guides/vision"] },
+        { "id": "ai-s95", "name": "Image Generation", "done": false, "resources": ["https://platform.openai.com/docs/api-reference/images"] },
+        { "id": "ai-s96", "name": "Video Understanding", "done": false, "resources": ["https://ai.google.dev/gemini-api/docs/vision"] },
+        { "id": "ai-s97", "name": "Audio Processing", "done": false, "resources": ["https://platform.openai.com/docs/guides/audio"] },
+        { "id": "ai-s98", "name": "Text-to-Speech", "done": false, "resources": ["https://platform.openai.com/docs/guides/text-to-speech"] },
+        { "id": "ai-s99", "name": "Speech-to-Text (Whisper)", "done": false, "resources": ["https://platform.openai.com/docs/guides/speech-to-text"] },
+        { "id": "ai-s100", "name": "OpenAI Vision API", "done": false, "resources": ["https://platform.openai.com/docs/guides/vision"] },
+        { "id": "ai-s101", "name": "DALL-E API", "done": false, "resources": ["https://platform.openai.com/docs/guides/images"] },
+        { "id": "ai-s102", "name": "Whisper API", "done": false, "resources": ["https://platform.openai.com/docs/guides/speech-to-text"] },
+        { "id": "ai-s103", "name": "Hugging Face Multimodal Models", "done": false, "resources": ["https://huggingface.co/models?pipeline_tag=image-to-text"] },
+        { "id": "ai-s104", "name": "LangChain for Multimodal Apps", "done": false, "resources": ["https://python.langchain.com/docs/integrations/chat/openai/"] },
+        { "id": "ai-s105", "name": "LlamaIndex for Multimodal Apps", "done": false, "resources": ["https://docs.llamaindex.ai/en/stable/examples/multi_modal/"] }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Development Tools",
+      "level": "Advanced",
+      "skills": [
+        { "id": "ai-s106", "name": "AI Code Editors", "done": false, "resources": ["https://cursor.sh/", "https://github.com/features/copilot"] },
+        { "id": "ai-s107", "name": "Code Completion Tools", "done": false, "resources": ["https://github.com/features/copilot", "https://www.tabnine.com/"] }
+      ]
+    }
+  ],
+  "globalResources": {
+    "youtube": [
+      { "name": "Andrej Karpathy", "url": "https://www.youtube.com/@AndrejKarpathy" },
+      { "name": "3Blue1Brown", "url": "https://www.youtube.com/@3blue1brown" },
+      { "name": "Yannic Kilcher", "url": "https://www.youtube.com/@YannicKilcher" },
+      { "name": "AI Jason", "url": "https://www.youtube.com/@AIJasonZ" },
+      { "name": "Sam Witteveen", "url": "https://www.youtube.com/@samwitteveenai" },
+      { "name": "Sentdex", "url": "https://www.youtube.com/@sentdex" },
+      { "name": "Nicholas Renotte", "url": "https://www.youtube.com/@NicholasRenotte" },
+      { "name": "David Shapiro", "url": "https://www.youtube.com/@DavidShapiroAutomator" },
+      { "name": "Matt Wolfe", "url": "https://www.youtube.com/@mreflow" }
+    ],
+    "platforms": [
+      { "name": "roadmap.sh - AI Engineer", "url": "https://roadmap.sh/ai-engineer" },
+      { "name": "fast.ai", "url": "https://www.fast.ai/" },
+      { "name": "Hugging Face Learn", "url": "https://huggingface.co/learn" },
+      { "name": "DeepLearning.AI Courses", "url": "https://www.deeplearning.ai/" },
+      { "name": "Kaggle Learn", "url": "https://www.kaggle.com/learn" },
+      { "name": "Google AI Studio", "url": "https://aistudio.google.com/" },
+      { "name": "Scrimba AI Engineer Path", "url": "https://v2.scrimba.com/the-ai-engineer-path-c02v" }
+    ],
+    "practice": [
+      { "name": "Kaggle Competitions", "url": "https://www.kaggle.com/competitions" },
+      { "name": "OpenAI Cookbook", "url": "https://cookbook.openai.com/" },
+      { "name": "Papers With Code", "url": "https://paperswithcode.com/" },
+      { "name": "Hugging Face Spaces", "url": "https://huggingface.co/spaces" },
+      { "name": "LeetCode", "url": "https://leetcode.com/" }
+    ]
+  }
+}

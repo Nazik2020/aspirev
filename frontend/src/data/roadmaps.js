@@ -1,5 +1,6 @@
 // src/data/roadmaps.js
 // Central data source for all career roadmap definitions
+import { aiEngineerRoadmap } from "./roadmaps/ai-engineer";
 
 export const categories = [
   { id: "all", label: "All" },
@@ -159,6 +160,7 @@ export const roadmaps = [
       "Bridge frontend and backend expertise to ship complete products end-to-end independently.",
     stages: [],
   },
+  aiEngineerRoadmap,
   {
     id: "datascience",
     title: "Data Scientist",
