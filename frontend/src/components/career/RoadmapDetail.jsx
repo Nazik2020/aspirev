@@ -77,14 +77,14 @@ const SkillRow = ({ skill, onToggle }) => {
                 target="_blank"
                 rel="noreferrer"
                 title={name}
-                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-[0.7rem] font-medium tracking-wide transition-all border ${colorClass}`}
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-[0.7rem] font-medium tracking-wide transition-all border max-w-full ${colorClass}`}
               >
-                <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                <span className="material-symbols-outlined text-[14px] shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
                   {icon}
                 </span>
-                <span className="truncate max-w-[250px]">{name}</span>
+                <span className="truncate max-w-[130px] sm:max-w-[200px] md:max-w-[250px]">{name}</span>
                 {type && name !== type && (
-                  <span className="ml-1 text-[0.65rem] font-bold text-violet-500/80 dark:text-violet-400/80 uppercase">
+                  <span className="ml-1 text-[0.65rem] font-bold text-violet-500/80 dark:text-violet-400/80 uppercase shrink-0">
                     {type}
                   </span>
                 )}
