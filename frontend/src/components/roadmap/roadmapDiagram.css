@@ -1,0 +1,30 @@
+/* src/components/roadmap/roadmapDiagram.css */
+
+/* Override React Flow defaults for light theme */
+.react-flow__attribution {
+  display: none;
+}
+
+.react-flow__controls-button {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+}
+
+.react-flow__controls-button:hover {
+  background: #faf5ff;
+}
+
+.react-flow__minimap-mask {
+  fill: rgba(124, 58, 237, 0.05);
+}
+
+.react-flow__edge-path {
+  stroke: #c4b5fd;
+  stroke-width: 1.5;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #7c3aed;
+  stroke-width: 2;
+}

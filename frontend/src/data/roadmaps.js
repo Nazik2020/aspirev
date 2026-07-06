@@ -9,6 +9,9 @@ import { frontendRoadmap } from "./roadmaps/frontend";
 import { devopsRoadmap } from "./roadmaps/devops";
 import { androidRoadmap } from "./roadmaps/android";
 import { blockchainRoadmap } from "./roadmaps/blockchain";
+import { gameDeveloperRoadmap } from "./roadmaps/game-developer";
+import { backendRoadmap } from "./roadmaps/backend";
+import { biAnalystRoadmap } from "./roadmaps/bi-analyst";
 
 export const categories = [
   { id: "all", label: "All" },
@@ -29,5 +32,8 @@ export const roadmaps = [
   frontendRoadmap,
   devopsRoadmap,
   androidRoadmap,
-  blockchainRoadmap
+  blockchainRoadmap,
+  gameDeveloperRoadmap,
+  backendRoadmap,
+  biAnalystRoadmap
 ];

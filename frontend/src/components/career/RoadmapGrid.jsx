@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { roadmaps, categories } from "../../data/roadmaps";
 
@@ -137,7 +137,13 @@ const RoadmapGrid = () => {
   const [search, setSearch] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [activeCategory, setActiveCategory] = useState("all");
+  const [visibleCount, setVisibleCount] = useState(9);
   const navigate = useNavigate();
+
+  // Reset visibleCount when filters change
+  useEffect(() => {
+    setVisibleCount(9);
+  }, [search, activeCategory]);
 
   const filtered = useMemo(() => {
     return roadmaps.filter((r) => {
@@ -239,11 +245,28 @@ const RoadmapGrid = () => {
 
       {/* Grid */}
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filtered.map((r) => (
-            <RoadmapCard key={r.id} roadmap={r} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filtered.slice(0, visibleCount).map((r) => (
+              <RoadmapCard key={r.id} roadmap={r} />
+            ))}
+          </div>
+          {visibleCount < filtered.length && (
+            <div className="flex justify-center mt-10 mb-4">
+              <button
+                onClick={() => setVisibleCount((prev) => prev + 9)}
+                className="flex items-center gap-2 px-6 py-3 rounded-xl text-[0.85rem] font-semibold
+                           bg-white dark:bg-[#1e1f23] border border-slate-200 dark:border-white/10 text-slate-600 dark:text-white/70 
+                           hover:text-slate-900 dark:text-white hover:border-slate-300 dark:hover:border-white/25 hover:shadow-sm transition-all duration-200 group"
+              >
+                <span className="material-symbols-outlined text-[18px] group-hover:rotate-180 transition-transform duration-500">
+                  autorenew
+                </span>
+                Load More Roadmaps
+              </button>
+            </div>
+          )}
+        </>
       ) : (
         <div className="text-center py-24 flex flex-col items-center gap-3">
           <span

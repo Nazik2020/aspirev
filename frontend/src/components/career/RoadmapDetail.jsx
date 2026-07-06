@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { roadmaps } from "../../data/roadmaps";
+import RoadmapDiagram from "../roadmap/RoadmapDiagram";
 
 const SkillRow = ({ skill, onToggle }) => {
   return (
@@ -181,6 +182,7 @@ const RoadmapDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [localRoadmaps, setLocalRoadmaps] = useState(roadmaps);
+  const [viewMode, setViewMode] = useState("timeline");
 
   const roadmapIndex = localRoadmaps.findIndex((r) => r.id === id);
   const roadmap = localRoadmaps[roadmapIndex];
@@ -289,9 +291,38 @@ const RoadmapDetail = () => {
         </div>
       </div>
 
-      {/* 2-Column Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left: Learning Stages Timeline */}
+      {/* View Toggle */}
+      <div className="flex justify-center mb-4">
+        <div className="flex items-center bg-slate-100 dark:bg-[#1a1b1e] p-1 rounded-xl border border-slate-200 dark:border-white/10">
+          <button
+            onClick={() => setViewMode("timeline")}
+            className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-[0.85rem] font-semibold transition-all ${
+              viewMode === "timeline"
+                ? "bg-white dark:bg-[#24252a] text-slate-900 dark:text-white shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-slate-200/50 dark:border-white/10"
+                : "text-slate-500 dark:text-white/40 hover:text-slate-700 dark:hover:text-white/70"
+            }`}
+          >
+            <span className="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+            Interactive Timeline
+          </button>
+          <button
+            onClick={() => setViewMode("visual")}
+            className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-[0.85rem] font-semibold transition-all ${
+              viewMode === "visual"
+                ? "bg-white dark:bg-[#24252a] text-slate-900 dark:text-white shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-slate-200/50 dark:border-white/10"
+                : "text-slate-500 dark:text-white/40 hover:text-slate-700 dark:hover:text-white/70"
+            }`}
+          >
+            <span className="material-symbols-outlined text-[18px]">account_tree</span>
+            Visual Flowchart
+          </button>
+        </div>
+      </div>
+
+      {viewMode === "timeline" ? (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left: Learning Stages Timeline */}
+
         <div className="lg:col-span-8 space-y-6">
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
@@ -424,6 +455,11 @@ const RoadmapDetail = () => {
           </div>
         </div>
       </div>
+      ) : (
+        <div className="w-full max-w-6xl mx-auto mt-4 fade-in">
+          <RoadmapDiagram roadmapData={roadmap} />
+        </div>
+      )}
     </div>
   );
 };
