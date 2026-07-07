@@ -1,5 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
+import KanbanBoard from "../components/dashboard/JobTracker/KanbanBoard";
+import TableView from "../components/dashboard/JobTracker/TableView";
 
 const stages = [
   {
@@ -84,7 +86,7 @@ const initialApps = [
     role: "Senior AI Engineer",
     stage: "APPLIED",
     time: "4h ago",
-    badge: "IN REVIEW",
+    badge: "INTERVIEW",
     logoColor: "bg-blue-500/10 text-blue-400",
     logoText: "ST",
     location: "San Francisco, CA (Hybrid)",
@@ -176,6 +178,7 @@ const JobTrackerPage = () => {
   const [apps, setApps] = useState(initialApps);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [viewMode, setViewMode] = useState("BOARD");
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedApp, setSelectedApp] = useState(null);
 
@@ -210,27 +213,7 @@ const JobTrackerPage = () => {
   const kanbanContainerRef = useRef(null);
   const columnRefs = useRef({});
 
-  // Auto-scroll Kanban board when a specific status is selected
-  useEffect(() => {
-    if (
-      statusFilter !== "All" &&
-      kanbanContainerRef.current &&
-      columnRefs.current[statusFilter]
-    ) {
-      const container = kanbanContainerRef.current;
-      const targetColumn = columnRefs.current[statusFilter];
-
-      const containerRect = container.getBoundingClientRect();
-      const targetRect = targetColumn.getBoundingClientRect();
-      const scrollTarget =
-        container.scrollLeft + targetRect.left - containerRect.left - 16; // 16px padding
-
-      container.scrollTo({
-        left: scrollTarget,
-        behavior: "smooth",
-      });
-    }
-  }, [statusFilter]);
+  // Auto-scroll logic is now inside KanbanBoard
 
   // Sync drawer states when app selected
   useEffect(() => {
@@ -552,6 +535,35 @@ const JobTrackerPage = () => {
           />
         </div>
 
+        <div className="flex bg-slate-100 dark:bg-white/5 rounded-xl p-1 shrink-0">
+          <button
+            onClick={() => setViewMode("BOARD")}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[0.8rem] font-bold transition-all ${
+              viewMode === "BOARD"
+                ? "bg-white dark:bg-violet-600 text-slate-900 dark:text-white shadow-sm"
+                : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white"
+            }`}
+          >
+            <span className="material-symbols-outlined text-[16px]">
+              view_kanban
+            </span>
+            BOARD
+          </button>
+          <button
+            onClick={() => setViewMode("TABLE")}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[0.8rem] font-bold transition-all ${
+              viewMode === "TABLE"
+                ? "bg-white dark:bg-violet-600 text-slate-900 dark:text-white shadow-sm"
+                : "text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white"
+            }`}
+          >
+            <span className="material-symbols-outlined text-[16px]">
+              table_rows
+            </span>
+            TABLE
+          </button>
+        </div>
+
         <div className="flex gap-3 w-full md:w-auto relative">
           {/* Custom Dropdown Filter */}
           <div className="relative flex-1 md:flex-none" ref={filterDropdownRef}>
@@ -587,18 +599,22 @@ const JobTrackerPage = () => {
                   className="fixed inset-0 z-20"
                   onClick={() => setFilterDropdownOpen(false)}
                 />
-                <div className="absolute left-0 md:left-auto md:right-0 mt-2 w-56 rounded-xl bg-white dark:bg-[#141519] border border-slate-200 dark:border-white/10 p-1.5 shadow-[0_15px_30px_rgba(0,0,0,0.5)] z-30">
+                <div className="absolute left-0 md:left-auto md:right-0 mt-2 w-[220px] rounded-2xl bg-white dark:bg-[#1f2023] border border-slate-200 dark:border-white/10 p-2 shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-30">
                   <button
                     onClick={() => {
                       setStatusFilter("All");
                       setFilterDropdownOpen(false);
                     }}
-                    className="w-full px-3 py-2.5 rounded-lg text-left text-[0.85rem] text-slate-600 dark:text-white/70 hover:bg-slate-100 dark:bg-white/5 hover:text-slate-900 dark:text-white flex items-center gap-2.5 transition-all"
+                    className={`w-full px-4 py-2.5 rounded-xl text-left text-[0.85rem] font-bold flex items-center gap-3 transition-all ${
+                      statusFilter === "All"
+                        ? "bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white"
+                        : "text-slate-500 dark:text-white/60 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"
+                    }`}
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-white/40" />
+                    <span className="w-2 h-2 rounded-full bg-slate-400 dark:bg-white/40" />
                     All Statuses
                   </button>
-                  <div className="h-[1px] bg-slate-100 dark:bg-white/5 my-1" />
+                  <div className="h-[1px] bg-slate-100 dark:bg-white/5 my-1.5 mx-2" />
                   {stages.map((stage) => (
                     <button
                       key={stage.key}
@@ -606,10 +622,14 @@ const JobTrackerPage = () => {
                         setStatusFilter(stage.key);
                         setFilterDropdownOpen(false);
                       }}
-                      className="w-full px-3 py-2.5 rounded-lg text-left text-[0.85rem] text-slate-600 dark:text-white/70 hover:bg-slate-100 dark:bg-white/5 hover:text-slate-900 dark:text-white flex items-center gap-2.5 transition-all"
+                      className={`w-full px-4 py-2.5 rounded-xl text-left text-[0.85rem] font-bold flex items-center gap-3 transition-all ${
+                        statusFilter === stage.key
+                          ? "bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white"
+                          : "text-slate-500 dark:text-white/60 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"
+                      }`}
                     >
                       <span
-                        className={`w-1.5 h-1.5 rounded-full ${stage.dot}`}
+                        className={`w-2 h-2 rounded-full ${stage.dot}`}
                       />
                       {stage.name}
                     </button>
@@ -629,90 +649,23 @@ const JobTrackerPage = () => {
         </div>
       </div>
 
-      {/* ── Kanban columns with Horizontal Scrollbar ── */}
-      <div
-        ref={kanbanContainerRef}
-        className="flex gap-6 overflow-x-auto pb-4 pt-2 -mx-4 px-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent"
-      >
-        {stages.map((stage) => {
-          const columnApps = filteredApps.filter((a) => a.stage === stage.key);
-          return (
-            <div
-              key={stage.key}
-              ref={(el) => (columnRefs.current[stage.key] = el)}
-              className="w-80 shrink-0 space-y-4"
-            >
-              <div className="flex items-center justify-between px-1">
-                <div className="flex items-center gap-2">
-                  <span className={`w-2 h-2 rounded-full ${stage.dot}`} />
-                  <span className="text-[0.7rem] uppercase tracking-[0.15em] font-black text-slate-500 dark:text-white/45">
-                    {stage.name}
-                  </span>
-                </div>
-                <span
-                  className={`text-[0.7rem] font-bold px-2 py-0.5 rounded-full ${stage.badgeStyle}`}
-                >
-                  {columnApps.length.toString().padStart(2, "0")}
-                </span>
-              </div>
-
-              <div className="space-y-3 min-h-[420px]">
-                {columnApps.map((app) => (
-                  <div
-                    key={app.id}
-                    onClick={() => setSelectedApp(app)}
-                    className="p-5 rounded-2xl bg-white dark:bg-[#1e1f23]/60 border border-slate-200 dark:border-white/5 space-y-4 hover:border-slate-200 dark:border-white/10 hover:bg-white dark:bg-[#1e1f23]/80 transition-all cursor-pointer group"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`w-10 h-10 rounded-xl ${app.logoColor} flex items-center justify-center shrink-0 font-extrabold text-sm`}
-                        >
-                          {app.logoText}
-                        </div>
-                        <div>
-                          <h4 className="text-[0.95rem] font-bold text-slate-900 dark:text-white group-hover:text-violet-400 transition-colors leading-tight">
-                            {app.role}
-                          </h4>
-                          <p className="text-[0.75rem] text-slate-500 dark:text-white/40 mt-0.5">
-                            {app.company} • {app.time}
-                          </p>
-                        </div>
-                      </div>
-                      <button className="text-slate-400 dark:text-white/20 hover:text-slate-600 dark:text-white/60">
-                        <span className="material-symbols-outlined text-[18px]">
-                          more_horiz
-                        </span>
-                      </button>
-                    </div>
-                    <div className="flex items-center justify-between pt-1">
-                      <span
-                        className={`text-[0.6rem] uppercase tracking-wider font-extrabold px-2.5 py-0.5 rounded-md border ${stage.badgeStyle}`}
-                      >
-                        {app.badge}
-                      </span>
-                      {app.info ? (
-                        <span className="text-[0.7rem] text-rose-400 font-bold">
-                          {app.info}
-                        </span>
-                      ) : (
-                        <span className="material-symbols-outlined text-slate-400 dark:text-white/25 text-[16px]">
-                          schedule
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                ))}
-                {columnApps.length === 0 && (
-                  <div className="text-center py-12 border border-dashed border-slate-200 dark:border-white/5 rounded-2xl text-slate-400 dark:text-white/20 text-xs">
-                    No applications in this stage
-                  </div>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      {/* ── View Area (Kanban or Table) ── */}
+      {viewMode === "BOARD" ? (
+        <KanbanBoard
+          stages={stages}
+          filteredApps={filteredApps}
+          statusFilter={statusFilter}
+          setSelectedApp={setSelectedApp}
+        />
+      ) : (
+        <TableView
+          stages={stages}
+          filteredApps={filteredApps}
+          setSelectedApp={setSelectedApp}
+          apps={apps}
+          setApps={setApps}
+        />
+      )}
 
       {/* ── Health Insight Banner ── */}
       <div className="rounded-2xl border border-slate-200 dark:border-white/8 bg-white dark:bg-[#1e1f23] p-6 flex flex-col md:flex-row items-start md:items-center gap-6 justify-between">
