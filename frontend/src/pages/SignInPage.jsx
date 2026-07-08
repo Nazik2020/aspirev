@@ -55,8 +55,8 @@ const SignInPage = () => {
   const navigate  = useNavigate();
   const location  = useLocation();
   const [successMessage, setSuccessMessage] = useState(location.state?.message || "");
-  const [email, setEmail]       = useState(location.state?.email || "user@gmail.com");
-  const [password, setPassword] = useState("user123");
+  const [email, setEmail]       = useState(location.state?.email || "");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
   const [serverError, setServerError] = useState("");

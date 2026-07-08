@@ -48,22 +48,6 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
         return;
       }
-
-      // Hardcoded bypass for Vercel testing without backend
-      if (storedToken === "dummy-jwt-token-for-testing-only") {
-        setUser({
-          _id: "dummy-id-123",
-          username: "testuser",
-          email: "user@gmail.com",
-          role: "user",
-          firstName: "Test",
-          lastName: "User"
-        });
-        setToken(storedToken);
-        setLoading(false);
-        return;
-      }
-
       try {
         const res = await fetch(`${API_URL}/auth/me`, {
           headers: { Authorization: `Bearer ${storedToken}` },
@@ -106,25 +90,6 @@ export const AuthProvider = ({ children }) => {
 
   // ─── Login ────────────────────────────────────────────────────────────────
   const login = async (email, password, rememberMe = false) => {
-    // Hardcoded bypass for Vercel testing without backend
-    if (email === "user@gmail.com" && password === "user123") {
-      const dummyUser = {
-        _id: "dummy-id-123",
-        username: "testuser",
-        email: "user@gmail.com",
-        role: "user",
-        firstName: "Test",
-        lastName: "User"
-      };
-      const dummyToken = "dummy-jwt-token-for-testing-only";
-      
-      storeToken(dummyToken, rememberMe);
-      setToken(dummyToken);
-      setUser(dummyUser);
-      setIsRemembered(rememberMe);
-      return { success: true, user: dummyUser, token: dummyToken };
-    }
-
     try {
       const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
