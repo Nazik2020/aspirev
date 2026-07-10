@@ -86,7 +86,7 @@ const PortfolioHero = ({ data, onLinkClick }) => {
 
           {/* Resume Badge (Fixed to viewport so it stays when scrolling) */}
           {data.personalInfo.showResume && data.personalInfo.resumeUrl && (
-            <a href={data.personalInfo.resumeUrl} onClick={onLinkClick} target="_blank" rel="noreferrer" className="hidden lg:flex fixed bottom-8 right-8 lg:bottom-12 lg:right-12 items-center gap-2 cursor-pointer group z-50 drop-shadow-2xl hover:scale-105 transition-all">
+            <a href={data.personalInfo.resumeUrl} onClick={onLinkClick} target="_blank" rel="noreferrer" className="hidden lg:flex fixed bottom-8 right-8 lg:bottom-7 lg:right-12 items-center gap-2 cursor-pointer group z-50 drop-shadow-2xl hover:scale-105 transition-all">
               <svg className="w-9 h-9 lg:w-11 lg:h-11 text-violet-200 group-hover:text-violet-300 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                 <polyline points="14 2 14 8 20 8" />
