@@ -12,4 +12,4 @@ const roadmapProgressSchema = new mongoose.Schema({
   lastUpdated: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("RoadmapProgress", roadmapProgressSchema);
+module.exports = mongoose.models.RoadmapProgress || mongoose.model("RoadmapProgress", roadmapProgressSchema);

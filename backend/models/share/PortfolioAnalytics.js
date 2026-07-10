@@ -19,4 +19,4 @@ const PortfolioAnalyticsSchema = new mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model('PortfolioAnalytics', PortfolioAnalyticsSchema);
+module.exports = mongoose.models.PortfolioAnalytics || mongoose.model('PortfolioAnalytics', PortfolioAnalyticsSchema);

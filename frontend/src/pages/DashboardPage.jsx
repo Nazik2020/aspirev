@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { roadmaps } from "../data/roadmaps.js";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -25,8 +26,61 @@ const DashboardPage = () => {
         
         if (data.success && data.data) {
           setMetrics(data.data.metrics);
-          setActiveRoadmap(data.data.activeRoadmap);
           setRecentApplications(data.data.recentApplications);
+          const active = data.data.activeRoadmap;
+          try {
+            const importedRoadmap = roadmaps.find(r => r.id === (active.roadmapId || 'frontend'));
+            
+            if (importedRoadmap) {
+              const totalSkills = importedRoadmap.stages.reduce((acc, stage) => acc + (stage.skills ? stage.skills.length : 0), 0);
+              active.skillsValidated = `${active.completedNodesCount}/${totalSkills}`;
+              
+              const completedNodes = active.completedNodes || [];
+              
+              const allStagesData = importedRoadmap.stages.map(stage => {
+                const stageTotal = stage.skills ? stage.skills.length : 0;
+                const stageCompleted = stage.skills ? stage.skills.filter(s => completedNodes.includes(s.id)).length : 0;
+                const isCompleted = stageTotal > 0 && stageCompleted === stageTotal;
+                return { stage, stageTotal, stageCompleted, isCompleted };
+              });
+
+              let firstIncompleteFound = false;
+              let activeStageIndex = -1;
+              
+              const allStages = allStagesData.map((data, idx) => {
+                 let status = "locked";
+                 if (data.isCompleted) {
+                   status = "completed";
+                 } else if (!firstIncompleteFound) {
+                   status = "active";
+                   firstIncompleteFound = true;
+                   activeStageIndex = idx;
+                 }
+                 
+                 return {
+                  title: data.stage.title,
+                  desc: data.stage.description || (data.stage.skills ? data.stage.skills.slice(0,3).map(s=>s.name).join(', ') : ""),
+                  status: status,
+                  badge: status === "completed" ? "COMPLETED" : (status === "active" ? "IN PROGRESS" : "UP NEXT"),
+                  progress: data.stageTotal > 0 ? Math.round((data.stageCompleted / data.stageTotal) * 100) : 0
+                 }
+              });
+
+              if (activeStageIndex === -1) {
+                activeStageIndex = allStages.length; // all completed
+              }
+
+              let startIndex = Math.max(0, activeStageIndex - 1);
+              if (startIndex + 3 > allStages.length) {
+                startIndex = Math.max(0, allStages.length - 3);
+              }
+
+              active.stages = allStages.slice(startIndex, startIndex + 3);
+            }
+          } catch (e) {
+            console.error("Failed to load roadmap dynamically", e);
+          }
+          setActiveRoadmap(active);
         }
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
@@ -83,7 +137,7 @@ const DashboardPage = () => {
           </p>
         </div>
         <button
-          onClick={() => navigate("/career-path/frontend")}
+          onClick={() => navigate(`/career-path/${activeRoadmap?.roadmapId || 'frontend'}`)}
           className="shrink-0 flex items-center justify-center gap-2 px-6 py-3 rounded-full
                                bg-gradient-to-br from-violet-600 to-purple-500 hover:from-violet-500 hover:to-purple-400
                                text-slate-900 dark:text-white text-sm font-bold shadow-[0_10px_25px_rgba(93,33,223,0.25)] hover:scale-102 transition-all"
@@ -106,13 +160,14 @@ const DashboardPage = () => {
               <span className="text-[0.68rem] text-slate-500 dark:text-white/35 font-bold uppercase tracking-wider block mb-2">
                 {m.title}
               </span>
-              <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              <div className="flex items-baseline gap-2 flex-wrap mt-0.5">
+                <span className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-none">
                   {m.value}
                 </span>
                 {m.subtext && (
                   <span
-                    className={`text-[0.75rem] font-bold ${m.subtext.startsWith("+") ? "text-emerald-400" : m.subtext.includes("Neutral") ? "text-slate-500 dark:text-white/40" : "text-violet-500 dark:text-violet-300"}`}
+                    className={`text-[0.7rem] font-bold leading-tight uppercase tracking-wide ${m.subtext.startsWith("+") ? "text-emerald-400" : m.subtext.includes("Neutral") ? "text-slate-500 dark:text-white/40" : "text-violet-500 dark:text-violet-300"}`}
+                    title={m.subtext}
                   >
                     {m.subtext}
                   </span>
@@ -233,7 +288,7 @@ const DashboardPage = () => {
           </div>
 
           {/* Timeline Stages */}
-          <div className="relative pl-10 space-y-6 before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-100 dark:bg-white/5">
+          <div className="relative pl-[40px] space-y-6 before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-200 dark:before:bg-white/10">
             {activeRoadmap.stages.map((stage, idx) => {
               const isCompleted = stage.status === "completed";
               const isActive = stage.status === "active";
@@ -245,7 +300,7 @@ const DashboardPage = () => {
                   <div
                     className={`absolute -left-[32px] top-1 w-6 h-6 rounded-full border-2 flex items-center justify-center bg-white dark:bg-[#17181c] z-10 transition-all duration-300
                                         ${isCompleted ? "bg-violet-600 border-violet-600 text-white shadow-[0_0_10px_rgba(93,33,223,0.3)]" : ""}
-                                        ${isActive ? "border-violet-500 shadow-[0_0_8px_rgba(93,33,223,0.2)]" : ""}
+                                        ${isActive ? "border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.2)]" : ""}
                                         ${isLocked ? "border-slate-200 dark:border-white/10 text-slate-400 dark:text-white/20" : ""}
                                     `}
                   >
@@ -263,7 +318,7 @@ const DashboardPage = () => {
                         check
                       </span>
                     ) : isActive ? (
-                      <div className="w-2 h-2 rounded-full bg-violet-500" />
+                      <div className="w-2 h-2 rounded-full bg-cyan-400" />
                     ) : (
                       <span
                         className="material-symbols-outlined text-slate-400 dark:text-white/30 leading-[0]"
@@ -275,7 +330,7 @@ const DashboardPage = () => {
                           justifyContent: "center",
                         }}
                       >
-                        upcoming
+                        lock
                       </span>
                     )}
                   </div>
@@ -299,7 +354,7 @@ const DashboardPage = () => {
                         className={`text-[0.55rem] uppercase tracking-widest font-black px-2 py-0.5 rounded-full border leading-none
                                                 ${isCompleted ? "text-violet-400 bg-violet-400/5 border-violet-400/20" : ""}
                                                 ${isActive ? "text-cyan-400 bg-cyan-400/5 border-cyan-400/20" : ""}
-                                                ${isLocked ? "text-slate-400 dark:text-white/20 bg-white/2 border-slate-200 dark:border-white/5" : ""}
+                                                ${isLocked ? "text-slate-400 dark:text-white/20 bg-white/5 border-slate-200 dark:border-white/5" : ""}
                                             `}
                       >
                         {stage.badge}
@@ -367,7 +422,7 @@ const DashboardPage = () => {
             ))}
           </div>
 
-          <button className="w-full py-2.5 rounded-xl border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:border-white/20 bg-white/3 hover:bg-slate-100 dark:bg-white/5 text-[0.8rem] font-bold text-slate-600 dark:text-white/60 hover:text-slate-900 dark:text-white transition-all">
+          <button onClick={() => navigate("/job-tracker")} className="w-full py-2.5 rounded-xl border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:border-white/20 bg-white/3 hover:bg-slate-100 dark:hover:bg-white/5 text-[0.8rem] font-bold text-slate-600 dark:text-white/60 hover:text-slate-900 dark:hover:text-white transition-all">
             View All Applications
           </button>
         </div>
@@ -395,7 +450,7 @@ const DashboardPage = () => {
         </div>
 
         <div
-          onClick={() => navigate("/career-path/frontend")}
+          onClick={() => navigate(`/career-path/${activeRoadmap?.roadmapId || 'frontend'}`)}
           className="p-5 rounded-2xl bg-white dark:bg-[#1e1f23]/40 border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none hover:border-slate-200 dark:border-white/10 hover:shadow hover:bg-slate-50 dark:hover:bg-[#24252a]/50 cursor-pointer flex gap-4 items-center transition-all group"
         >
           <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/8 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">

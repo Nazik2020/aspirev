@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import RoadmapDiagram from "../roadmap/RoadmapDiagram";
+import { useAuth } from "../../context/AuthContext";
+import { roadmaps } from "../../data/roadmaps.js";
 
 const SkillRow = ({ skill, onToggle }) => {
   return (
@@ -179,39 +181,52 @@ const StageCard = ({ stage, stageIndex, onSkillToggle }) => {
 const RoadmapDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { getAuthHeaders } = useAuth();
   const [roadmap, setRoadmap] = useState(null);
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState("timeline");
 
   useEffect(() => {
-    setLoading(true);
-    // Dynamically import the specific roadmap JSON data
-    import(`../../data/roadmaps/${id}/index.js`)
-      .then(data => {
-        // Find the actual exported object, whatever it is named (e.g., devopsRoadmap, frontendRoadmap)
-        const importedRoadmap = data.default || data.roadmap || Object.values(data).find(val => val && val.id);
+    const loadRoadmap = async () => {
+      setLoading(true);
+      const importedRoadmap = roadmaps.find(r => r.id === id);
+      
+      if (!importedRoadmap) {
+        navigate('/career-path');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/roadmaps/${id}/progress`, {
+          headers: getAuthHeaders()
+        });
+        const progressData = await res.json();
         
-        if (importedRoadmap) {
-          setRoadmap(importedRoadmap);
-          setLoading(false);
+        if (progressData.success && progressData.data) {
+          const completedNodes = progressData.data.completedNodes || [];
+          
+          // Deep clone to avoid mutating the original imported object across navigations
+          const updatedRoadmap = JSON.parse(JSON.stringify(importedRoadmap));
+          updatedRoadmap.stages = updatedRoadmap.stages.map(stage => ({
+            ...stage,
+            skills: stage.skills.map(skill => ({
+              ...skill,
+              done: completedNodes.includes(skill.id)
+            }))
+          }));
+          setRoadmap(updatedRoadmap);
         } else {
-          throw new Error("Roadmap export not found");
+          setRoadmap(JSON.parse(JSON.stringify(importedRoadmap)));
         }
-      })
-      .catch((err) => {
-        console.error(err);
-        // Fallback to central roadmaps list if individual module fails
-        import('../../data/roadmaps.js').then(d => {
-           const found = d.roadmaps.find(r => r.id === id);
-           if (found) {
-             setRoadmap(found);
-             setLoading(false);
-           } else {
-             navigate('/career-path');
-           }
-        }).catch(() => navigate('/career-path'));
-      });
-  }, [id, navigate]);
+      } catch (err) {
+         console.error("Error fetching roadmap progress", err);
+         setRoadmap(JSON.parse(JSON.stringify(importedRoadmap)));
+      }
+      setLoading(false);
+    };
+    
+    loadRoadmap();
+  }, [id, navigate, getAuthHeaders]);
 
   if (loading || !roadmap) {
     return (
@@ -222,23 +237,49 @@ const RoadmapDetail = () => {
     );
   }
 
-  const handleSkillToggle = (skillId) => {
-    setRoadmap((prev) => {
-      const updated = { ...prev };
-      updated.stages = updated.stages.map((stage) => {
-        const found = stage.skills.find((s) => s.id === skillId);
-        if (found) {
-          return {
-            ...stage,
-            skills: stage.skills.map((s) =>
-              s.id === skillId ? { ...s, done: !s.done } : s,
-            ),
-          };
-        }
-        return stage;
-      });
-      return updated;
+  const handleSkillToggle = async (skillId) => {
+    // 1. Calculate updated roadmap synchronously
+    const updatedRoadmap = { ...roadmap };
+    updatedRoadmap.stages = updatedRoadmap.stages.map((stage) => {
+      const found = stage.skills.find((s) => s.id === skillId);
+      if (found) {
+        return {
+          ...stage,
+          skills: stage.skills.map((s) =>
+            s.id === skillId ? { ...s, done: !s.done } : s,
+          ),
+        };
+      }
+      return stage;
     });
+
+    // 2. Set the state
+    setRoadmap(updatedRoadmap);
+
+    // 3. Compute progress
+    const completedNodes = [];
+    let totalSkills = 0;
+    updatedRoadmap.stages.forEach(stage => {
+      stage.skills.forEach(s => {
+        totalSkills++;
+        if (s.done) completedNodes.push(s.id);
+      });
+    });
+    const progressPercentage = totalSkills > 0 ? Math.round((completedNodes.length / totalSkills) * 100) : 0;
+
+    // 4. Save to backend
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/roadmaps/${id}/progress`, {
+        method: "PUT",
+        headers: {
+          ...getAuthHeaders(),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ completedNodes, progressPercentage })
+      });
+    } catch (err) {
+      console.error("Failed to save progress", err);
+    }
   };
 
   const totalSkills = roadmap.stages.reduce(
