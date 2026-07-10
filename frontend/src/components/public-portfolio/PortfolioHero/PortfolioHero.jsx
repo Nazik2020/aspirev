@@ -75,28 +75,28 @@ const PortfolioHero = ({ data, onLinkClick }) => {
           )}
         </div>
         
-        {/* Glassmorphic overlay card (Bar chart) and Resume Badge */}
-        <div className="absolute -bottom-6 -right-4 lg:-bottom-8 lg:right-6 z-20 flex flex-col items-end animate-[float_6s_ease-in-out_infinite]">
-          {/* Bar Chart Card (Highly transparent glassmorphism matching mockup) */}
-          <div className="hidden lg:flex w-[145px] h-[175px] lg:w-[180px] lg:h-[220px] items-end justify-center gap-3 lg:gap-4 p-4 lg:p-5 pb-5 lg:pb-6 transition-all relative z-10 rounded-[1.5rem]" style={{ background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.09)', backdropFilter: 'blur(24px)', boxShadow: '0 30px 60px rgba(0,0,0,0.4)', transform: 'rotate(-6deg)' }}>
-            <div className="w-5 lg:w-6 h-12 lg:h-[65px] bg-[#7a8099]/30 rounded-sm"></div>
-            <div className="w-5 lg:w-6 h-28 lg:h-[135px] bg-[#9061f9]/70 rounded-sm shadow-[0_0_20px_rgba(144,97,249,0.25)]"></div>
-            <div className="w-5 lg:w-6 h-20 lg:h-[95px] bg-[#ec4899]/20 rounded-sm"></div>
-          </div>
+        {/* Glassmorphic overlay card (Bar chart and Resume Badge combined) */}
+        <div className="absolute -bottom-6 -right-4 lg:-bottom-10 lg:-right-8 z-20 flex flex-col items-end animate-[float_6s_ease-in-out_infinite]">
+          {/* Bar Chart Card */}
+          <div className="hidden lg:flex w-[145px] h-[145px] lg:w-[190px] lg:h-[190px] items-end justify-center gap-4 lg:gap-5 p-4 lg:p-6 pb-8 lg:pb-10 transition-all relative z-10 rounded-[1.5rem]" style={{ background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.09)', backdropFilter: 'blur(24px)', boxShadow: '0 30px 60px rgba(0,0,0,0.4)' }}>
+            <div className="w-5 lg:w-7 h-12 lg:h-[65px] bg-[#7a8099]/30 rounded-sm"></div>
+            <div className="w-5 lg:w-7 h-28 lg:h-[135px] bg-[#9061f9]/70 rounded-sm shadow-[0_0_20px_rgba(144,97,249,0.25)]"></div>
+            <div className="w-5 lg:w-7 h-20 lg:h-[95px] bg-[#ec4899]/20 rounded-sm"></div>
 
-          {/* Resume Badge (Aligned as sibling to avoid inheriting rotation, thin outline SVG) */}
-          {data.personalInfo.showResume && data.personalInfo.resumeUrl && (
-            <a href={data.personalInfo.resumeUrl} onClick={onLinkClick} target="_blank" rel="noreferrer" className="hidden lg:flex absolute bottom-2 -right-12 lg:bottom-3 lg:-right-14 items-center gap-2 cursor-pointer group z-30 drop-shadow-2xl hover:scale-105 transition-all">
-              <svg className="w-9 h-9 lg:w-11 lg:h-11 text-violet-200 group-hover:text-violet-300 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="16" y1="13" x2="8" y2="13" />
-                <line x1="16" y1="17" x2="8" y2="17" />
-                <line x1="10" y1="9" x2="8" y2="9" />
-              </svg>
-              <span className="text-[0.75rem] lg:text-[0.8rem] font-bold tracking-[0.3em] text-[#e9d5ff] uppercase group-hover:text-[#d8b4fe] transition-colors drop-shadow-lg mb-0.5">Resume</span>
-            </a>
-          )}
+            {/* Resume Badge (Positioned inside bottom right of the card) */}
+            {data.personalInfo.showResume && data.personalInfo.resumeUrl && (
+              <a href={data.personalInfo.resumeUrl} onClick={onLinkClick} target="_blank" rel="noreferrer" className="absolute bottom-3 right-4 flex items-center gap-1.5 cursor-pointer group z-30 drop-shadow-2xl hover:opacity-80 transition-all">
+                <svg className="w-4 h-4 lg:w-5 lg:h-5 text-violet-200 group-hover:text-violet-300 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                  <line x1="10" y1="9" x2="8" y2="9" />
+                </svg>
+                <span className="text-[0.6rem] lg:text-[0.65rem] font-bold tracking-[0.2em] text-[#e9d5ff] uppercase group-hover:text-[#d8b4fe] transition-colors drop-shadow-lg">Resume</span>
+              </a>
+            )}
+          </div>
         </div>
       </div>
     </section>
