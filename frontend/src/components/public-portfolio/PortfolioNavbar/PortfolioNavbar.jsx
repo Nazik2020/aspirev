@@ -83,7 +83,7 @@ const PortfolioNavbar = ({ data }) => {
 
         {/* Mobile Dropdown Menu */}
         {isMobileMenuOpen && (
-          <div className="absolute top-[80px] right-6 w-56 bg-white dark:bg-[#1a1b23] border border-gray-200 dark:border-white/10 rounded-[2rem] shadow-2xl flex flex-col py-4 z-50 lg:hidden animate-fade-in overflow-hidden">
+          <div className="absolute top-[80px] right-6 w-56 bg-white dark:bg-[#1a1b23] border border-gray-200 dark:border-white/10 rounded-xl shadow-2xl flex flex-col py-4 z-50 lg:hidden animate-fade-in overflow-hidden">
             <a href="#home" onClick={() => setIsMobileMenuOpen(false)} className="block px-6 py-3.5 text-[1.05rem] font-serif font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white border-l-[4px] border-transparent hover:border-[#c497ff] hover:bg-gray-100 dark:hover:bg-white/5 transition-all">Home</a>
             <a href="#projects" onClick={() => setIsMobileMenuOpen(false)} className="block px-6 py-3.5 text-[1.05rem] font-serif font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white border-l-[4px] border-transparent hover:border-[#c497ff] hover:bg-gray-100 dark:hover:bg-white/5 transition-all">Projects</a>
             <a href="#certifications" onClick={() => setIsMobileMenuOpen(false)} className="block px-6 py-3.5 text-[1.05rem] font-serif font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white border-l-[4px] border-transparent hover:border-[#c497ff] hover:bg-gray-100 dark:hover:bg-white/5 transition-all">Certifications</a>
