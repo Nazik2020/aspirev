@@ -83,16 +83,16 @@ const PortfolioNavbar = ({ data }) => {
 
         {/* Mobile Dropdown Menu */}
         {isMobileMenuOpen && (
-          <div className="absolute top-[80px] right-6 w-56 bg-white dark:bg-[#16171b] border border-gray-200 dark:border-white/10 rounded-xl shadow-2xl flex flex-col p-2 z-50 lg:hidden animate-fade-in">
-            <a href="#home" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-[0.9rem] font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors">Home</a>
-            <a href="#projects" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-[0.9rem] font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors">Projects</a>
-            <a href="#certifications" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-[0.9rem] font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors">Certifications</a>
-            <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-[0.9rem] font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors">Contact Me</a>
+          <div className="absolute top-[80px] right-6 w-56 bg-white dark:bg-[#1a1b23] border border-gray-200 dark:border-white/10 rounded-xl shadow-2xl flex flex-col py-4 z-50 lg:hidden animate-fade-in overflow-hidden">
+            <a href="#home" onClick={() => setIsMobileMenuOpen(false)} className="block px-6 py-3.5 text-[1.05rem] font-serif font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white border-l-[4px] border-transparent hover:border-[#c497ff] hover:bg-gray-100 dark:hover:bg-white/5 transition-all">Home</a>
+            <a href="#projects" onClick={() => setIsMobileMenuOpen(false)} className="block px-6 py-3.5 text-[1.05rem] font-serif font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white border-l-[4px] border-transparent hover:border-[#c497ff] hover:bg-gray-100 dark:hover:bg-white/5 transition-all">Projects</a>
+            <a href="#certifications" onClick={() => setIsMobileMenuOpen(false)} className="block px-6 py-3.5 text-[1.05rem] font-serif font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white border-l-[4px] border-transparent hover:border-[#c497ff] hover:bg-gray-100 dark:hover:bg-white/5 transition-all">Certifications</a>
+            <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="block px-6 py-3.5 text-[1.05rem] font-serif font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white border-l-[4px] border-transparent hover:border-[#c497ff] hover:bg-gray-100 dark:hover:bg-white/5 transition-all">Contact Me</a>
             {data?.showResume && data?.resumeUrl && (
-              <a href={data.resumeUrl} target="_blank" rel="noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-[0.9rem] font-semibold text-violet-600 dark:text-violet-400 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors">Resume</a>
+              <a href={data.resumeUrl} target="_blank" rel="noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="block px-6 py-3.5 text-[1.05rem] font-serif font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white border-l-[4px] border-transparent hover:border-[#c497ff] hover:bg-gray-100 dark:hover:bg-white/5 transition-all">Resume</a>
             )}
             <div className="h-[1px] w-full bg-gray-200 dark:bg-white/10 my-2"></div>
-            <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-3 text-[0.9rem] font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-violet-600 hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors">
+            <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="block px-6 py-3 text-[0.9rem] font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-violet-600 hover:bg-gray-100 dark:hover:bg-white/5 transition-all">
               Create Your Portfolio
             </Link>
           </div>

@@ -86,7 +86,7 @@ const PortfolioHero = ({ data, onLinkClick }) => {
 
           {/* Resume Badge (Aligned as sibling to avoid inheriting rotation, thin outline SVG) */}
           {data.personalInfo.showResume && data.personalInfo.resumeUrl && (
-            <a href={data.personalInfo.resumeUrl} onClick={onLinkClick} target="_blank" rel="noreferrer" className="absolute bottom-2 -right-12 lg:bottom-3 lg:-right-14 flex items-center gap-2 cursor-pointer group z-30 drop-shadow-2xl hover:scale-105 transition-all">
+            <a href={data.personalInfo.resumeUrl} onClick={onLinkClick} target="_blank" rel="noreferrer" className="hidden lg:flex absolute bottom-2 -right-12 lg:bottom-3 lg:-right-14 items-center gap-2 cursor-pointer group z-30 drop-shadow-2xl hover:scale-105 transition-all">
               <svg className="w-9 h-9 lg:w-11 lg:h-11 text-violet-200 group-hover:text-violet-300 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                 <polyline points="14 2 14 8 20 8" />

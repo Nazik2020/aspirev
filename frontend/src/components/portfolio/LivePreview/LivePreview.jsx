@@ -83,21 +83,8 @@ const LivePreview = () => {
                 )}
               </div>
               
-              {/* Glassmorphic overlay card (Resume badge only) */}
+              {/* Glassmorphic overlay card (Removed Resume badge for mobile view) */}
               <div className="absolute -bottom-6 right-2 z-20 flex flex-col items-end animate-[float_6s_ease-in-out_infinite]">
-                
-                {portfolioData.personalInfo.showResume && portfolioData.personalInfo.resumeUrl && (
-                  <a href={portfolioData.personalInfo.resumeUrl} target="_blank" rel="noreferrer" className="absolute bottom-0.5 -right-7 flex items-center gap-1 cursor-pointer group z-20 drop-shadow-2xl">
-                    <svg className="w-6 h-6 text-violet-200 group-hover:text-violet-300 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                      <polyline points="14 2 14 8 20 8" />
-                      <line x1="16" y1="13" x2="8" y2="13" />
-                      <line x1="16" y1="17" x2="8" y2="17" />
-                      <line x1="10" y1="9" x2="8" y2="9" />
-                    </svg>
-                    <span className="text-[0.5rem] font-bold tracking-[0.3em] text-[#e9d5ff] uppercase group-hover:text-[#d8b4fe] transition-colors drop-shadow-lg mb-0.5">Resume</span>
-                  </a>
-                )}
               </div>
             </div>
 
