@@ -84,9 +84,9 @@ const PortfolioHero = ({ data, onLinkClick }) => {
             <div className="w-5 lg:w-7 h-20 lg:h-[95px] bg-[#ec4899]/20 rounded-sm"></div>
           </div>
 
-          {/* Resume Badge (Static, shifted left to be fully visible and overlap the front left side) */}
+          {/* Resume Badge (Static, shifted right to be fully visible and overlap the front right side) */}
           {data.personalInfo.showResume && data.personalInfo.resumeUrl && (
-            <a href={data.personalInfo.resumeUrl} onClick={onLinkClick} target="_blank" rel="noreferrer" className="hidden lg:flex fixed bottom-10 right-10 lg:absolute lg:bottom-8 lg:-left-24 items-center gap-2 cursor-pointer group z-50 drop-shadow-2xl hover:scale-105 transition-all bg-[#0d0e12]/50 lg:bg-transparent backdrop-blur-md lg:backdrop-blur-none p-3 lg:p-0 rounded-full lg:rounded-none border border-white/10 lg:border-transparent">
+            <a href={data.personalInfo.resumeUrl} onClick={onLinkClick} target="_blank" rel="noreferrer" className="hidden lg:flex absolute bottom-2 -right-8 lg:bottom-4 lg:-right-6 items-center gap-2 cursor-pointer group z-50 drop-shadow-2xl hover:scale-105 transition-all">
               <svg className="w-9 h-9 lg:w-11 lg:h-11 text-violet-200 group-hover:text-violet-300 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                 <polyline points="14 2 14 8 20 8" />
