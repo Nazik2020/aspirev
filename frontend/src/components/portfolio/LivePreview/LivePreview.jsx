@@ -50,24 +50,26 @@ const LivePreview = () => {
             
             {/* Image (Top on mobile due to flex-col-reverse in real page) */}
             <div className="w-full relative flex justify-center items-center mb-24 px-6 mt-8">
-              {/* Geometric background lines matching desktop */}
+              {/* Geometric background lines & glowing orbiting dots */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-100">
-                {/* Box 1 (Inner Rotating) */}
-                <div className="w-[220px] h-[220px] border-[2px] border-violet-500/80 rounded-[2rem] absolute transition-colors animate-[spin_30s_linear_infinite]">
-                  <div className="absolute top-[10%] left-[10%] w-1.5 h-1.5 rounded-full bg-violet-400 shadow-[0_0_10px_rgba(167,139,250,0.9)]"></div>
+                {/* Box 1 (Inner Rotating) with 2 Orbiting Dots */}
+                <div className="w-[220px] h-[240px] border border-violet-400/25 rounded-[1.75rem] absolute animate-[spin_30s_linear_infinite]">
+                  <div className="absolute top-[10%] left-[10%] w-1 h-1 rounded-full bg-violet-300 shadow-[0_0_8px_#a78bfa]"></div>
+                  <div className="absolute bottom-[10%] right-[10%] w-1 h-1 rounded-full bg-violet-300 shadow-[0_0_8px_#a78bfa]"></div>
                 </div>
                 
-                {/* Box 2 (Middle Rotating) */}
-                <div className="w-[250px] h-[250px] border-[2px] border-violet-500/50 rounded-[2.5rem] absolute transition-colors animate-[spin_40s_linear_infinite_reverse]">
-                  <div className="absolute bottom-[15%] right-[15%] w-1.5 h-1.5 rounded-full bg-violet-300 shadow-[0_0_10px_rgba(167,139,250,0.9)]"></div>
+                {/* Box 2 (Middle Rotating) with 2 Orbiting Dots */}
+                <div className="w-[230px] h-[250px] border border-violet-400/20 rounded-[2rem] absolute animate-[spin_40s_linear_infinite_reverse]">
+                  <div className="absolute bottom-[15%] right-[15%] w-1 h-1 rounded-full bg-violet-300 shadow-[0_0_8px_#a78bfa]"></div>
+                  <div className="absolute top-[15%] left-[15%] w-1 h-1 rounded-full bg-violet-300 shadow-[0_0_8px_#a78bfa]"></div>
                 </div>
 
-                {/* Box 3 (Outer Static - NO dot) */}
-                <div className="w-[280px] h-[280px] border-[2px] border-violet-500/20 rounded-[3rem] absolute transition-colors rotate-0">
+                {/* Box 3 (Outer Static - Upright, NO dot - significantly bigger & concentric) */}
+                <div className="w-[210px] h-[230px] border border-violet-400/35 rounded-[1.75rem] absolute">
                 </div>
               </div>
               
-              <div className="relative z-10 w-[240px] h-[280px] bg-gradient-to-br from-gray-200 to-gray-400 rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/5">
+              <div className="relative z-10 w-[170px] h-[195px] bg-gradient-to-br from-gray-200 to-gray-400 rounded-2xl shadow-xl overflow-hidden border border-white/10 dark:border-white/5">
                 {avatarUrl ? (
                   <img 
                     src={avatarUrl} 
@@ -79,20 +81,29 @@ const LivePreview = () => {
                     {fullName ? fullName.slice(0, 1) : "?"}
                   </div>
                 )}
-                
-                {/* Glassmorphic overlay card (Bar chart) and Resume badge */}
-                <div className="absolute -bottom-6 -right-2 z-20 flex flex-col items-end animate-[float_6s_ease-in-out_infinite]">
-                  <div className="w-32 h-32 bg-white/5 dark:bg-[#1a1b23]/50 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.4)] flex items-end justify-center gap-2 p-4 relative z-10">
-                    <div className="w-5 h-10 bg-[#687399] rounded-sm"></div>
-                    <div className="w-5 h-20 bg-[#8a5cf6] rounded-sm shadow-[0_0_15px_rgba(138,92,246,0.3)]"></div>
-                    <div className="w-5 h-14 bg-[#8c5a66] rounded-sm"></div>
-                  </div>
-                  
-                  <div className="flex items-center gap-1.5 mt-2 mr-1 z-20">
-                    <span className="material-symbols-outlined text-[28px] text-gray-300 font-light">description</span>
-                    <span className="text-[0.7rem] font-bold tracking-[0.2em] text-white uppercase mt-1">Resume</span>
-                  </div>
+              </div>
+              
+              {/* Glassmorphic overlay card (Bar chart) and Resume badge */}
+              <div className="absolute -bottom-6 right-2 z-20 flex flex-col items-end animate-[float_6s_ease-in-out_infinite]">
+                {/* Bar Chart Card (Highly transparent glassmorphism matching mockup) */}
+                <div className="w-[85px] h-[110px] flex items-end justify-center gap-1.5 p-2 pb-3 relative z-10 rounded-xl" style={{ background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.09)', backdropFilter: 'blur(12px)', boxShadow: '0 15px 30px rgba(0,0,0,0.4)', transform: 'rotate(-6deg)' }}>
+                  <div className="w-2.5 h-7 bg-[#7a8099]/30 rounded-sm"></div>
+                  <div className="w-2.5 h-16 bg-[#9061f9]/70 rounded-sm shadow-[0_0_15px_rgba(144,97,249,0.25)]"></div>
+                  <div className="w-2.5 h-11 bg-[#ec4899]/20 rounded-sm"></div>
                 </div>
+                
+                {portfolioData.personalInfo.showResume && portfolioData.personalInfo.resumeUrl && (
+                  <a href={portfolioData.personalInfo.resumeUrl} target="_blank" rel="noreferrer" className="absolute bottom-0.5 -right-7 flex items-center gap-1 cursor-pointer group z-20 drop-shadow-2xl">
+                    <svg className="w-6 h-6 text-violet-200 group-hover:text-violet-300 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                      <line x1="16" y1="13" x2="8" y2="13" />
+                      <line x1="16" y1="17" x2="8" y2="17" />
+                      <line x1="10" y1="9" x2="8" y2="9" />
+                    </svg>
+                    <span className="text-[0.5rem] font-bold tracking-[0.3em] text-[#e9d5ff] uppercase group-hover:text-[#d8b4fe] transition-colors drop-shadow-lg mb-0.5">Resume</span>
+                  </a>
+                )}
               </div>
             </div>
 

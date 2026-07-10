@@ -1,6 +1,6 @@
 import React from "react";
 
-const PortfolioHero = ({ data }) => {
+const PortfolioHero = ({ data, onLinkClick }) => {
   if (!data || !data.personalInfo) return null;
   const { fullName, tagline, bio, avatarUrl } = data.personalInfo;
   
@@ -39,23 +39,25 @@ const PortfolioHero = ({ data }) => {
 
       {/* Right Image */}
       <div className="flex-1 relative flex justify-center items-center w-full max-w-[550px]">
-        {/* Animated glowing background */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-violet-600/30 blur-[120px] rounded-full animate-[pulse_4s_ease-in-out_infinite] z-0 pointer-events-none"></div>
+        {/* Animated glowing background (Enhanced purple glow) */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] h-[380px] rounded-full animate-[pulse_4s_ease-in-out_infinite] z-0 pointer-events-none" style={{ backgroundColor: 'rgba(139, 92, 246, 0.45)', filter: 'blur(75px)' }}></div>
 
         {/* Geometric background lines & glowing orbiting dots */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-100">
-          {/* Box 1 (Inner Rotating) with Orbiting Dot */}
-          <div className="w-[280px] h-[280px] lg:w-[380px] lg:h-[380px] border-[2px] border-violet-500/80 rounded-[2.5rem] absolute transition-colors animate-[spin_30s_linear_infinite]">
-            <div className="absolute top-[10%] left-[10%] w-2 h-2 lg:w-2.5 lg:h-2.5 rounded-full bg-violet-400 shadow-[0_0_12px_rgba(167,139,250,1)]"></div>
+          {/* Box 1 (Inner Rotating) with 2 Orbiting Dots */}
+          <div className="w-[360px] h-[400px] lg:w-[470px] lg:h-[530px] border border-violet-400/25 rounded-[3rem] absolute transition-colors animate-[spin_30s_linear_infinite]">
+            <div className="absolute top-[10%] left-[10%] w-2.5 h-2.5 rounded-full bg-violet-300 shadow-[0_0_15px_#a78bfa]"></div>
+            <div className="absolute bottom-[10%] right-[10%] w-2.5 h-2.5 rounded-full bg-violet-300 shadow-[0_0_15px_#a78bfa]"></div>
           </div>
           
-          {/* Box 2 (Middle Rotating) with Orbiting Dot */}
-          <div className="w-[310px] h-[310px] lg:w-[420px] lg:h-[420px] border-[2px] border-violet-500/50 rounded-[3rem] absolute transition-colors animate-[spin_40s_linear_infinite_reverse]">
-            <div className="absolute bottom-[15%] right-[15%] w-2 h-2 lg:w-2.5 lg:h-2.5 rounded-full bg-violet-300 shadow-[0_0_12px_rgba(167,139,250,1)]"></div>
+          {/* Box 2 (Middle Rotating) with 2 Orbiting Dots */}
+          <div className="w-[380px] h-[420px] lg:w-[495px] lg:h-[555px] border border-violet-400/20 rounded-[3.5rem] absolute transition-colors animate-[spin_40s_linear_infinite_reverse]">
+            <div className="absolute bottom-[15%] right-[15%] w-2.5 h-2.5 rounded-full bg-violet-300 shadow-[0_0_15px_#a78bfa]"></div>
+            <div className="absolute top-[15%] left-[15%] w-2.5 h-2.5 rounded-full bg-violet-300 shadow-[0_0_15px_#a78bfa]"></div>
           </div>
 
-          {/* Box 3 (Outer Static - Upright, NO dot) */}
-          <div className="w-[340px] h-[340px] lg:w-[460px] lg:h-[460px] border-[2px] border-violet-500/20 rounded-[3.5rem] absolute transition-colors rotate-0">
+          {/* Box 3 (Outer Static - Upright, NO dot - significantly bigger & concentric) */}
+          <div className="w-[350px] h-[390px] lg:w-[460px] lg:h-[520px] border border-violet-400/35 rounded-[3rem] absolute transition-colors rotate-0">
           </div>
         </div>
 
@@ -74,19 +76,27 @@ const PortfolioHero = ({ data }) => {
         </div>
         
         {/* Glassmorphic overlay card (Bar chart) and Resume Badge */}
-        <div className="absolute -bottom-4 -right-2 lg:-bottom-6 lg:-right-8 z-20 flex flex-col items-end animate-[float_6s_ease-in-out_infinite]">
-          {/* Bar Chart Card */}
-          <div className="w-44 h-44 lg:w-56 lg:h-56 bg-white/5 dark:bg-[#1a1b23]/50 backdrop-blur-2xl border border-white/20 dark:border-white/10 rounded-[1.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.5)] flex items-end justify-center gap-3 lg:gap-4 p-5 lg:p-6 transition-colors relative z-10">
-            <div className="w-7 lg:w-9 h-14 lg:h-20 bg-[#687399] rounded-sm"></div>
-            <div className="w-7 lg:w-9 h-28 lg:h-40 bg-[#8a5cf6] rounded-sm shadow-[0_0_25px_rgba(138,92,246,0.3)]"></div>
-            <div className="w-7 lg:w-9 h-20 lg:h-28 bg-[#8c5a66] rounded-sm"></div>
+        <div className="absolute -bottom-6 -right-4 lg:-bottom-8 lg:right-6 z-20 flex flex-col items-end animate-[float_6s_ease-in-out_infinite]">
+          {/* Bar Chart Card (Highly transparent glassmorphism matching mockup) */}
+          <div className="w-[145px] h-[175px] lg:w-[180px] lg:h-[220px] flex items-end justify-center gap-3 lg:gap-4 p-4 lg:p-5 pb-5 lg:pb-6 transition-all relative z-10 rounded-[1.5rem]" style={{ background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.09)', backdropFilter: 'blur(24px)', boxShadow: '0 30px 60px rgba(0,0,0,0.4)', transform: 'rotate(-6deg)' }}>
+            <div className="w-5 lg:w-6 h-12 lg:h-[65px] bg-[#7a8099]/30 rounded-sm"></div>
+            <div className="w-5 lg:w-6 h-28 lg:h-[135px] bg-[#9061f9]/70 rounded-sm shadow-[0_0_20px_rgba(144,97,249,0.25)]"></div>
+            <div className="w-5 lg:w-6 h-20 lg:h-[95px] bg-[#ec4899]/20 rounded-sm"></div>
           </div>
-          
-          {/* Resume Badge (Aligned exactly as the mockup) */}
-          <a href="#" className="flex items-center gap-2 mt-3 mr-2 lg:mt-4 lg:mr-2 hover:text-violet-400 transition-colors cursor-pointer group z-20">
-            <span className="material-symbols-outlined text-[32px] lg:text-[40px] text-gray-300 dark:text-gray-400 group-hover:text-violet-400 transition-colors font-light">description</span>
-            <span className="text-[0.85rem] lg:text-[1rem] font-bold tracking-[0.2em] text-white uppercase mt-1">Resume</span>
-          </a>
+
+          {/* Resume Badge (Aligned as sibling to avoid inheriting rotation, thin outline SVG) */}
+          {data.personalInfo.showResume && data.personalInfo.resumeUrl && (
+            <a href={data.personalInfo.resumeUrl} onClick={onLinkClick} target="_blank" rel="noreferrer" className="absolute bottom-2 -right-12 lg:bottom-3 lg:-right-14 flex items-center gap-2 cursor-pointer group z-30 drop-shadow-2xl hover:scale-105 transition-all">
+              <svg className="w-9 h-9 lg:w-11 lg:h-11 text-violet-200 group-hover:text-violet-300 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <line x1="10" y1="9" x2="8" y2="9" />
+              </svg>
+              <span className="text-[0.75rem] lg:text-[0.8rem] font-bold tracking-[0.3em] text-[#e9d5ff] uppercase group-hover:text-[#d8b4fe] transition-colors drop-shadow-lg mb-0.5">Resume</span>
+            </a>
+          )}
         </div>
       </div>
     </section>

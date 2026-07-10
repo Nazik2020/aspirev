@@ -5,7 +5,8 @@ import { useAuth } from "../../../context/AuthContext";
 
 const PortfolioHeader = () => {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const { savePortfolio, isSaving } = usePortfolio();
+  const [copied, setCopied] = useState(false);
+  const { savePortfolio, isSaving, portfolioData } = usePortfolio();
   const { user } = useAuth();
   
   const customUrl = user?.username || 'user';
@@ -13,7 +14,13 @@ const PortfolioHeader = () => {
 
   const handleSave = async () => {
     await savePortfolio();
-    // In a real app we might show a toast notification here
+  };
+
+  const handleCopy = () => {
+    const fullUrl = `${window.location.origin}/p/${customUrl}`;
+    navigator.clipboard.writeText(fullUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -47,8 +54,12 @@ const PortfolioHeader = () => {
           <span className="material-symbols-outlined text-[16px]">{isSaving ? 'sync' : 'save'}</span>
           {isSaving ? 'Saving...' : 'Save & Publish'}
         </button>
-        <button className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center transition-all" title="Copy Link">
-          <span className="material-symbols-outlined text-[18px]">content_copy</span>
+        <button 
+          onClick={handleCopy}
+          className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center transition-all" 
+          title={copied ? "Copied!" : "Copy Link"}
+        >
+          <span className="material-symbols-outlined text-[18px]">{copied ? 'check' : 'content_copy'}</span>
         </button>
         <button 
           onClick={() => setIsShareModalOpen(true)}
@@ -70,6 +81,7 @@ const PortfolioHeader = () => {
       <SharePortfolioModal 
         isOpen={isShareModalOpen} 
         onClose={() => setIsShareModalOpen(false)} 
+        portfolioData={portfolioData}
       />
     </div>
   );

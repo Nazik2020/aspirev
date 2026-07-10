@@ -13,7 +13,9 @@ const PortfolioSchema = new mongoose.Schema({
     location: { type: String, default: '' },
     showEmail: { type: Boolean, default: false },
     bio: { type: String, default: '' },
-    avatarUrl: { type: String, default: '' }
+    avatarUrl: { type: String, default: '' },
+    showResume: { type: Boolean, default: false },
+    resumeUrl: { type: String, default: '' }
   },
   socialLinks: {
     github: { type: String, default: '' },

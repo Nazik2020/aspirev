@@ -301,3 +301,14 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-15px); }
 }
+
+/* Global Interactive Elements Cursor */
+button, 
+a, 
+input[type="checkbox"], 
+input[type="radio"], 
+select,
+.cursor-pointer,
+[role="button"] {
+  cursor: pointer !important;
+}

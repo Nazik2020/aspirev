@@ -1,5 +1,6 @@
 import React from "react";
 import { usePortfolio } from "../../../context/PortfolioContext";
+import { API_URL } from "../../../config/api";
 
 const PersonalInfoForm = () => {
   const { portfolioData, updateSection } = usePortfolio();
@@ -13,15 +14,68 @@ const PersonalInfoForm = () => {
     });
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result;
-        updateSection("personalInfo", { ...personalInfo, avatarUrl: base64String });
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('container', 'profile-photos'); // specify container
+
+      // Assuming API_URL is accessible here. We should import it.
+      // Wait, let's import it at the top.
+      const token = localStorage.getItem('invikt_token') || localStorage.getItem('token');
+      
+      const res = await fetch(`${API_URL}/upload`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        updateSection("personalInfo", { ...personalInfo, avatarUrl: data.url });
+      } else {
+        alert(data.message || 'Upload failed');
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Error uploading image');
+    }
+  };
+
+  const handleResumeUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      // We will store it in the portfolio-images container (so it is public and anyone can download the resume)
+      formData.append('container', 'portfolio-images'); 
+
+      const token = localStorage.getItem('invikt_token') || localStorage.getItem('token');
+      
+      const res = await fetch(`${API_URL}/upload`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        updateSection("personalInfo", { ...personalInfo, resumeUrl: data.url });
+      } else {
+        alert(data.message || 'Resume upload failed');
+      }
+    } catch (error) {
+      console.error('Error uploading resume:', error);
+      alert('Error uploading resume');
     }
   };
 
@@ -101,15 +155,19 @@ const PersonalInfoForm = () => {
           </div>
         </div>
         
-        <div className="flex items-center gap-3 shrink-0 py-3">
-          <button 
-            onClick={() => handleChange({ target: { name: 'showEmail', value: !personalInfo.showEmail, type: 'checkbox', checked: !personalInfo.showEmail } })}
-            className={`w-10 h-5 rounded-full relative transition-colors ${personalInfo.showEmail ? 'bg-violet-500' : 'bg-white/10'}`}
-          >
+        <label className="flex items-center gap-3 shrink-0 py-3 cursor-pointer select-none">
+          <input 
+            type="checkbox"
+            name="showEmail"
+            checked={!!personalInfo.showEmail}
+            onChange={handleChange}
+            className="sr-only"
+          />
+          <div className={`w-10 h-5 rounded-full relative transition-colors ${personalInfo.showEmail ? 'bg-violet-500' : 'bg-white/10'}`}>
             <div className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform ${personalInfo.showEmail ? 'translate-x-5' : ''}`} />
-          </button>
+          </div>
           <span className="text-xs font-semibold text-white/70">Show Email on Portfolio</span>
-        </div>
+        </label>
       </div>
 
       <div className="space-y-1.5">
@@ -125,6 +183,49 @@ const PersonalInfoForm = () => {
           rows={4}
           className="w-full bg-[#1e1f23] border border-white/10 rounded-md px-4 py-3 text-[0.85rem] text-white focus:outline-none focus:border-violet-500/50 transition-colors resize-none"
         />
+      </div>
+
+      {/* Resume Upload Section */}
+      <div className="pt-4 border-t border-white/5 flex flex-col gap-4">
+        <label className="flex items-center justify-between cursor-pointer select-none w-full">
+          <div className="flex items-center gap-3">
+            <span className="material-symbols-outlined text-white/60">description</span>
+            <div>
+              <h4 className="text-[0.9rem] font-bold text-white">Showcase Resume</h4>
+              <p className="text-[0.7rem] text-white/40">Allow visitors to view and download your resume</p>
+            </div>
+          </div>
+          <input 
+            type="checkbox"
+            name="showResume"
+            checked={!!personalInfo.showResume}
+            onChange={handleChange}
+            className="sr-only"
+          />
+          <div className={`w-12 h-6 rounded-full relative transition-colors shrink-0 ${personalInfo.showResume ? 'bg-violet-500' : 'bg-white/10'}`}>
+            <div className={`absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-transform ${personalInfo.showResume ? 'translate-x-6' : ''}`} />
+          </div>
+        </label>
+
+        {personalInfo.showResume && (
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#1e1f23] border border-white/10 rounded-md px-4 py-3 animate-fade-in">
+            <div className="flex-1 w-full flex items-center justify-between">
+              <span className="text-[0.85rem] text-white/60 truncate">
+                {personalInfo.resumeUrl ? "Resume Uploaded Successfully!" : "No resume uploaded yet."}
+              </span>
+              {personalInfo.resumeUrl && (
+                <a href={personalInfo.resumeUrl} target="_blank" rel="noreferrer" className="text-violet-400 text-xs hover:underline ml-4 whitespace-nowrap">
+                  View Current File
+                </a>
+              )}
+            </div>
+            <label className="shrink-0 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-bold px-4 py-2 rounded-md cursor-pointer transition-colors flex items-center gap-2">
+              <span className="material-symbols-outlined text-[16px]">upload_file</span>
+              {personalInfo.resumeUrl ? "Replace Resume" : "Upload PDF"}
+              <input type="file" accept=".pdf,.doc,.docx" className="hidden" onChange={handleResumeUpload} />
+            </label>
+          </div>
+        )}
       </div>
     </div>
   );

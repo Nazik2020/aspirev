@@ -21,7 +21,9 @@ export const PortfolioProvider = ({ children }) => {
       location: '',
       showEmail: false,
       bio: '',
-      avatarUrl: ''
+      avatarUrl: '',
+      showResume: false,
+      resumeUrl: ''
     },
     socialLinks: {
       github: '',
