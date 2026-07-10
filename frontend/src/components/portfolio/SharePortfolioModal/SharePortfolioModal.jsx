@@ -220,21 +220,7 @@ const SharePortfolioModal = ({ isOpen, onClose, portfolioData }) => {
               </div>
             </div>
 
-            {/* Stats */}
-            <div className="flex flex-wrap gap-2 mt-2">
-              <div className="flex items-center gap-1 px-2.5 py-1.5 sm:py-1 rounded-full bg-white/5 border border-white/5 text-[0.65rem] sm:text-[0.7rem] font-medium text-gray-300 whitespace-nowrap flex-1 justify-center sm:flex-none sm:justify-start">
-                <span className="material-symbols-outlined text-[14px]">visibility</span>
-                {stats.totalViews} total views
-              </div>
-              <div className="flex items-center gap-1 px-2.5 py-1.5 sm:py-1 rounded-full bg-white/5 border border-white/5 text-[0.65rem] sm:text-[0.7rem] font-medium text-gray-300 whitespace-nowrap flex-1 justify-center sm:flex-none sm:justify-start">
-                <span className="material-symbols-outlined text-[14px]">ads_click</span>
-                {stats.linkClicks} link clicks
-              </div>
-              <div className="flex items-center gap-1 px-2.5 py-1.5 sm:py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[0.65rem] sm:text-[0.7rem] font-bold text-cyan-400 whitespace-nowrap flex-1 justify-center sm:flex-none sm:justify-start">
-                <span className="material-symbols-outlined text-[14px]">trending_up</span>
-                {stats.viewsThisWeek} this week
-              </div>
-            </div>
+
 
           </div>
 
