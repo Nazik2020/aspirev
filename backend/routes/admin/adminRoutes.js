@@ -29,4 +29,30 @@ router.get("/users/:id/profile", getUserProfile);
 // @access  Private/Admin
 router.delete("/users/:id", deleteUser);
 
+// ─── Application Analytics Routes ──────────────────────────────────────────
+const { getApplicationAnalytics, exportApplications } = require("../../controllers/admin/applicationAnalyticsController");
+
+// @route   GET /api/admin/applications
+// @desc    Get aggregated application analytics
+// @access  Private/Admin
+router.get("/applications", getApplicationAnalytics);
+
+// @route   GET /api/admin/applications/export
+// @desc    Export applications as CSV-ready JSON
+// @access  Private/Admin
+router.get("/applications/export", exportApplications);
+
+// ─── Overview Dashboard Routes ─────────────────────────────────────────────
+const { getOverview, getHealthCheck } = require("../../controllers/admin/overviewController");
+
+// @route   GET /api/admin/overview/health
+// @desc    Run system health check
+// @access  Private/Admin
+router.get("/overview/health", getHealthCheck);
+
+// @route   GET /api/admin/overview
+// @desc    Get admin overview dashboard data
+// @access  Private/Admin
+router.get("/overview", getOverview);
+
 module.exports = router;
