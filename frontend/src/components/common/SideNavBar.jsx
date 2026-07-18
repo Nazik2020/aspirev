@@ -45,7 +45,7 @@ const v2Nav = [
 ];
 
 const SideNavBar = () => {
-  const { isCollapsed, toggle } = useSidebar();
+  const { isCollapsed, isMobileOpen, toggle, closeMobile } = useSidebar();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -59,10 +59,18 @@ const SideNavBar = () => {
   const email = user?.email || "hello@invikt.com";
   const initial = username.charAt(0).toUpperCase();
 
+  // Desktop: use isCollapsed for collapse/expand
+  // Mobile: use isMobileOpen for drawer open/close
+  const mobileTranslate = isMobileOpen ? "translate-x-0" : "-translate-x-full";
+  const desktopTranslate = isCollapsed ? "md:translate-x-0" : "md:translate-x-0";
+  const desktopWidth = isCollapsed ? "md:w-20" : "md:w-72";
+  // Show expanded content when mobile drawer is open OR desktop is expanded
+  const isExpanded = isMobileOpen || !isCollapsed;
+
   return (
     <aside
       className={`fixed left-0 top-0 h-screen flex flex-col z-50 transition-all duration-300 ease-in-out border-r border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#1c1c1f]
-                ${isCollapsed ? "w-64 md:w-20 -translate-x-full md:translate-x-0" : "w-64 md:w-72 translate-x-0"}
+                w-64 ${mobileTranslate} ${desktopWidth} ${desktopTranslate}
             `}
     >
       {/* ── Header: Logo + Gemini-style panel toggle ── */}
@@ -70,7 +78,7 @@ const SideNavBar = () => {
         className={`flex items-center h-16 shrink-0 border-b border-slate-200 dark:border-white/5 ${isCollapsed ? "flex-col justify-center gap-1 px-3 py-3 h-auto pt-4 pb-3" : "px-5 justify-between"}`}
       >
         {/* Collapsed: icon-only logo centered above toggle */}
-        {isCollapsed ? (
+        {isCollapsed && !isMobileOpen ? (
           <>
             <Link to="/" className="hover:opacity-80 transition-opacity flex justify-center">
               <img
@@ -106,7 +114,7 @@ const SideNavBar = () => {
               />
             </Link>
             <button
-              onClick={toggle}
+              onClick={isMobileOpen ? closeMobile : toggle}
               title="Close sidebar"
               className="w-9 h-9 flex items-center justify-center rounded-lg text-slate-500 dark:text-white/40 hover:bg-white/8 hover:text-slate-700 dark:text-white/80 transition-all duration-200 shrink-0"
             >
@@ -125,7 +133,7 @@ const SideNavBar = () => {
       <div className="flex-1 overflow-y-auto overflow-x-hidden no-scrollbar py-3 flex flex-col gap-5">
         {/* V1 Core */}
         <div>
-          {!isCollapsed && (
+          {isExpanded && (
             <p className="text-[0.6rem] uppercase tracking-[0.18em] font-bold text-slate-400 dark:text-white/25 px-5 mb-1.5">
               Core
             </p>
@@ -135,10 +143,11 @@ const SideNavBar = () => {
               <NavLink
                 key={item.name}
                 to={item.path}
-                title={isCollapsed ? item.name : undefined}
+                title={isCollapsed && !isMobileOpen ? item.name : undefined}
+                onClick={closeMobile}
                 className={({ isActive }) =>
                   `group relative flex items-center gap-3.5 py-2.5 rounded-xl transition-all duration-200
-                                    ${isCollapsed ? "justify-center px-0" : "px-3"}
+                                    ${isCollapsed && !isMobileOpen ? "justify-center px-0" : "px-3"}
                                     ${
                                       isActive
                                         ? "bg-primary/15 text-primary"
@@ -149,7 +158,7 @@ const SideNavBar = () => {
                 {({ isActive }) => (
                   <>
                     {/* Active left indicator — expanded only */}
-                    {isActive && !isCollapsed && (
+                    {isActive && isExpanded && (
                       <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full bg-primary" />
                     )}
                     <span
@@ -162,7 +171,7 @@ const SideNavBar = () => {
                     >
                       {item.icon}
                     </span>
-                    {!isCollapsed && (
+                    {isExpanded && (
                       <div className="flex flex-col min-w-0">
                         <span className="text-[0.85rem] font-semibold tracking-tight leading-snug truncate">
                           {item.name}
@@ -186,7 +195,7 @@ const SideNavBar = () => {
 
         {/* V2 Intelligence */}
         <div>
-          {!isCollapsed && (
+          {isExpanded && (
             <div className="flex items-center gap-2 px-5 mb-1.5">
               <p className="text-[0.6rem] uppercase tracking-[0.18em] font-bold text-slate-400 dark:text-white/25">
                 Intelligence
@@ -200,9 +209,9 @@ const SideNavBar = () => {
             {v2Nav.map((item) => (
               <div
                 key={item.name}
-                title={isCollapsed ? `${item.name} — Coming in V2` : undefined}
+                title={!isExpanded ? `${item.name} — Coming in V2` : undefined}
                 className={`relative flex items-center gap-3.5 py-2.5 rounded-xl opacity-30 cursor-not-allowed select-none
-                                    ${isCollapsed ? "justify-center px-0" : "px-3"}
+                                    ${!isExpanded ? "justify-center px-0" : "px-3"}
                                 `}
               >
                 <span
@@ -211,7 +220,7 @@ const SideNavBar = () => {
                 >
                   {item.icon}
                 </span>
-                {!isCollapsed && (
+                {isExpanded && (
                   <>
                     <span className="text-[0.85rem] font-semibold text-slate-500 dark:text-white/50 flex-1 truncate tracking-tight">
                       {item.name}
@@ -228,7 +237,7 @@ const SideNavBar = () => {
       </div>
 
       {/* ── Profile Strength card — expanded only ── */}
-      {!isCollapsed && (
+      {isExpanded && (
         <div className="px-3 pb-3">
           <div
             className="rounded-xl p-4 border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#252528]"
@@ -256,7 +265,7 @@ const SideNavBar = () => {
 
       {/* ── Bottom utility + user ── */}
       <div className="border-t border-slate-200 dark:border-white/5">
-        {isCollapsed ? (
+        {!isExpanded ? (
           <div className="flex flex-col items-center gap-1 py-3">
             <NavLink
               to="/settings"

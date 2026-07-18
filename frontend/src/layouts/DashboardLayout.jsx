@@ -8,7 +8,7 @@ import logo from "../assets/aspirev.png";
 
 // Inner layout that consumes the sidebar context
 const DashboardContent = () => {
-  const { isCollapsed, toggle } = useSidebar();
+  const { isCollapsed, isMobileOpen, toggleMobile, closeMobile } = useSidebar();
 
   return (
     <div className="h-screen w-full overflow-hidden flex flex-col md:flex-row bg-background">
@@ -21,10 +21,10 @@ const DashboardContent = () => {
       <SideNavBar />
 
       {/* Mobile Sidebar Backdrop Overlay */}
-      {!isCollapsed && (
+      {isMobileOpen && (
         <div
           className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[45]"
-          onClick={toggle}
+          onClick={closeMobile}
           aria-label="Close sidebar"
         />
       )}
@@ -35,7 +35,7 @@ const DashboardContent = () => {
           <img src={logo} alt="Invikt" className="h-20 w-auto object-contain dark:invert-0 dark:hue-rotate-0 invert hue-rotate-180 brightness-75 contrast-125 dark:brightness-100 dark:contrast-100" />
         </Link>
         <button
-          onClick={toggle}
+          onClick={toggleMobile}
           className="text-slate-600 dark:text-white/70 hover:text-slate-900 dark:text-white p-1"
         >
           <span className="material-symbols-outlined">menu</span>
