@@ -10,6 +10,14 @@ const { sanitize, xssClean } = require("./middleware/sanitize");
 
 dotenv.config();
 
+// ─── Validate required env vars ──────────────────────────────────────────────
+const required = ["MONGO_URI", "JWT_SECRET", "JWT_REFRESH_SECRET"];
+const missing = required.filter((k) => !process.env[k]);
+if (missing.length) {
+  console.error(`[FATAL] Missing env vars: ${missing.join(", ")}`);
+  process.exit(1);
+}
+
 connectDB();
 
 const app = express();
@@ -92,6 +100,12 @@ app.get("/", (req, res) => {
     success: true,
     message: "Invikt AI API is running...",
     version: "1.0.0",
+    env: {
+      JWT_SECRET: !!process.env.JWT_SECRET,
+      JWT_REFRESH_SECRET: !!process.env.JWT_REFRESH_SECRET,
+      MONGO_URI: !!process.env.MONGO_URI,
+      FRONTEND_URL: process.env.FRONTEND_URL || "not set",
+    },
   });
 });
 

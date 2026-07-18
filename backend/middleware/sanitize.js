@@ -1,11 +1,51 @@
-const mongoSanitize = require("express-mongo-sanitize");
+const PROHIBITED_KEYS = ["$where", "$regex", "$options"];
 
-const sanitize = mongoSanitize({
-  replaceWith: "_",
-  onSanitize: ({ req, key }) => {
-    console.warn(`[SECURITY] Blocked NoSQL injection on ${req.method} ${req.originalUrl} — key: ${key}`);
-  },
-});
+const isPlainObject = (obj) =>
+  obj !== null && typeof obj === "object" && !Array.isArray(obj);
+
+const sanitizeValue = (value) => {
+  if (typeof value === "string") {
+    return value.replace(/\$/g, "_").replace(/\./g, "_");
+  }
+  if (isPlainObject(value)) {
+    return sanitizeObject(value);
+  }
+  if (Array.isArray(value)) {
+    return value.map(sanitizeValue);
+  }
+  return value;
+};
+
+const sanitizeObject = (obj) => {
+  const keys = Object.keys(obj);
+  for (const key of keys) {
+    if (key.startsWith("$")) {
+      const safeKey = key.replace(/\$/g, "_");
+      obj[safeKey] = obj[key];
+      delete obj[key];
+    } else {
+      obj[key] = sanitizeValue(obj[key]);
+    }
+  }
+  return obj;
+};
+
+const sanitize = (req, res, next) => {
+  try {
+    if (isPlainObject(req.body)) {
+      sanitizeObject(req.body);
+    }
+    if (isPlainObject(req.query)) {
+      sanitizeObject(req.query);
+    }
+    if (isPlainObject(req.params)) {
+      sanitizeObject(req.params);
+    }
+  } catch (e) {
+    console.warn(`[SECURITY] Sanitize error on ${req.method} ${req.originalUrl}`);
+  }
+  next();
+};
 
 const HTML_ENTITIES = {
   "&": "&amp;",
@@ -34,14 +74,18 @@ const sanitizeStrings = (obj) => {
 };
 
 const xssClean = (req, res, next) => {
-  if (req.body && typeof req.body === "object") {
-    sanitizeStrings(req.body);
-  }
-  if (req.query && typeof req.query === "object") {
-    sanitizeStrings(req.query);
-  }
-  if (req.params && typeof req.params === "object") {
-    sanitizeStrings(req.params);
+  try {
+    if (isPlainObject(req.body)) {
+      sanitizeStrings(req.body);
+    }
+    if (isPlainObject(req.query)) {
+      sanitizeStrings(req.query);
+    }
+    if (isPlainObject(req.params)) {
+      sanitizeStrings(req.params);
+    }
+  } catch (e) {
+    // ignore
   }
   next();
 };
