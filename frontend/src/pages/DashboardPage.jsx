@@ -5,12 +5,11 @@ import { roadmaps } from "../data/roadmaps.js";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, authFetch } = useAuth();
   
   const rawUsername = user?.username || "User";
   const displayName = rawUsername.charAt(0).toUpperCase() + rawUsername.slice(1);
 
-  const { getAuthHeaders } = useAuth();
   const [metrics, setMetrics] = useState([]);
   const [activeRoadmap, setActiveRoadmap] = useState(null);
   const [recentApplications, setRecentApplications] = useState([]);
@@ -19,9 +18,7 @@ const DashboardPage = () => {
   React.useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/dashboard`, {
-          headers: getAuthHeaders(),
-        });
+        const response = await authFetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/dashboard`);
         const data = await response.json();
         
         if (data.success && data.data) {
@@ -89,7 +86,7 @@ const DashboardPage = () => {
       }
     };
     fetchDashboardData();
-  }, [getAuthHeaders]);
+  }, [authFetch]);
 
   if (loading) {
     return (

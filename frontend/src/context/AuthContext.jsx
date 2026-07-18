@@ -53,34 +53,43 @@ export const AuthProvider = ({ children }) => {
     localStorage.getItem(REMEMBER_KEY) === "true"
   );
   const refreshTimeoutRef = useRef(null);
+  const refreshTokenRef = useRef(getStoredRefreshToken());
+  const isRefreshingRef = useRef(false);
+  const refreshQueueRef = useRef([]);
 
-  const scheduleRefresh = useCallback((refreshToken) => {
+  const scheduleRefresh = useCallback((accessToken) => {
     if (refreshTimeoutRef.current) {
       clearTimeout(refreshTimeoutRef.current);
     }
+    if (!accessToken) return;
 
     try {
-      const payload = JSON.parse(atob(refreshToken.split(".")[1]));
+      const payload = JSON.parse(atob(accessToken.split(".")[1]));
       const expiresAt = payload.exp * 1000;
       const now = Date.now();
+      // Refresh 1 minute before the access token expires (min 30s safety)
       const refreshIn = Math.max(expiresAt - now - 60000, 30000);
 
       refreshTimeoutRef.current = setTimeout(async () => {
+        const currentRefresh = refreshTokenRef.current;
+        if (!currentRefresh) return;
         try {
           const res = await fetch(`${API_URL}/auth/refresh`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ refreshToken }),
+            body: JSON.stringify({ refreshToken: currentRefresh }),
           });
           const json = await res.json();
           if (json.success) {
             const { accessToken: newAccess, refreshToken: newRefresh } = extractTokens(json);
             const remember = localStorage.getItem(REMEMBER_KEY) === "true";
             storeTokens(newAccess, newRefresh, remember);
+            refreshTokenRef.current = newRefresh;
             setToken(newAccess);
-            if (newRefresh) scheduleRefresh(newRefresh);
+            if (newAccess) scheduleRefresh(newAccess);
           } else {
             clearTokens();
+            refreshTokenRef.current = null;
             setToken(null);
             setUser(null);
           }
@@ -111,9 +120,8 @@ export const AuthProvider = ({ children }) => {
         if (json.success) {
           setUser(json.user);
           setToken(storedToken);
-          if (storedRefresh) {
-            scheduleRefresh(storedRefresh);
-          }
+          refreshTokenRef.current = storedRefresh;
+          if (storedToken) scheduleRefresh(storedToken);
         } else if (res.status === 401 && storedRefresh) {
           try {
             const refreshRes = await fetch(`${API_URL}/auth/refresh`, {
@@ -126,8 +134,9 @@ export const AuthProvider = ({ children }) => {
               const { accessToken: newAccess, refreshToken: newRefresh } = extractTokens(refreshJson);
               const remember = localStorage.getItem(REMEMBER_KEY) === "true";
               storeTokens(newAccess, newRefresh, remember);
+              refreshTokenRef.current = newRefresh;
               setToken(newAccess);
-              if (newRefresh) scheduleRefresh(newRefresh);
+              if (newAccess) scheduleRefresh(newAccess);
 
               const meRes = await fetch(`${API_URL}/auth/me`, {
                 headers: { Authorization: `Bearer ${newAccess}` },
@@ -137,21 +146,25 @@ export const AuthProvider = ({ children }) => {
                 setUser(meJson.user);
               } else {
                 clearTokens();
+                refreshTokenRef.current = null;
                 setToken(null);
                 setUser(null);
               }
             } else {
               clearTokens();
+              refreshTokenRef.current = null;
               setToken(null);
               setUser(null);
             }
           } catch {
             clearTokens();
+            refreshTokenRef.current = null;
             setToken(null);
             setUser(null);
           }
         } else {
           clearTokens();
+          refreshTokenRef.current = null;
           setToken(null);
           setUser(null);
         }
@@ -191,10 +204,11 @@ export const AuthProvider = ({ children }) => {
       if (json.success) {
         const { accessToken, refreshToken } = extractTokens(json);
         storeTokens(accessToken, refreshToken, rememberMe);
+        refreshTokenRef.current = refreshToken;
         setToken(accessToken);
         setUser(json.user);
         setIsRemembered(rememberMe);
-        if (refreshToken) scheduleRefresh(refreshToken);
+        if (accessToken) scheduleRefresh(accessToken);
       }
       return json;
     } catch (err) {
@@ -221,6 +235,7 @@ export const AuthProvider = ({ children }) => {
 
     if (refreshTimeoutRef.current) clearTimeout(refreshTimeoutRef.current);
     clearTokens();
+    refreshTokenRef.current = null;
     setToken(null);
     setUser(null);
     setIsRemembered(false);
@@ -230,6 +245,68 @@ export const AuthProvider = ({ children }) => {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   }), [token]);
+
+  const doRefresh = useCallback(async () => {
+    const currentRefresh = refreshTokenRef.current;
+    if (!currentRefresh) throw new Error("No refresh token");
+    const res = await fetch(`${API_URL}/auth/refresh`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refreshToken: currentRefresh }),
+    });
+    const json = await res.json();
+    if (!json.success) throw new Error("Refresh failed");
+    const { accessToken: newAccess, refreshToken: newRefresh } = extractTokens(json);
+    const remember = localStorage.getItem(REMEMBER_KEY) === "true";
+    storeTokens(newAccess, newRefresh, remember);
+    refreshTokenRef.current = newRefresh;
+    setToken(newAccess);
+    if (newAccess) scheduleRefresh(newAccess);
+    return newAccess;
+  }, [scheduleRefresh]);
+
+  const authFetch = useCallback(async (url, options = {}) => {
+    const currentToken = token;
+    const headers = {
+      ...options.headers,
+      Authorization: `Bearer ${currentToken}`,
+    };
+
+    let res = await fetch(url, { ...options, headers });
+
+    if (res.status === 401) {
+      if (isRefreshingRef.current) {
+        // Wait for the in-flight refresh to finish
+        const newToken = await new Promise((resolve, reject) => {
+          refreshQueueRef.current.push({ resolve, reject });
+        });
+        const retryHeaders = { ...options.headers, Authorization: `Bearer ${newToken}` };
+        return fetch(url, { ...options, headers: retryHeaders });
+      }
+
+      isRefreshingRef.current = true;
+      try {
+        const newAccessToken = await doRefresh();
+        // Resolve all queued requests
+        refreshQueueRef.current.forEach(({ resolve }) => resolve(newAccessToken));
+        refreshQueueRef.current = [];
+        const retryHeaders = { ...options.headers, Authorization: `Bearer ${newAccessToken}` };
+        res = await fetch(url, { ...options, headers: retryHeaders });
+      } catch (refreshErr) {
+        refreshQueueRef.current.forEach(({ reject }) => reject(refreshErr));
+        refreshQueueRef.current = [];
+        clearTokens();
+        refreshTokenRef.current = null;
+        setToken(null);
+        setUser(null);
+        throw refreshErr;
+      } finally {
+        isRefreshingRef.current = false;
+      }
+    }
+
+    return res;
+  }, [token, doRefresh]);
 
   const updateUser = (updatedFields) => {
     setUser((prev) => {
@@ -252,6 +329,7 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         getAuthHeaders,
+        authFetch,
         updateUser,
       }}
     >
