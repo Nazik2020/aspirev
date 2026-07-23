@@ -7,14 +7,22 @@ const REFRESH_KEY = "invikt_refresh";
 const REMEMBER_KEY = "invikt_remember";
 
 const getStoredToken = () => {
+  if (typeof window === "undefined") return null;
   return localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY) || null;
 };
 
 const getStoredRefreshToken = () => {
+  if (typeof window === "undefined") return null;
   return localStorage.getItem(REFRESH_KEY) || sessionStorage.getItem(REFRESH_KEY) || null;
 };
 
+const getIsRemembered = () => {
+  if (typeof window === "undefined") return false;
+  return localStorage.getItem(REMEMBER_KEY) === "true";
+};
+
 const storeTokens = (accessToken, refreshToken, rememberMe) => {
+  if (typeof window === "undefined") return;
   if (rememberMe) {
     localStorage.setItem(TOKEN_KEY, accessToken);
     localStorage.setItem(REFRESH_KEY, refreshToken);
@@ -31,6 +39,7 @@ const storeTokens = (accessToken, refreshToken, rememberMe) => {
 };
 
 const clearTokens = () => {
+  if (typeof window === "undefined") return;
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(REFRESH_KEY);
   localStorage.removeItem(REMEMBER_KEY);
@@ -49,9 +58,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(getStoredToken);
   const [loading, setLoading] = useState(true);
-  const [isRemembered, setIsRemembered] = useState(
-    localStorage.getItem(REMEMBER_KEY) === "true"
-  );
+  const [isRemembered, setIsRemembered] = useState(getIsRemembered);
   const refreshTimeoutRef = useRef(null);
   const refreshTokenRef = useRef(getStoredRefreshToken());
   const isRefreshingRef = useRef(false);
@@ -82,7 +89,7 @@ export const AuthProvider = ({ children }) => {
           const json = await res.json();
           if (json.success) {
             const { accessToken: newAccess, refreshToken: newRefresh } = extractTokens(json);
-            const remember = localStorage.getItem(REMEMBER_KEY) === "true";
+            const remember = getIsRemembered();
             storeTokens(newAccess, newRefresh, remember);
             refreshTokenRef.current = newRefresh;
             setToken(newAccess);
@@ -132,7 +139,7 @@ export const AuthProvider = ({ children }) => {
             const refreshJson = await refreshRes.json();
             if (refreshJson.success) {
               const { accessToken: newAccess, refreshToken: newRefresh } = extractTokens(refreshJson);
-              const remember = localStorage.getItem(REMEMBER_KEY) === "true";
+              const remember = getIsRemembered();
               storeTokens(newAccess, newRefresh, remember);
               refreshTokenRef.current = newRefresh;
               setToken(newAccess);
@@ -257,7 +264,7 @@ export const AuthProvider = ({ children }) => {
     const json = await res.json();
     if (!json.success) throw new Error("Refresh failed");
     const { accessToken: newAccess, refreshToken: newRefresh } = extractTokens(json);
-    const remember = localStorage.getItem(REMEMBER_KEY) === "true";
+    const remember = getIsRemembered();
     storeTokens(newAccess, newRefresh, remember);
     refreshTokenRef.current = newRefresh;
     setToken(newAccess);

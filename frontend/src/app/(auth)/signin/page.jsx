@@ -1,7 +1,12 @@
 "use client";
 
-import SignInPage from "@/pages/SignInPage";
+import { Suspense } from "react";
+import SignInPage from "@/views/SignInPage";
 
 export default function SignIn() {
-  return <SignInPage />;
+  return (
+    <Suspense fallback={null}>
+      <SignInPage />
+    </Suspense>
+  );
 }

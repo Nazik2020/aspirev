@@ -1,6 +1,6 @@
 "use client";
 
-import JobTrackerPage from "@/pages/JobTrackerPage";
+import JobTrackerPage from "@/views/JobTrackerPage";
 
 export default function JobTracker() {
   return <JobTrackerPage />;

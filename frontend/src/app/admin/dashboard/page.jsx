@@ -1,6 +1,6 @@
 "use client";
 
-import AdminDashboardPage from "@/pages/admin/overview/AdminDashboardPage";
+import AdminDashboardPage from "@/views/admin/overview/AdminDashboardPage";
 
 export default function AdminDashboard() {
   return <AdminDashboardPage />;

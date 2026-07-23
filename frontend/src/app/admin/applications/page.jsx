@@ -1,6 +1,6 @@
 "use client";
 
-import AdminApplicationsPage from "@/pages/admin/applications/AdminApplicationsPage";
+import AdminApplicationsPage from "@/views/admin/applications/AdminApplicationsPage";
 
 export default function AdminApplications() {
   return <AdminApplicationsPage />;

@@ -10,14 +10,14 @@ const PortfolioHeader = () => {
   const { user } = useAuth();
   
   const customUrl = user?.username || 'user';
-  const portfolioLink = `invikt.com/p/${customUrl}`;
+  const portfolioLink = `invikt.com/p?username=${customUrl}`;
 
   const handleSave = async () => {
     await savePortfolio();
   };
 
   const handleCopy = () => {
-    const fullUrl = `${window.location.origin}/p/${customUrl}`;
+    const fullUrl = `${window.location.origin}/p?username=${customUrl}`;
     navigator.clipboard.writeText(fullUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -69,7 +69,7 @@ const PortfolioHeader = () => {
           <span className="material-symbols-outlined text-[18px]">share</span>
         </button>
         <a 
-          href={`/p/${customUrl}`} 
+          href={`/p?username=${customUrl}`} 
           target="_blank" 
           rel="noopener noreferrer"
           className="px-6 py-2.5 rounded-full bg-violet-600 hover:bg-violet-500 border border-violet-500 text-white text-[0.8rem] font-bold tracking-wide transition-all shadow-[0_0_15px_rgba(124,58,237,0.3)]"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import RoadmapDiagram from "../roadmap/RoadmapDiagram";
 import { useAuth } from "../../context/AuthContext";
 import { roadmaps } from "../../data/roadmaps.js";
@@ -180,7 +180,8 @@ const StageCard = ({ stage, stageIndex, onSkillToggle }) => {
 
 
 const RoadmapDetail = () => {
-  const { id } = useParams();
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const router = useRouter();
   const { getAuthHeaders } = useAuth();
   const [roadmap, setRoadmap] = useState(null);
@@ -227,7 +228,7 @@ const RoadmapDetail = () => {
     };
     
     loadRoadmap();
-  }, [id, navigate, getAuthHeaders]);
+  }, [id, router, getAuthHeaders]);
 
   if (loading || !roadmap) {
     return (

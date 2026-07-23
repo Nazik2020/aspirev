@@ -1,7 +1,7 @@
 "use client";
 
 import PublicLayout from "@/layouts/PublicLayout";
-import LandingPage from "@/pages/LandingPage";
+import LandingPage from "@/views/LandingPage";
 
 export default function Home() {
   return (

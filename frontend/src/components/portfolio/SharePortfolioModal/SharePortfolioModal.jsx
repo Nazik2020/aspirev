@@ -11,9 +11,9 @@ const SharePortfolioModal = ({ isOpen, onClose, portfolioData }) => {
   const [loading, setLoading] = useState(false);
 
   const customUrl = user?.username || "user";
-  const cleanLink = `invikt.com/p/${customUrl}`;
-  const fullUrl = `${window.location.origin}/p/${customUrl}`;
-  const localPreviewUrl = `${window.location.origin}/p/${customUrl}`;
+  const cleanLink = `invikt.com/p?username=${customUrl}`;
+  const fullUrl = `${window.location.origin}/p?username=${customUrl}`;
+  const localPreviewUrl = `${window.location.origin}/p?username=${customUrl}`;
 
   // Helper to convert base64 data to Blob
   const base64ToBlob = (base64, mimeType) => {

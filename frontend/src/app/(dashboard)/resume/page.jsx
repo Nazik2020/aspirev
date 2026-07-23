@@ -1,6 +1,6 @@
 "use client";
 
-import ResumeAnalyzerPage from "@/pages/ResumeAnalyzerPage";
+import ResumeAnalyzerPage from "@/views/ResumeAnalyzerPage";
 
 export default function Resume() {
   return <ResumeAnalyzerPage />;

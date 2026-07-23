@@ -12,7 +12,7 @@ const RoadmapCard = ({ roadmap }) => {
       className="group relative flex flex-col h-full rounded-2xl border border-slate-200 dark:border-white/5 overflow-hidden cursor-pointer
                        bg-white dark:bg-[#1e1f23] hover:bg-slate-50 dark:bg-[#24252a] hover:border-slate-200 dark:border-white/10 transition-all duration-300
                        hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
-      onClick={() => router.push(`/career-path/${roadmap.id}`)}
+      onClick={() => router.push(`/career-path?id=${roadmap.id}`)}
     >
       {/* Top gradient bar */}
       <div
@@ -196,7 +196,7 @@ const RoadmapGrid = () => {
                 {filtered.map((r) => (
                   <li key={`sugg-${r.id}`}>
                     <button
-                      onClick={() => router.push(`/career-path/${r.id}`)}
+                      onClick={() => router.push(`/career-path?id=${r.id}`)}
                       className="group w-full text-left px-4 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 transition-all duration-200 flex items-center gap-4"
                     >
                       <div

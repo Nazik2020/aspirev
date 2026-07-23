@@ -1,6 +1,6 @@
 "use client";
 
-import AdminSecurityPage from "@/pages/admin/security/AdminSecurityPage";
+import AdminSecurityPage from "@/views/admin/security/AdminSecurityPage";
 
 export default function AdminSecurity() {
   return <AdminSecurityPage />;

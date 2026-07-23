@@ -1,6 +1,6 @@
 "use client";
 
-import SkillGapPage from "@/pages/SkillGapPage";
+import SkillGapPage from "@/views/SkillGapPage";
 
 export default function SkillGap() {
   return <SkillGapPage />;
