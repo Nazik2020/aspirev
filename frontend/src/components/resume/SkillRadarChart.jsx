@@ -1,85 +1,89 @@
 import React from "react";
 
+const skillBars = [
+  { name: "LOGIC", height: "60%", color: "from-violet-500 to-purple-600" },
+  { name: "ARCH", height: "85%", color: "from-purple-500 to-indigo-600" },
+  { name: "DATA", height: "45%", color: "from-cyan-400 to-blue-500" },
+  { name: "AI/ML", height: "70%", color: "from-violet-500 to-cyan-400" },
+  { name: "UI", height: "30%", color: "from-cyan-400 to-teal-400" },
+  { name: "DEVOPS", height: "95%", color: "from-purple-600 to-violet-500" },
+  { name: "SEC", height: "55%", color: "from-cyan-500 to-blue-600" },
+  { name: "SOFT", height: "75%", color: "from-violet-500 to-purple-500" },
+];
+
+const metrics = [
+  { label: "TECHNICAL SCORE", value: "84%" },
+  { label: "DOMAIN MATCH", value: "91%" },
+  { label: "GROWTH RATE", value: "+12%", highlight: true },
+  { label: "GLOBAL RANK", value: "Top 15%", highlight: true },
+];
+
 const SkillRadarChart = () => {
   return (
-    <section className="col-span-12">
-      <div className="bg-white dark:bg-surface-container-low rounded-xl p-8 border border-slate-200 dark:border-outline-variant/10">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-          <div>
-            <h2 className="font-headline text-xl font-bold mb-1">
-              Career DNA Visualization
-            </h2>
-            <p className="text-sm text-slate-600 dark:text-on-surface-variant">
-              Topological mapping of your technical expertise.
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <span className="px-3 py-1 bg-primary/20 text-primary rounded text-[10px] font-bold uppercase tracking-widest">
-              Active Scan
-            </span>
-            <span className="px-3 py-1 bg-surface-bright text-slate-600 dark:text-on-surface-variant rounded text-[10px] font-bold uppercase tracking-widest">
-              v2.4.0
-            </span>
-          </div>
+    <div className="bg-[#131417]/80 dark:bg-[#131417]/90 border border-slate-200 dark:border-white/10 rounded-2xl p-6 shadow-xl space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+            Career DNA Visualization
+          </h3>
+          <p className="text-xs text-slate-500 dark:text-white/40 mt-0.5">
+            Topological mapping of technical and operational expertise.
+          </p>
         </div>
 
-        {/* Decorative Chart Area */}
-        <div className="relative h-64 w-full bg-white dark:bg-surface-container-lowest rounded-lg overflow-hidden flex items-end px-8 py-6 gap-4">
-          <div className="flex-1 h-[60%] bg-gradient-to-t from-primary/40 to-primary rounded-t-lg relative group">
-            <div className="absolute inset-0 bg-slate-300 dark:bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          </div>
-          <div className="flex-1 h-[85%] bg-gradient-to-t from-primary/40 to-primary rounded-t-lg relative group">
-            <div className="absolute inset-0 bg-slate-300 dark:bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          </div>
-          <div className="flex-1 h-[45%] bg-gradient-to-t from-secondary/40 to-secondary rounded-t-lg relative group">
-            <div className="absolute inset-0 bg-slate-300 dark:bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          </div>
-          <div className="flex-1 h-[70%] bg-gradient-to-t from-primary/40 to-primary rounded-t-lg relative group">
-            <div className="absolute inset-0 bg-slate-300 dark:bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          </div>
-          <div className="flex-1 h-[30%] bg-gradient-to-t from-secondary/40 to-secondary rounded-t-lg relative group">
-            <div className="absolute inset-0 bg-slate-300 dark:bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          </div>
-          <div className="flex-1 h-[95%] bg-gradient-to-t from-primary/40 to-primary rounded-t-lg relative group">
-            <div className="absolute inset-0 bg-slate-300 dark:bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          </div>
-          <div className="flex-1 h-[55%] bg-gradient-to-t from-secondary/40 to-secondary rounded-t-lg relative group">
-            <div className="absolute inset-0 bg-slate-300 dark:bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          </div>
-          <div className="flex-1 h-[75%] bg-gradient-to-t from-primary/40 to-primary rounded-t-lg relative group">
-            <div className="absolute inset-0 bg-slate-300 dark:bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          </div>
-
-          {/* Labels Overlay */}
-          <div className="absolute bottom-1 left-8 right-8 flex justify-between">
-            <span className="text-[8px] font-label uppercase text-slate-600 dark:text-on-surface-variant">
-              Logic
-            </span>
-            <span className="text-[8px] font-label uppercase text-slate-600 dark:text-on-surface-variant">
-              Arch
-            </span>
-            <span className="text-[8px] font-label uppercase text-slate-600 dark:text-on-surface-variant">
-              Data
-            </span>
-            <span className="text-[8px] font-label uppercase text-slate-600 dark:text-on-surface-variant">
-              AI/ML
-            </span>
-            <span className="text-[8px] font-label uppercase text-slate-600 dark:text-on-surface-variant">
-              UI
-            </span>
-            <span className="text-[8px] font-label uppercase text-slate-600 dark:text-on-surface-variant">
-              DevOps
-            </span>
-            <span className="text-[8px] font-label uppercase text-slate-600 dark:text-on-surface-variant">
-              Sec
-            </span>
-            <span className="text-[8px] font-label uppercase text-slate-600 dark:text-on-surface-variant">
-              Soft
-            </span>
-          </div>
+        <div className="flex items-center gap-2">
+          <span className="px-2.5 py-1 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 rounded-md text-[0.6rem] font-extrabold uppercase tracking-widest">
+            Active Scan
+          </span>
+          <span className="px-2.5 py-1 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-white/40 rounded-md text-[0.6rem] font-extrabold uppercase tracking-widest">
+            v2.4.0
+          </span>
         </div>
       </div>
-    </section>
+
+      {/* Vertical Pill Bar Chart */}
+      <div className="bg-slate-50 dark:bg-[#17181c] border border-slate-200 dark:border-white/5 rounded-xl p-6 relative">
+        <div className="h-44 w-full flex items-end justify-between gap-2 sm:gap-4 px-2">
+          {skillBars.map((bar, idx) => (
+            <div key={idx} className="flex-1 flex flex-col items-center gap-3 group h-full justify-end">
+              <div className="w-full max-w-[36px] bg-slate-200 dark:bg-white/5 rounded-2xl overflow-hidden flex items-end h-full">
+                <div
+                  className={`w-full rounded-2xl bg-gradient-to-t ${bar.color} transition-all duration-700 group-hover:brightness-125 shadow-lg`}
+                  style={{ height: bar.height }}
+                />
+              </div>
+              <span className="text-[0.6rem] font-extrabold text-slate-400 dark:text-white/40 tracking-wider">
+                {bar.name}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 4 Metrics Bottom Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {metrics.map((metric, idx) => (
+          <div
+            key={idx}
+            className="bg-slate-50 dark:bg-[#18191d] border border-slate-200 dark:border-white/5 rounded-xl p-3.5 text-center space-y-1"
+          >
+            <span className="text-[0.55rem] uppercase tracking-widest text-slate-400 dark:text-white/30 font-black block">
+              {metric.label}
+            </span>
+            <span
+              className={`text-base font-black ${
+                metric.highlight
+                  ? "text-cyan-500 dark:text-cyan-400"
+                  : "text-slate-900 dark:text-white"
+              }`}
+            >
+              {metric.value}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

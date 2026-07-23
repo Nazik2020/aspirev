@@ -815,40 +815,40 @@ const JobTrackerPage = () => {
         </div>
 
         {/* Success Rate */}
-        <div className="col-span-2 md:col-span-1 p-4 rounded-2xl bg-white dark:bg-[#1e1f23]/60 border border-slate-200 dark:border-white/5 flex items-center justify-between shadow-sm">
-          <div>
-            <span className="text-[0.6rem] text-slate-400 dark:text-white/30 uppercase tracking-widest font-black block mb-0.5">
-              Success Rate
-            </span>
-            <span className="text-2xl font-black text-slate-900 dark:text-white leading-none block">
-              {stats.successRate}%
-            </span>
-          </div>
-          <div className="relative w-11 h-11 flex items-center justify-center shrink-0">
+        <div className="col-span-2 md:col-span-1 p-4 rounded-2xl bg-white dark:bg-[#1e1f23]/60 border border-slate-200 dark:border-white/5 flex items-center gap-3.5 shadow-sm">
+          <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
             <svg className="absolute inset-0 w-full h-full transform -rotate-90">
               <circle
-                cx="22"
-                cy="22"
-                r="18"
+                cx="20"
+                cy="20"
+                r="16"
                 stroke="currentColor" strokeWidth="3" className="text-slate-100 dark:text-white/5"
                 fill="transparent"
               />
               <circle
-                cx="22"
-                cy="22"
-                r="18"
+                cx="20"
+                cy="20"
+                r="16"
                 stroke="#00daf3"
                 strokeWidth="3"
                 fill="transparent"
-                strokeDasharray={2 * Math.PI * 18}
+                strokeDasharray={2 * Math.PI * 16}
                 strokeDashoffset={
-                  2 * Math.PI * 18 * (1 - stats.successRate / 100)
+                  2 * Math.PI * 16 * (1 - stats.successRate / 100)
                 }
                 strokeLinecap="round"
               />
             </svg>
             <span className="material-symbols-outlined text-cyan-400 text-[15px]">
               percent
+            </span>
+          </div>
+          <div>
+            <span className="text-[0.6rem] text-slate-400 dark:text-white/30 uppercase tracking-widest font-black block">
+              Success Rate
+            </span>
+            <span className="text-2xl font-black text-slate-900 dark:text-white leading-none mt-0.5 block">
+              {stats.successRate}%
             </span>
           </div>
         </div>

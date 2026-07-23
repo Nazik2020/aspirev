@@ -134,15 +134,22 @@ const KanbanBoard = ({ stages, filteredApps, statusFilter, setSelectedApp, setAp
                                       {app.logoText}
                                     </div>
                                     <div className="space-y-0.5">
-                                      <p className="text-[0.7rem] font-black text-violet-600 dark:text-violet-400 tracking-wider uppercase">
-                                        {app.company}
-                                      </p>
+                                      <div className="flex items-center gap-1.5 flex-wrap">
+                                        <p className="text-[0.75rem] font-black text-violet-600 dark:text-violet-400 tracking-wider uppercase">
+                                          {app.company}
+                                        </p>
+                                        {app.location && (
+                                          <span className="text-[0.65rem] text-slate-400 dark:text-white/35 font-semibold truncate max-w-[110px]">
+                                            • {app.location}
+                                          </span>
+                                        )}
+                                      </div>
                                       <h4 className="text-[0.95rem] font-bold text-slate-900 dark:text-white group-hover:text-violet-500 dark:group-hover:text-violet-400 transition-colors leading-tight">
                                         {app.role}
                                       </h4>
                                     </div>
                                   </div>
-                                  <button className="text-slate-400 dark:text-white/20 hover:text-slate-600 dark:hover:text-white/60 cursor-pointer transition-colors">
+                                  <button className="text-slate-400 dark:text-white/20 hover:text-slate-600 dark:hover:text-white/60 cursor-pointer transition-colors p-0.5">
                                     <span className="material-symbols-outlined text-[18px]">
                                       more_horiz
                                     </span>
@@ -156,11 +163,18 @@ const KanbanBoard = ({ stages, filteredApps, statusFilter, setSelectedApp, setAp
                                     </span>
                                     <span>{app.dateApplied ? `Applied ${app.dateApplied}` : app.time}</span>
                                   </div>
-                                  <span
-                                    className={`text-[0.6rem] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded-md border ${stage.badgeStyle}`}
-                                  >
-                                    {app.badge}
-                                  </span>
+                                  <div className="flex items-center gap-1.5">
+                                    {app.info && (
+                                      <span className="text-[0.6rem] text-rose-500 dark:text-rose-400 font-extrabold bg-rose-500/10 px-2 py-0.5 rounded-md border border-rose-500/20 uppercase tracking-wider">
+                                        {app.info}
+                                      </span>
+                                    )}
+                                    <span
+                                      className={`text-[0.6rem] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded-md border ${stage.badgeStyle}`}
+                                    >
+                                      {app.badge}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             )}

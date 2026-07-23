@@ -220,12 +220,13 @@ const TableView = ({ stages, filteredApps, setSelectedApp, apps, setApps }) => {
                     {app.role}
                   </td>
                   <td className="py-4 px-4 text-[0.85rem] text-slate-500 dark:text-white/60">
-                    {app.time}
+                    {app.dateApplied || app.time}
                   </td>
                   <td className="py-4 px-4">
                     <span
-                      className={`text-[0.6rem] uppercase tracking-wider font-extrabold px-2.5 py-1 rounded-full border ${stageObj?.badgeStyle}`}
+                      className={`inline-flex items-center gap-1.5 text-[0.6rem] uppercase tracking-wider font-extrabold px-2.5 py-1 rounded-full border ${stageObj?.badgeStyle}`}
                     >
+                      <span className={`w-1.5 h-1.5 rounded-full ${stageObj?.dot}`} />
                       {stageObj?.name}
                     </span>
                   </td>

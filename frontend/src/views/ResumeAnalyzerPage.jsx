@@ -1,43 +1,58 @@
 import React from "react";
 import DocumentUploader from "../components/resume/DocumentUploader";
 import ResumeScoreMeter from "../components/resume/ResumeScoreMeter";
+import ContentBreakdown from "../components/resume/ContentBreakdown";
 import IdentifiedProfile from "../components/resume/IdentifiedProfile";
 import AIFeedbackReport from "../components/resume/AIFeedbackReport";
 import SkillRadarChart from "../components/resume/SkillRadarChart";
 
 const ResumeAnalyzerPage = () => {
   return (
-    <div className="w-full">
-      <header className="mb-12 flex justify-between items-end">
+    <div className="w-full space-y-8 pb-12">
+      {/* Header & Session Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="font-headline text-5xl font-extrabold tracking-tight text-slate-900 dark:text-on-surface mb-2">
+          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
             Resume{" "}
-            <span className="bg-gradient-to-r from-primary to-secondary-fixed-dim bg-clip-text text-transparent">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-cyan-400 to-indigo-400">
               Analyzer
             </span>
           </h1>
-          <p className="text-slate-600 dark:text-on-surface-variant font-body max-w-md">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-white/50 mt-1 font-medium max-w-md">
             Evaluate and optimize your resume for your target roles.
           </p>
         </div>
-        <div className="hidden md:flex gap-4">
-          <div className="flex flex-col items-end">
-            <span className="font-label text-[10px] uppercase tracking-widest text-slate-600 dark:text-on-surface-variant mb-1">
+
+        <div className="flex items-center gap-2">
+          <div className="bg-[#131417]/80 dark:bg-[#131417]/90 border border-slate-200 dark:border-white/10 rounded-full px-4 py-1.5 flex items-center gap-2 shadow-sm">
+            <span className="text-[0.6rem] uppercase tracking-widest text-slate-400 dark:text-white/30 font-black">
               Current Session
             </span>
-            <span className="font-headline font-bold text-secondary-fixed-dim">
-              Mohamed Nazik.pdf
-            </span>
+            <div className="flex items-center gap-1.5 bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-0.5 rounded-full text-cyan-500 dark:text-cyan-400 text-xs font-bold">
+              <span className="material-symbols-outlined text-[14px]">
+                description
+              </span>
+              <span>MOHAMED NAZIK.PDF</span>
+            </div>
           </div>
         </div>
-      </header>
+      </div>
 
-      <div className="grid grid-cols-12 gap-6">
-        <DocumentUploader />
-        <ResumeScoreMeter />
-        <IdentifiedProfile />
-        <AIFeedbackReport />
-        <SkillRadarChart />
+      {/* Main 12-Column Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* Left Column (8 cols) */}
+        <div className="lg:col-span-8 space-y-6">
+          <DocumentUploader />
+          <IdentifiedProfile />
+          <SkillRadarChart />
+        </div>
+
+        {/* Right Column (4 cols) */}
+        <div className="lg:col-span-4 space-y-6">
+          <ResumeScoreMeter />
+          <ContentBreakdown />
+          <AIFeedbackReport />
+        </div>
       </div>
     </div>
   );
