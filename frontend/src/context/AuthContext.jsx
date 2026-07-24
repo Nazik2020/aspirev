@@ -327,6 +327,7 @@ export const AuthProvider = ({ children }) => {
     refreshTokenRef.current = refreshToken;
     setToken(accessToken);
     setIsRemembered(true);
+    scheduleRefresh(accessToken);
     try {
       const userRes = await fetch(`${API_URL}/auth/me`, {
         headers: { Authorization: `Bearer ${accessToken}` },

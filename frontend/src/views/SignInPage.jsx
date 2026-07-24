@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import AuthLayout from "../layouts/AuthLayout";
@@ -65,11 +65,18 @@ const SignInPage = () => {
   const [serverError, setServerError] = useState("");
   const [loading, setLoading]   = useState(false);
   const { login, handleOAuthLogin } = useAuth();
+  const handleOAuthLoginRef = useRef(handleOAuthLogin);
+  useEffect(() => { handleOAuthLoginRef.current = handleOAuthLogin; }, [handleOAuthLogin]);
 
   useEffect(() => {
     const tokenFromUrl = searchParams.get("token");
     const refreshTokenFromUrl = searchParams.get("refreshToken");
     const errorFromUrl = searchParams.get("error");
+
+    // Clean URL params immediately so tokens don't re-trigger on re-renders
+    if (tokenFromUrl || refreshTokenFromUrl || errorFromUrl) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
 
     if (errorFromUrl) {
       if (errorFromUrl === "account_deactivated") {
@@ -81,7 +88,7 @@ const SignInPage = () => {
       }
     } else if (tokenFromUrl && refreshTokenFromUrl) {
       setLoading(true);
-      handleOAuthLogin(tokenFromUrl, refreshTokenFromUrl).then((res) => {
+      handleOAuthLoginRef.current(tokenFromUrl, refreshTokenFromUrl).then((res) => {
         if (res.success) {
           if (res.user?.role === "admin") {
             router.push("/admin/dashboard");
@@ -89,12 +96,13 @@ const SignInPage = () => {
             router.push(fromPage || "/dashboard");
           }
         } else {
-          setServerError("Failed to authenticate session with Google.");
+          setServerError("Failed to complete authentication. Please try again.");
           setLoading(false);
         }
       });
     }
-  }, [searchParams, handleOAuthLogin, router, fromPage]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleGoogleSignIn = () => {
     window.location.href = `${API_URL}/auth/google`;
