@@ -36,14 +36,14 @@ const AdminSidebar = ({ isCollapsed, toggle }) => {
             <img
               src={logoIcon.src}
               alt="Aspirev"
-              className="h-6 w-auto object-contain shrink-0 invert dark:invert-0 scale-[1.5]"
+              className="h-6 w-auto object-contain shrink-0 invert dark:invert-0"
             />
           ) : (
             /* Expanded → full logo */
             <img
               src={logo.src}
               alt="Aspirev"
-              className="h-8 w-auto object-contain shrink-0 max-w-[280px] invert dark:invert-0 scale-[1.5] origin-left"
+              className="h-7 w-auto object-contain shrink-0 max-w-[280px] invert dark:invert-0"
             />
           )}
           {!isCollapsed && (

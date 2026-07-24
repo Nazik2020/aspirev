@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 
 const GeneralSettings = () => {
   return (
@@ -18,7 +18,7 @@ const GeneralSettings = () => {
             </label>
             <input
               type="text"
-              defaultValue="Invikt"
+              defaultValue="Aspirev"
               className="w-full bg-white/5 border border-white/8 rounded-xl px-4 py-3 text-[13px] text-white focus:outline-none focus:border-violet-500/50 transition-all"
             />
           </div>
@@ -38,7 +38,7 @@ const GeneralSettings = () => {
             </label>
             <input
               type="email"
-              defaultValue="support@invikt.com"
+              defaultValue="support@aspirev.com"
               className="w-full bg-white/5 border border-white/8 rounded-xl px-4 py-3 text-[13px] text-white focus:outline-none focus:border-violet-500/50 transition-all"
             />
           </div>
@@ -48,7 +48,7 @@ const GeneralSettings = () => {
             </label>
             <input
               type="text"
-              defaultValue="https://invikt.com/contact"
+              defaultValue="https://aspirev.com/contact"
               className="w-full bg-white/5 border border-white/8 rounded-xl px-4 py-3 text-[13px] text-white focus:outline-none focus:border-violet-500/50 transition-all"
             />
           </div>
@@ -58,7 +58,7 @@ const GeneralSettings = () => {
             </label>
             <input
               type="text"
-              defaultValue="https://invikt.com/terms"
+              defaultValue="https://aspirev.com/terms"
               className="w-full bg-white/5 border border-white/8 rounded-xl px-4 py-3 text-[13px] text-white focus:outline-none focus:border-violet-500/50 transition-all"
             />
           </div>
@@ -68,7 +68,7 @@ const GeneralSettings = () => {
             </label>
             <input
               type="text"
-              defaultValue="https://invikt.com/privacy"
+              defaultValue="https://aspirev.com/privacy"
               className="w-full bg-white/5 border border-white/8 rounded-xl px-4 py-3 text-[13px] text-white focus:outline-none focus:border-violet-500/50 transition-all"
             />
           </div>

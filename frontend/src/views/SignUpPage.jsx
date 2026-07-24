@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+﻿import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AuthLayout from "../layouts/AuthLayout";
@@ -188,7 +188,7 @@ const SignUpPage = () => {
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#cdbdff] to-[#00daf3]">deserve.</span>
           </h1>
           <p className="text-lg text-slate-600 dark:text-white/60 leading-relaxed mb-12">
-            Join thousands of students already conquering their career path with Invikt.
+            Join thousands of students already conquering their career path with Aspirev.
           </p>
           <div className="space-y-5">
             <FeatureItem text="Personalized Career Roadmaps" />
@@ -198,7 +198,7 @@ const SignUpPage = () => {
         </div>
       </div>
       <div className="text-[0.65rem] tracking-[0.2em] font-black text-slate-400 dark:text-white/30 uppercase mt-auto pt-12">
-        © 2026 INVIKT. CONQUER YOUR CAREER.
+        © 2026 ASPIREV. CONQUER YOUR CAREER.
       </div>
     </div>
   );

@@ -6,15 +6,15 @@ const TopNavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 w-full z-[100] flex justify-between items-center px-6 md:px-10 py-4 max-w-full bg-white/80 dark:bg-slate-950/60 backdrop-blur-xl shadow-sm dark:shadow-[0_20px_40px_rgba(0,0,0,0.3)] border-b border-slate-200 dark:border-white/5">
+    <nav className="fixed top-0 w-full z-[100] flex justify-between items-center px-6 md:px-10 py-2 max-w-full bg-white/80 dark:bg-slate-950/60 backdrop-blur-xl shadow-sm dark:shadow-[0_20px_40px_rgba(0,0,0,0.3)] border-b border-slate-200 dark:border-white/5">
       <Link
         href="/"
-        className="flex items-center hover:opacity-90 transition-opacity"
+        className="flex items-center hover:opacity-90 transition-opacity my-auto"
       >
         <img
           src={logo.src}
           alt="Aspirev Logo"
-          className="h-8 md:h-10 w-auto object-contain invert dark:invert-0 scale-[1.5] md:scale-[2] origin-left"
+          className="h-10 md:h-12 w-auto object-contain invert dark:invert-0"
         />
       </Link>
 

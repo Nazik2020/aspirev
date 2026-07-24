@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { usePortfolio } from "../../../context/PortfolioContext";
 
 const LivePreview = () => {
@@ -40,7 +40,7 @@ const LivePreview = () => {
           {/* Mobile Navbar Simulation */}
           <div className="w-full flex items-center justify-between mb-8 px-6 py-4 z-30 bg-[#0d0e12]/80 backdrop-blur-xl border-b border-white/5">
             <div className="flex items-center gap-1.5 font-sans text-[1.1rem]">
-              <span className="font-bold text-violet-400">Invikt</span>
+              <span className="font-bold text-violet-400">Aspirev</span>
               <span className="text-gray-500 font-light">/</span>
               <span className="text-white font-semibold tracking-wide">{firstName ? firstName.toLowerCase() : "user"}</span>
             </div>

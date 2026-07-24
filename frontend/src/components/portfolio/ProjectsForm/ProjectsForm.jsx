@@ -6,7 +6,8 @@ const ProjectsForm = () => {
   const items = portfolioData.projects;
 
   const addItem = () => {
-    updateSection("projects", [...items, { id: Date.now(), title: '', badge: '', imageUrl: '', projectUrl: '', tags: '', description: '' }]);
+    // #19 FIX: Use crypto.randomUUID() to avoid ID collisions from rapid clicks
+    updateSection("projects", [...items, { id: crypto.randomUUID(), title: '', badge: '', imageUrl: '', projectUrl: '', tags: '', description: '' }]);
   };
 
   const removeItem = (id) => {
@@ -37,14 +38,13 @@ const ProjectsForm = () => {
           const itemId = item._id || item.id;
           return (
             <div key={itemId || index} className="relative p-6 rounded-lg border border-white/10 bg-[#1e1f23] flex flex-col gap-4">
-              {items.length > 1 && (
-                <button 
-                  onClick={() => removeItem(itemId)}
-                  className="absolute top-4 right-4 text-white/20 hover:text-red-400 transition-colors"
-                >
-                  <span className="material-symbols-outlined text-[20px]">delete</span>
-                </button>
-              )}
+              {/* #18 FIX: Always show delete button — allow clearing the last item too */}
+              <button 
+                onClick={() => removeItem(itemId)}
+                className="absolute top-4 right-4 text-white/20 hover:text-red-400 transition-colors"
+              >
+                <span className="material-symbols-outlined text-[20px]">delete</span>
+              </button>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">

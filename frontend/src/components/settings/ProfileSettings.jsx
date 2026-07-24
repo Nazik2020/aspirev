@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+﻿import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { API_URL } from "../../config/api";
 import Select from "react-select";
@@ -49,22 +49,25 @@ const ProfileSettings = () => {
     return date.toLocaleDateString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
   };
 
-  // Dynamic tick for lastSaved relative text
+  // #15 FIX: Also run immediately on mount so label is correct from the start
   useEffect(() => {
     if (!updatedAt) return;
+    setLastSaved(formatLastSaved(updatedAt)); // Run immediately
     const interval = setInterval(() => {
       setLastSaved(formatLastSaved(updatedAt));
-    }, 15000); // Update every 15 seconds for responsive UI feedback
+    }, 15000);
     return () => clearInterval(interval);
   }, [updatedAt]);
 
   // Country Options & Styles
   const options = useMemo(() => countryList().getData(), []);
+  // #12 FIX: Support both light and dark mode in react-select styles
+  const isDark = typeof window !== "undefined" && document.documentElement.classList.contains("dark");
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
-      backgroundColor: 'transparent',
-      borderColor: state.isFocused ? 'rgba(171, 143, 244, 0.5)' : 'rgba(255, 255, 255, 0.05)',
+      backgroundColor: isDark ? 'transparent' : '#ffffff',
+      borderColor: state.isFocused ? 'rgba(171, 143, 244, 0.5)' : isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0,0,0,0.1)',
       borderRadius: '0.5rem',
       minHeight: '44px',
       boxShadow: 'none',
@@ -74,16 +77,16 @@ const ProfileSettings = () => {
     }),
     menu: (provided) => ({
       ...provided,
-      backgroundColor: '#17181c',
-      border: '1px solid rgba(255, 255, 255, 0.05)',
+      backgroundColor: isDark ? '#17181c' : '#ffffff',
+      border: isDark ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid rgba(0,0,0,0.1)',
       borderRadius: '0.5rem',
-      boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+      boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
       zIndex: 50
     }),
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isSelected ? 'rgba(171, 143, 244, 0.1)' : state.isFocused ? 'rgba(255, 255, 255, 0.02)' : 'transparent',
-      color: state.isSelected ? '#ab8ff4' : '#fff',
+      backgroundColor: state.isSelected ? 'rgba(171, 143, 244, 0.1)' : state.isFocused ? (isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0,0,0,0.04)') : 'transparent',
+      color: state.isSelected ? '#ab8ff4' : isDark ? '#fff' : '#1a1a2e',
       cursor: 'pointer',
       fontSize: '0.875rem',
       '&:active': {
@@ -92,16 +95,16 @@ const ProfileSettings = () => {
     }),
     singleValue: (provided) => ({
       ...provided,
-      color: '#fff',
+      color: isDark ? '#fff' : '#1a1a2e',
       fontSize: '0.875rem'
     }),
     input: (provided) => ({
       ...provided,
-      color: '#fff',
+      color: isDark ? '#fff' : '#1a1a2e',
     }),
     placeholder: (provided) => ({
       ...provided,
-      color: 'rgba(255, 255, 255, 0.2)',
+      color: isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0,0,0,0.3)',
       fontSize: '0.875rem'
     })
   };
@@ -160,13 +163,15 @@ const ProfileSettings = () => {
   const handleSave = async () => {
     setSaving(true);
     try {
+      // #16 FIX: Exclude email from PUT body — email is read-only and must not be changed via this form
+      const { email: _omit, ...saveData } = formData;
       const res = await fetch(`${API_URL}/settings/profile`, {
         method: "PUT",
         headers: {
           ...getAuthHeaders(),
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(saveData)
       });
       const json = await res.json();
       
@@ -182,7 +187,6 @@ const ProfileSettings = () => {
           setLastSaved(formatLastSaved(nowIso));
         }
 
-        // Sync with global state
         const nameParts = (json.data.fullName || "").trim().split(" ");
         const firstName = nameParts[0] || "";
         const lastName = nameParts.slice(1).join(" ") || "";
@@ -235,11 +239,12 @@ const ProfileSettings = () => {
         showToast("Profile picture updated!", "success");
         updateUser({ profilePicture: json.url });
         
-        // Also save the form automatically
+        // #13 FIX: Send the full current formData merged with new picture URL so other fields aren't lost
+        const { email: _omit, ...saveData } = { ...formData, profilePicture: json.url };
         await fetch(`${API_URL}/settings/profile`, {
           method: "PUT",
           headers: { ...getAuthHeaders(), "Content-Type": "application/json" },
-          body: JSON.stringify({ profilePicture: json.url })
+          body: JSON.stringify(saveData)
         });
       } else {
         showToast(json.message || "Failed to upload image", "error");
@@ -260,7 +265,15 @@ const ProfileSettings = () => {
       });
       showToast("Profile picture removed", "success");
     } catch (err) {
+      // #14 FIX: Roll back local state if server call fails
       console.error(err);
+      showToast("Failed to remove photo — please try again", "error");
+      // Re-fetch the profile to restore the correct picture from server
+      try {
+        const res = await fetch(`${API_URL}/settings/profile`, { headers: getAuthHeaders() });
+        const json = await res.json();
+        if (json.success) setFormData(prev => ({ ...prev, profilePicture: json.data.profilePicture || "" }));
+      } catch (_) {}
     }
   };
 
@@ -419,7 +432,7 @@ const ProfileSettings = () => {
                 className="flex-1 bg-transparent px-4 py-3 text-sm text-slate-900 dark:text-white focus:outline-none min-w-0"
               />
               <div className="hidden sm:flex px-4 text-[11px] text-slate-400 dark:text-white/30 border-l border-slate-200 dark:border-white/5 h-full items-center bg-white/[0.02] pointer-events-none shrink-0">
-                invikt.com/p/{formData.username || "username"}
+                aspirev.com/p/{formData.username || "username"}
               </div>
             </div>
           </div>
@@ -598,7 +611,7 @@ const ProfileSettings = () => {
             </div>
             <div className="text-[12px] text-slate-500 dark:text-white/40">
               Permanently remove all your career data, roadmaps, and history
-              from Invikt.
+              from Aspirev.
             </div>
           </div>
           <button 

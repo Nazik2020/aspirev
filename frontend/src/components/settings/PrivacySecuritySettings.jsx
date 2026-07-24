@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 
 const PrivacySecuritySettings = () => {
   const [tfaEnabled, setTfaEnabled] = useState(false);
@@ -173,7 +173,7 @@ const PrivacySecuritySettings = () => {
           </h2>
         </div>
         <p className="text-[12px] text-slate-500 dark:text-white/50 mb-6">
-          Devices currently signed into your Invikt account.
+          Devices currently signed into your Aspirev account.
         </p>
 
         <div className="flex flex-col gap-2 mb-6">
@@ -274,7 +274,7 @@ const PrivacySecuritySettings = () => {
             {
               id: "public",
               title: "Public",
-              desc: "Your profile is discoverable by recruiters and potential partners in the Invikt network.",
+              desc: "Your profile is discoverable by recruiters and potential partners in the Aspirev network.",
             },
           ].map((option) => (
             <div

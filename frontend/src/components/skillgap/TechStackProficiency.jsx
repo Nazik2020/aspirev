@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 
 const TechStackProficiency = () => {
   return (
@@ -26,7 +26,7 @@ const TechStackProficiency = () => {
             </div>
           </div>
           <span className="text-xs font-bold text-slate-600 dark:text-on-surface-variant tracking-widest uppercase font-label">
-            Benchmarked by Invikt
+            Benchmarked by Aspirev
           </span>
         </div>
       </div>

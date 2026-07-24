@@ -2,11 +2,13 @@ import "./globals.css";
 import Providers from "./providers";
 
 export const metadata = {
-  title: "Invikt | Your AI Career Intelligence Platform",
+  title: "Aspirev | Your AI Career Intelligence Platform",
   description:
     "AI-powered career intelligence platform for students and professionals.",
   icons: {
     icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
 };
 

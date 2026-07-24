@@ -47,16 +47,16 @@ export const PortfolioProvider = ({ children }) => {
         const json = await res.json();
         
         if (json && !json.message) {
-          // It's a real portfolio object
-          setPortfolioData({
-            personalInfo: json.personalInfo || portfolioData.personalInfo,
-            socialLinks: json.socialLinks || portfolioData.socialLinks,
-            experience: json.experience && json.experience.length > 0 ? json.experience : portfolioData.experience,
-            technologies: json.technologies && json.technologies.length > 0 ? json.technologies : portfolioData.technologies,
-            projects: json.projects && json.projects.length > 0 ? json.projects : portfolioData.projects,
-            certifications: json.certifications && json.certifications.length > 0 ? json.certifications : portfolioData.certifications,
-            volunteering: json.volunteering && json.volunteering.length > 0 ? json.volunteering : portfolioData.volunteering,
-          });
+          // #3 FIX: Use functional update to avoid stale closure — don't reference portfolioData directly
+          setPortfolioData(prev => ({
+            personalInfo: json.personalInfo || prev.personalInfo,
+            socialLinks: json.socialLinks || prev.socialLinks,
+            experience: json.experience && json.experience.length > 0 ? json.experience : prev.experience,
+            technologies: json.technologies && json.technologies.length > 0 ? json.technologies : prev.technologies,
+            projects: json.projects && json.projects.length > 0 ? json.projects : prev.projects,
+            certifications: json.certifications && json.certifications.length > 0 ? json.certifications : prev.certifications,
+            volunteering: json.volunteering && json.volunteering.length > 0 ? json.volunteering : prev.volunteering,
+          }));
         }
       } catch (error) {
         console.error("Failed to fetch portfolio", error);
@@ -68,7 +68,8 @@ export const PortfolioProvider = ({ children }) => {
     if (user) {
       fetchPortfolio();
     }
-  }, [user]);
+  // #4 FIX: Added getAuthHeaders to dep array to avoid stale token
+  }, [user, getAuthHeaders]);
 
   const updateSection = (section, data) => {
     setPortfolioData(prev => ({
@@ -77,23 +78,26 @@ export const PortfolioProvider = ({ children }) => {
     }));
   };
 
-  const savePortfolio = async () => {
+  // #5 FIX: Accept publish flag so callers can save as draft (isPublished=false) or publish (isPublished=true)
+  const savePortfolio = async (publish = true) => {
     setIsSaving(true);
     try {
       const res = await fetch(`${API_URL}/portfolio`, {
         method: 'PUT',
-        headers: getAuthHeaders(),
+        // #1 FIX: Added Content-Type header so backend can parse JSON body
+        headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...portfolioData,
-          isPublished: true,
-          customUrl: user?.username || 'user' // Use username as custom URL
+          isPublished: publish,
+          customUrl: user?.username || 'user'
         })
       });
       const json = await res.json();
-      return json;
+      // #2 FIX: Return structured result so callers can show success/error feedback
+      return { success: !!json.success, message: json.message || '' };
     } catch (error) {
       console.error("Failed to save portfolio", error);
-      return { success: false, message: "Save failed" };
+      return { success: false, message: 'Network error — please try again' };
     } finally {
       setIsSaving(false);
     }

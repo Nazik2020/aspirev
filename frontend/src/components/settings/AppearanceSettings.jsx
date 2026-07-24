@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 
 const AppearanceSettings = () => {
   const [theme, setTheme] = useState(() => {
@@ -47,7 +47,7 @@ const AppearanceSettings = () => {
           Appearance
         </h1>
         <p className="text-[15px] text-slate-600 dark:text-white/60">
-          Customize how Invikt AI looks on your device.
+          Customize how Aspirev AI looks on your device.
         </p>
       </div>
 
@@ -286,7 +286,7 @@ const AppearanceSettings = () => {
           </div>
           <div className="text-[13px] text-slate-500 dark:text-white/50 leading-relaxed">
             Changes are automatically saved and synced across all your connected
-            devices including the Invikt mobile app.
+            devices including the Aspirev mobile app.
           </div>
         </div>
       </div>

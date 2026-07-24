@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import Link from "next/link";
 import AuthLayout from "../layouts/AuthLayout";
 import logo from "../assets/aspirev.png";
@@ -66,7 +66,7 @@ const ResetPasswordPage = () => {
       </div>
 
       <div className="text-[0.65rem] tracking-[0.2em] font-black text-slate-400 dark:text-white/30 uppercase mt-auto pt-12 shrink-0">
-        © 2026 INVIKT. CONQUER YOUR CAREER.
+        © 2026 ASPIREV. CONQUER YOUR CAREER.
       </div>
     </div>
   );

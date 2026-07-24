@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 
 const RoadmapHeader = () => {
   return (
@@ -14,7 +14,7 @@ const RoadmapHeader = () => {
       </h1>
       <p className="text-slate-600 dark:text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto">
         A structured path from foundational logic to deploying world-class
-        neural networks. Crafted by Invikt for the next generation of
+        neural networks. Crafted by Aspirev for the next generation of
         architects.
       </p>
     </header>

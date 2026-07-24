@@ -1,10 +1,10 @@
-import React, { createContext, useState, useEffect, useContext, useCallback, useRef } from "react";
+﻿import React, { createContext, useState, useEffect, useContext, useCallback, useRef } from "react";
 
 import { API_URL } from "../config/api";
 
-const TOKEN_KEY = "invikt_token";
-const REFRESH_KEY = "invikt_refresh";
-const REMEMBER_KEY = "invikt_remember";
+const TOKEN_KEY = "aspirev_token";
+const REFRESH_KEY = "aspirev_refresh";
+const REMEMBER_KEY = "aspirev_remember";
 
 const getStoredToken = () => {
   if (typeof window === "undefined") return null;

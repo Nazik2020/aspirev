@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { usePortfolio } from "../../../context/PortfolioContext";
 import { useAuth } from "../../../context/AuthContext";
 import { API_URL } from "../../../config/api";
@@ -6,7 +6,15 @@ import { API_URL } from "../../../config/api";
 const PersonalInfoForm = () => {
   const { portfolioData, updateSection } = usePortfolio();
   const { personalInfo } = portfolioData;
-  const { token } = useAuth();
+  // #9 FIX: Use getAuthHeaders() instead of raw token to stay in sync with token refreshes
+  const { getAuthHeaders } = useAuth();
+  // #11 FIX: Local toast instead of browser alert()
+  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
+
+  const showToast = (message, type = "success") => {
+    setToast({ show: true, message, type });
+    setTimeout(() => setToast({ show: false, message: "", type: "success" }), 3500);
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -20,29 +28,40 @@ const PersonalInfoForm = () => {
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    // #10 FIX: Validate file size before upload (2MB limit)
+    if (file.size > 2 * 1024 * 1024) {
+      showToast("Image must be under 2MB", "error");
+      return;
+    }
 
     try {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('container', 'profile-photos'); // specify container
+      formData.append('container', 'profile-photos');
       
+      // #9 FIX: Use getAuthHeaders() instead of manual token
+      const headers = getAuthHeaders();
+      delete headers['Content-Type']; // Let browser set multipart boundary
+
       const res = await fetch(`${API_URL}/upload`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
+        headers,
         body: formData
       });
 
       const data = await res.json();
       if (data.success) {
         updateSection("personalInfo", { ...personalInfo, avatarUrl: data.url });
+        // #11 FIX: Show toast on success
+        showToast("Profile photo updated!");
       } else {
-        alert(data.message || 'Upload failed');
+        // #11 FIX: Show toast instead of alert()
+        showToast(data.message || 'Upload failed', 'error');
       }
     } catch (error) {
       console.error('Error uploading image:', error);
-      alert('Error uploading image');
+      // #11 FIX: Show toast instead of alert()
+      showToast('Upload failed — please try again', 'error');
     }
   };
 
@@ -53,31 +72,50 @@ const PersonalInfoForm = () => {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      // We will store it in the portfolio-images container (so it is public and anyone can download the resume)
-      formData.append('container', 'portfolio-images'); 
+      // #12 FIX: Use 'resume-uploads' container instead of 'portfolio-images' for correct semantic separation
+      formData.append('container', 'resume-uploads');
       
+      // #9 FIX: Use getAuthHeaders() instead of manual token
+      const headers = getAuthHeaders();
+      delete headers['Content-Type']; // Let browser set multipart boundary
+
       const res = await fetch(`${API_URL}/upload`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
+        headers,
         body: formData
       });
 
       const data = await res.json();
       if (data.success) {
         updateSection("personalInfo", { ...personalInfo, resumeUrl: data.url });
+        // #11 FIX: Toast on success
+        showToast("Resume uploaded!");
       } else {
-        alert(data.message || 'Resume upload failed');
+        // #11 FIX: Toast instead of alert()
+        showToast(data.message || 'Resume upload failed', 'error');
       }
     } catch (error) {
       console.error('Error uploading resume:', error);
-      alert('Error uploading resume');
+      // #11 FIX: Toast instead of alert()
+      showToast('Upload failed — please try again', 'error');
     }
   };
 
   return (
     <div className="bg-[#17181c] border border-white/5 rounded-2xl p-6 sm:p-8 flex flex-col gap-8">
+      {/* #11 FIX: Toast notification UI */}
+      {toast.show && (
+        <div className={`fixed top-6 right-6 z-[9999] flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] border backdrop-blur-xl animate-fade-in-up ${
+          toast.type === 'error'
+            ? 'bg-rose-500/10 border-rose-500/20 text-rose-400'
+            : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+        }`}>
+          <span className="material-symbols-outlined text-[20px]">
+            {toast.type === 'error' ? 'error' : 'check_circle'}
+          </span>
+          <span className="text-sm font-bold tracking-wide">{toast.message}</span>
+        </div>
+      )}
       <div className="flex items-center gap-3 border-b border-white/5 pb-4">
         <span className="material-symbols-outlined text-white/60">person</span>
         <h3 className="text-[1.1rem] font-bold text-white">Personal Info</h3>

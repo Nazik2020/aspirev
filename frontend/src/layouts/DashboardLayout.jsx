@@ -32,7 +32,7 @@ const DashboardContent = ({ children }) => {
       {/* Mobile Header (Hidden on md+) */}
       <div className="md:hidden flex items-center justify-between px-5 py-3 bg-white dark:bg-[#1c1c1f] border-b border-slate-200 dark:border-white/5 relative z-40">
         <Link href="/" className="flex items-center">
-          <img src={logo.src} alt="Aspirev" className="h-8 w-auto object-contain invert dark:invert-0 scale-[1.5] origin-left" />
+          <img src={logo.src} alt="Aspirev" className="h-7 w-auto object-contain invert dark:invert-0" />
         </Link>
         <button
           onClick={toggleMobile}

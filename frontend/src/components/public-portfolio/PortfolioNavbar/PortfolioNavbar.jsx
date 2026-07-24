@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
 const PortfolioNavbar = ({ data }) => {
@@ -29,7 +29,7 @@ const PortfolioNavbar = ({ data }) => {
         
         {/* Left: Branding */}
         <div className="flex items-center gap-2 font-sans text-[1.1rem]">
-          <Link href="/" className="font-bold text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors">Invikt</Link>
+          <Link href="/" className="font-bold text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors">Aspirev</Link>
           <span className="text-gray-400 font-light">/</span>
           <span className="text-gray-800 dark:text-white font-semibold tracking-wide">{firstName}</span>
         </div>

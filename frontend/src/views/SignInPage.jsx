@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import AuthLayout from "../layouts/AuthLayout";
@@ -161,7 +161,7 @@ const SignInPage = () => {
         </div>
       </div>
       <div className="text-[0.65rem] tracking-[0.2em] font-black text-slate-400 dark:text-white/30 uppercase mt-auto pt-12">
-        © 2026 INVIKT. CONQUER YOUR CAREER.
+        © 2026 ASPIREV. CONQUER YOUR CAREER.
       </div>
     </div>
   );
@@ -171,7 +171,7 @@ const SignInPage = () => {
       <div className="w-full">
         <div className="text-center mb-6">
           <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-1.5 tracking-tight">
-            Sign in to Invikt
+            Sign in to Aspirev
           </h2>
           <p className="text-sm text-slate-500 dark:text-white/50">
             Continue conquering your career.

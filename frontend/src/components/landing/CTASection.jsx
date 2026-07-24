@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 
 const CTASection = () => {
   return (
@@ -9,7 +9,7 @@ const CTASection = () => {
           Ready to launch your career?
         </h2>
         <p className="text-sm sm:text-base text-slate-600 dark:text-on-surface-variant mb-8 max-w-xl mx-auto px-4">
-          Join thousands of students and professionals using Invikt to land
+          Join thousands of students and professionals using Aspirev to land
           their dream jobs.
         </p>
 

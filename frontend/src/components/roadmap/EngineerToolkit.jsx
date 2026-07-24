@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 
 const EngineerToolkit = () => {
   return (
@@ -39,11 +39,11 @@ const EngineerToolkit = () => {
           <ul className="mt-6 space-y-3">
             <li className="flex items-center gap-2 text-xs text-slate-900 dark:text-on-surface">
               <span className="w-1.5 h-1.5 rounded-full bg-secondary-fixed-dim"></span>{" "}
-              Invikt roadmap sync
+              Aspirev roadmap sync
             </li>
             <li className="flex items-center gap-2 text-xs text-slate-900 dark:text-on-surface">
               <span className="w-1.5 h-1.5 rounded-full bg-secondary-fixed-dim"></span>{" "}
-              Invikt verify --project=ml-101
+              Aspirev verify --project=ml-101
             </li>
           </ul>
         </div>

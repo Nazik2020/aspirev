@@ -51,130 +51,7 @@ const stages = [
   },
 ];
 
-const initialApps = [
-  {
-    id: "1",
-    company: "Nvidia",
-    role: "Product Designer",
-    stage: "WISHLIST",
-    time: "2d ago",
-    badge: "REMOTE",
-    logoColor: "bg-green-500/10 text-green-400",
-    logoText: "NV",
-    location: "Santa Clara, CA (Remote)",
-    employment: "Full-time",
-    jobUrl: "https://nvidia.com/careers/designer",
-    dateApplied: "06/16/2026",
-    notes: "Interested in the Omniverse design team.",
-  },
-  {
-    id: "2",
-    company: "Figma",
-    role: "Systems Designer",
-    stage: "WISHLIST",
-    time: "5d ago",
-    badge: "REMOTE",
-    logoColor: "bg-orange-500/10 text-orange-400",
-    logoText: "FI",
-    location: "San Francisco, CA (Hybrid)",
-    employment: "Full-time",
-    jobUrl: "https://figma.com/careers/systems",
-    dateApplied: "06/13/2026",
-    notes: "Focusing on Design Systems and variables.",
-  },
-  {
-    id: "3",
-    company: "Stripe",
-    role: "Senior AI Engineer",
-    stage: "APPLIED",
-    time: "4h ago",
-    badge: "INTERVIEW",
-    logoColor: "bg-blue-500/10 text-blue-400",
-    logoText: "ST",
-    location: "San Francisco, CA (Hybrid)",
-    employment: "Full-time",
-    jobUrl: "https://stripe.com/careers/ai",
-    dateApplied: "06/18/2026",
-    notes: "First round technical test completed.",
-  },
-  {
-    id: "4",
-    company: "Apple",
-    role: "Creative Lead",
-    stage: "APPLIED",
-    time: "1d ago",
-    badge: "APPLIED",
-    logoColor:
-      "bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-white/80",
-    logoText: "AP",
-    location: "Cupertino, CA (Onsite)",
-    employment: "Full-time",
-    jobUrl: "https://apple.com/careers/creative",
-    dateApplied: "06/17/2026",
-    notes: "Referral from Sarah in marketing.",
-  },
-  {
-    id: "5",
-    company: "Google",
-    role: "UX Researcher",
-    stage: "ASSESSMENT",
-    time: "3d ago",
-    badge: "TAKE HOME",
-    info: "Due: 24h",
-    logoColor: "bg-red-500/10 text-red-400",
-    logoText: "GO",
-    location: "Mountain View, CA (Hybrid)",
-    employment: "Contract",
-    jobUrl: "https://google.com/careers/researcher",
-    dateApplied: "06/15/2026",
-    notes: "Take home assignment received.",
-  },
-  {
-    id: "6",
-    company: "Amazon",
-    role: "Cloud Architect",
-    stage: "INTERVIEW",
-    time: "1w ago",
-    badge: "TECHNICAL",
-    logoColor: "bg-yellow-500/10 text-yellow-400",
-    logoText: "AM",
-    location: "Seattle, WA (Onsite)",
-    employment: "Full-time",
-    jobUrl: "https://amazon.com/careers/cloud",
-    dateApplied: "06/11/2026",
-    notes: "Phone screen went well, scheduling panel loop.",
-  },
-  {
-    id: "7",
-    company: "Netflix",
-    role: "Staff UI Engineer",
-    stage: "FINAL_INTERVIEW",
-    time: "1w ago",
-    badge: "SYSTEM DESIGN",
-    logoColor: "bg-red-600/10 text-red-500",
-    logoText: "NF",
-    location: "Los Gatos, CA (Remote)",
-    employment: "Full-time",
-    jobUrl: "https://netflix.com/careers/ui",
-    dateApplied: "06/11/2026",
-    notes: "System Design round scheduled.",
-  },
-  {
-    id: "8",
-    company: "Microsoft",
-    role: "Senior Web Dev",
-    stage: "OFFER",
-    time: "2w ago",
-    badge: "RECRUITER CALL",
-    logoColor: "bg-teal-500/10 text-teal-400",
-    logoText: "MS",
-    location: "Redmond, WA (Hybrid)",
-    employment: "Full-time",
-    jobUrl: "https://microsoft.com/careers/dev",
-    dateApplied: "06/04/2026",
-    notes: "Offer in hand! Negotiating base salary.",
-  },
-];
+// #5 FIX: Removed unused initialApps mock data (was never used — API data is fetched on mount)
 
 const JobTrackerPage = () => {
   const [apps, setApps] = useState([]);
@@ -199,6 +76,8 @@ const JobTrackerPage = () => {
   };
 
   const { getAuthHeaders } = useAuth();
+  // #9 FIX: Track deleteConfirm timer in a ref so we can clear it if drawer closes early
+  const deleteConfirmTimerRef = useRef(null);
 
   // Fetch jobs from MongoDB backend
   useEffect(() => {
@@ -217,7 +96,8 @@ const JobTrackerPage = () => {
       }
     };
     fetchJobs();
-  }, []);
+  // #6 FIX: Added getAuthHeaders to dependency array to avoid stale token closures
+  }, [getAuthHeaders]);
 
   // Form inputs state (Add Modal)
   const [companyName, setCompanyName] = useState("");
@@ -511,8 +391,15 @@ const JobTrackerPage = () => {
     
     if (!deleteConfirm) {
       setDeleteConfirm(true);
-      setTimeout(() => setDeleteConfirm(false), 3000);
+      // #9 FIX: Store timer ref so it can be cancelled if drawer is closed early
+      deleteConfirmTimerRef.current = setTimeout(() => setDeleteConfirm(false), 3000);
       return;
+    }
+    
+    // Clear the safety timer since user confirmed
+    if (deleteConfirmTimerRef.current) {
+      clearTimeout(deleteConfirmTimerRef.current);
+      deleteConfirmTimerRef.current = null;
     }
     
     try {
@@ -574,9 +461,16 @@ const JobTrackerPage = () => {
 
     // Apply sorting
     result.sort((a, b) => {
-      // Use dateApplied if present, otherwise fallback to id/creation logic
-      const dateA = new Date(a.dateApplied || a.createdAt).getTime() || 0;
-      const dateB = new Date(b.dateApplied || b.createdAt).getTime() || 0;
+      // #10 FIX: Normalize date string to ISO format before parsing to avoid locale differences
+      const parseDate = (raw) => {
+        if (!raw) return 0;
+        // Handle MM/DD/YYYY format from user input
+        const parts = raw.split('/');
+        if (parts.length === 3) return new Date(`${parts[2]}-${parts[0].padStart(2,'0')}-${parts[1].padStart(2,'0')}`).getTime();
+        return new Date(raw).getTime() || 0;
+      };
+      const dateA = parseDate(a.dateApplied) || new Date(a.createdAt).getTime() || 0;
+      const dateB = parseDate(b.dateApplied) || new Date(b.createdAt).getTime() || 0;
       return sortOrder === "DESC" ? dateB - dateA : dateA - dateB;
     });
 
@@ -690,32 +584,39 @@ const JobTrackerPage = () => {
   const handleTimelineClick = async (newStageKey) => {
     if (!selectedApp || !newStageKey) return;
     
-    // If in Edit mode, clicking timeline should just update the dropdown selection
     if (isEditing) {
       if (editStage === newStageKey) return;
       setEditStage(newStageKey);
       return;
     }
 
-    // Otherwise, normal behavior: optimistic update & save
     if (selectedApp.stage === newStageKey) return;
     
     const stageObj = stages.find(s => s.key === newStageKey);
     const updateData = { stage: newStageKey, badge: stageObj?.name.toUpperCase() };
+    // #7 FIX: Save previous state for rollback if API call fails
+    const previousStage = selectedApp.stage;
+    const previousBadge = selectedApp.badge;
 
     // Optimistic Update
     setSelectedApp(prev => ({ ...prev, ...updateData }));
     setApps(prev => prev.map(a => a.id === selectedApp.id ? { ...a, ...updateData } : a));
 
     try {
-      await fetch(`${API_URL}/jobs/${selectedApp.id}`, {
+      const res = await fetch(`${API_URL}/jobs/${selectedApp.id}`, {
         method: "PUT",
         headers: getAuthHeaders(),
         body: JSON.stringify(updateData),
       });
+      if (!res.ok) throw new Error('Failed');
       showToast(`Status updated to ${stageObj?.name}`);
     } catch (error) {
+      // #7 FIX: Roll back UI if server call fails
       console.error("Error updating timeline stage:", error);
+      const rollback = { stage: previousStage, badge: previousBadge };
+      setSelectedApp(prev => ({ ...prev, ...rollback }));
+      setApps(prev => prev.map(a => a.id === selectedApp.id ? { ...a, ...rollback } : a));
+      showToast("Failed to update status — changes reverted");
     }
   };
 
@@ -1017,13 +918,10 @@ const JobTrackerPage = () => {
               onClick={handleCloseAddModal}
             />
             <div className="relative z-10 w-full max-w-[calc(100vw-2rem)] sm:max-w-xl rounded-3xl bg-white dark:bg-[#131417] border border-slate-200 dark:border-white/10 p-5 sm:p-8 md:p-10 shadow-[0_30px_70px_rgba(0,0,0,0.85)] max-h-[90vh] overflow-y-auto no-scrollbar">
-              {/* Top-Right Close Button */}
+              {/* Top-Right Close Button — #11 FIX: Route through handleCloseAddModal to trigger discard guard */}
               <button
                 type="button"
-                onClick={() => {
-                  setShowAddModal(false);
-                  setTriedSubmit(false);
-                }}
+                onClick={handleCloseAddModal}
                 className="absolute top-5 right-5 text-slate-400 dark:text-white/30 hover:text-slate-700 dark:text-white/80 p-2 rounded-full hover:bg-slate-100 dark:bg-white/5 transition-all"
                 aria-label="Close modal"
               >

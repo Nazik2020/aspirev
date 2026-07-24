@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 
 const ToggleSwitch = ({ checked, onChange }) => {
   return (
@@ -68,7 +68,7 @@ const CareerPreferencesSettings = () => {
           Career Preferences
         </h1>
         <p className="text-[15px] text-slate-600 dark:text-white/60">
-          Help Invikt personalize your roadmap and job recommendations.
+          Help Aspirev personalize your roadmap and job recommendations.
         </p>
       </div>
 

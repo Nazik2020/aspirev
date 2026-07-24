@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 
 const ConnectedAccountsSettings = () => {
   return (
@@ -8,7 +8,7 @@ const ConnectedAccountsSettings = () => {
           Connected Accounts
         </h1>
         <p className="text-[15px] text-slate-600 dark:text-white/60">
-          Link external accounts to enhance your Invikt experience.
+          Link external accounts to enhance your Aspirev experience.
         </p>
       </div>
 
@@ -119,7 +119,7 @@ const ConnectedAccountsSettings = () => {
             </h3>
             <p className="text-[13px] text-slate-500 dark:text-white/50 mb-10 leading-relaxed flex-1">
               Automatically import your work experience, education, and skills
-              from LinkedIn to keep your Invikt profile current.
+              from LinkedIn to keep your Aspirev profile current.
             </p>
 
             <div className="flex flex-col gap-3">
@@ -180,7 +180,7 @@ const ConnectedAccountsSettings = () => {
               </div>
             </div>
             <p className="text-[13px] text-slate-500 dark:text-white/50 max-w-xl leading-relaxed">
-              Disconnecting an account will not delete your Invikt data, but
+              Disconnecting an account will not delete your Aspirev data, but
               will disable live synchronization.
             </p>
           </div>

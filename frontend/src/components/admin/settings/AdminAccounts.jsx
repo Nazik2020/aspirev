@@ -1,9 +1,9 @@
-import React from "react";
+﻿import React from "react";
 
 const ADMINS = [
   {
     name: "Elowen Vance",
-    email: "evance@invikt.com",
+    email: "evance@aspirev.com",
     role: "SUPER ADMIN",
     roleColor: "text-violet-400 bg-violet-400/10 border-violet-400/20",
     twoFA: "ENABLED",
@@ -12,7 +12,7 @@ const ADMINS = [
   },
   {
     name: "Kaelen Thorne",
-    email: "kthorne@invikt.com",
+    email: "kthorne@aspirev.com",
     role: "CONTENT MANAGER",
     roleColor: "text-white/60 bg-white/5 border-white/10",
     twoFA: "DISABLED",
@@ -21,7 +21,7 @@ const ADMINS = [
   },
   {
     name: "Sorun Aatra",
-    email: "saatra@invikt.com",
+    email: "saatra@aspirev.com",
     role: "SUPPORT ADMIN",
     roleColor: "text-white/60 bg-white/5 border-white/10",
     twoFA: "ENABLED",

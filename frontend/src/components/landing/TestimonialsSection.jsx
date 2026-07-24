@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 
 const TestimonialsSection = () => {
   return (
@@ -20,7 +20,7 @@ const TestimonialsSection = () => {
           {/* Card 1 */}
           <div className="bg-white dark:bg-[#10131a]/80 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-md hover:border-slate-200 dark:hover:border-white/10 transition-all duration-300 flex flex-col justify-between">
             <p className="italic text-slate-700 dark:text-slate-300 text-[13px] md:text-sm mb-6 leading-relaxed">
-              "Invikt completely restructured how I view my career preparation.
+              "Aspirev completely restructured how I view my career preparation.
               The skill roadmap and tracker were exactly what I needed to focus my
               prep."
             </p>
@@ -63,7 +63,7 @@ const TestimonialsSection = () => {
           {/* Card 3 */}
           <div className="bg-white dark:bg-[#10131a]/80 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-md hover:border-slate-200 dark:hover:border-white/10 transition-all duration-300 flex flex-col justify-between">
             <p className="italic text-slate-700 dark:text-slate-300 text-[13px] md:text-sm mb-6 leading-relaxed">
-              "I finally stopped guessing what skills companies wanted. Invikt
+              "I finally stopped guessing what skills companies wanted. Aspirev
               gave me a clear, step-by-step roadmap to guide my learning journey."
             </p>
             <div className="flex items-center gap-3">

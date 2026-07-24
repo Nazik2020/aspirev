@@ -97,7 +97,38 @@ const DashboardPage = () => {
     );
   }
 
-  if (!activeRoadmap) return null;
+  // #1 FIX: Show a proper empty state instead of blank screen when no roadmap exists
+  if (!activeRoadmap) {
+    return (
+      <div className="w-full space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+          <div className="space-y-1">
+            <h1 className="font-headline text-3xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
+              Welcome, {displayName} <span>👋</span>
+            </h1>
+            <p className="text-slate-500 dark:text-white/40 text-sm md:text-base font-medium">
+              Here's your career progress at a glance.
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-col items-center justify-center py-24 rounded-2xl border border-slate-200 dark:border-white/5 bg-white dark:bg-[#1e1f23]/60 text-center gap-5">
+          <div className="w-16 h-16 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+            <span className="material-symbols-outlined text-violet-500 text-[32px]">map</span>
+          </div>
+          <div className="space-y-1">
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">No Active Roadmap</h2>
+            <p className="text-sm text-slate-500 dark:text-white/40 max-w-xs">Start a career roadmap to track your progress and unlock your full dashboard.</p>
+          </div>
+          <button
+            onClick={() => router.push('/career-path')}
+            className="px-6 py-3 rounded-full bg-gradient-to-br from-violet-600 to-purple-500 text-white text-sm font-bold shadow-[0_10px_25px_rgba(93,33,223,0.25)] hover:scale-105 transition-all"
+          >
+            Explore Career Paths
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full space-y-8">
@@ -397,8 +428,9 @@ const DashboardPage = () => {
               >
                 <div className="flex items-center gap-3.5 min-w-0">
                   <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center shrink-0 border border-slate-200 dark:border-white/8">
+                    {/* #4 FIX: case-insensitive company icon check */}
                     <span className="material-symbols-outlined text-[18px] text-slate-500 dark:text-white/50">
-                      {app.company === "Vercel" ? "cloud" : "corporate_fare"}
+                      {app.company?.toLowerCase() === "vercel" ? "cloud" : "corporate_fare"}
                     </span>
                   </div>
                   <div className="flex flex-col min-w-0">
@@ -411,9 +443,8 @@ const DashboardPage = () => {
                   </div>
                 </div>
 
-                <span
-                  className={`text-[0.55rem] uppercase tracking-widest font-black px-2.5 py-1 rounded-full border leading-none shrink-0 ${app.color}`}
-                >
+                {/* #3 FIX: static safe class instead of injecting dynamic color from API */}
+                <span className="text-[0.55rem] uppercase tracking-widest font-black px-2.5 py-1 rounded-full border leading-none shrink-0 bg-violet-500/10 text-violet-400 border-violet-500/20">
                   {app.status}
                 </span>
               </div>

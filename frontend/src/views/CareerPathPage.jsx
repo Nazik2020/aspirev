@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import RoadmapGrid from "../components/career/RoadmapGrid";
 
 const CareerPathPage = () => {
+  // #17 FIX: Notify Me was a dead button. Added state + feedback so it works.
+  const [notifyEmail, setNotifyEmail] = useState("");
+  const [notifySent, setNotifySent] = useState(false);
+
+  const handleNotify = () => {
+    if (!notifyEmail.trim() || !notifyEmail.includes("@")) return;
+    setNotifySent(true);
+    setNotifyEmail("");
+    setTimeout(() => setNotifySent(false), 4000);
+  };
+
   return (
     <div className="w-full max-w-7xl mx-auto space-y-10">
       {/* ── Page Header ── */}
@@ -31,18 +42,31 @@ const CareerPathPage = () => {
           </p>
         </div>
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto shrink-0">
-          <input
-            type="email"
-            placeholder="Enter your email"
-            className="flex-1 md:w-56 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 sm:py-2.5 text-sm
+          {notifySent ? (
+            <div className="flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-sm font-bold">
+              <span className="material-symbols-outlined text-[18px]">check_circle</span>
+              You're on the list!
+            </div>
+          ) : (
+            <>
+              <input
+                type="email"
+                value={notifyEmail}
+                onChange={(e) => setNotifyEmail(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleNotify()}
+                placeholder="Enter your email"
+                className="flex-1 md:w-56 bg-white dark:bg-[#14151a] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 sm:py-2.5 text-sm
                                    text-slate-600 dark:text-white/70 placeholder:text-slate-400 dark:text-white/25 focus:outline-none focus:border-primary/40 transition-all"
-          />
-          <button
-            className="shrink-0 px-5 py-3 sm:py-2.5 rounded-xl bg-gradient-to-br from-primary-container to-primary text-slate-900 dark:text-white text-sm font-bold
+              />
+              <button
+                onClick={handleNotify}
+                className="shrink-0 px-5 py-3 sm:py-2.5 rounded-xl bg-gradient-to-br from-primary-container to-primary text-slate-900 dark:text-white text-sm font-bold
                                        hover:opacity-90 hover:scale-105 transition-all duration-200 whitespace-nowrap text-center"
-          >
-            Notify Me
-          </button>
+              >
+                Notify Me
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -50,3 +74,4 @@ const CareerPathPage = () => {
 };
 
 export default CareerPathPage;
+

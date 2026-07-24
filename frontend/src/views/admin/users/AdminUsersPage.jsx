@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import UsersTable from "./components/UsersTable";
 import UserProfileSidebar from "./components/UserProfileSidebar";
 import { useAuth } from "../../../context/AuthContext";
@@ -72,7 +72,7 @@ const AdminUsersPage = () => {
                 User Management
               </h1>
               <p className="text-[13px] text-slate-500 dark:text-slate-400">
-                Manage and monitor all {stats.total} registered Invikt users across platforms.
+                Manage and monitor all {stats.total} registered Aspirev users across platforms.
               </p>
             </div>
             <div className="flex items-center gap-3">

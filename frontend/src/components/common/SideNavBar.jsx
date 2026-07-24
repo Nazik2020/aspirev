@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -58,7 +58,7 @@ const SideNavBar = () => {
 
   const rawUsername = user?.username || "User";
   const username = rawUsername.charAt(0).toUpperCase() + rawUsername.slice(1);
-  const email = user?.email || "hello@invikt.com";
+  const email = user?.email || "hello@aspirev.com";
   const initial = username.charAt(0).toUpperCase();
 
   // Desktop: use isCollapsed for collapse/expand
@@ -86,7 +86,7 @@ const SideNavBar = () => {
               <img
                 src={logoIcon.src}
                 alt="Aspirev"
-                className="h-6 w-auto object-contain invert dark:invert-0 scale-[1.5]"
+                className="h-8 w-auto object-contain invert dark:invert-0"
               />
             </Link>
             <button
@@ -112,7 +112,7 @@ const SideNavBar = () => {
               <img
                 src={logo.src}
                 alt="Aspirev"
-                className="h-8 w-auto object-contain invert dark:invert-0 scale-[1.5] origin-left"
+                className="h-9 md:h-11 w-auto object-contain invert dark:invert-0"
               />
             </Link>
             <button

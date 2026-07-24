@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 
 const ToggleSwitch = ({ checked, onChange }) => {
   return (
@@ -122,7 +122,7 @@ const NotificationSettings = () => {
               Email Notifications
             </div>
             <div className="text-[12px] text-slate-500 dark:text-white/50">
-              Enable or disable all email notifications from Invikt AI.
+              Enable or disable all email notifications from Aspirev AI.
             </div>
           </div>
         </div>
