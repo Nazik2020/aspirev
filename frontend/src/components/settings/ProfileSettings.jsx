@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { API_URL } from "../../config/api";
 import Select from "react-select";
@@ -273,7 +273,9 @@ const ProfileSettings = () => {
         const res = await fetch(`${API_URL}/settings/profile`, { headers: getAuthHeaders() });
         const json = await res.json();
         if (json.success) setFormData(prev => ({ ...prev, profilePicture: json.data.profilePicture || "" }));
-      } catch (_) {}
+      } catch {
+        // ignore retry failure
+      }
     }
   };
 
